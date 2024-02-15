@@ -6,7 +6,14 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:05 by imehdid           #+#    #+#             */
-/*   Updated: 2024/02/15 19:36:09 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/02/15 19:56:33 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "includes/minishell.h"
+
+int	main(void)
+{
+	printf("testing\n");
+	return (0);
+}
