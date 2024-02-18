@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42angouleme.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:05 by imehdid           #+#    #+#             */
-/*   Updated: 2024/02/17 22:24:38 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/02/18 14:05:57 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int	main(void)
             break;
         }
         add_history(input);
+        // test comment
 		//gotta put the parsing and execution here
         free(input);
     }
