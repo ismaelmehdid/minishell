@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:13:57 by imehdid           #+#    #+#             */
-/*   Updated: 2024/02/18 15:16:54 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/02/18 15:39:10 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 void	execute_pwd(void)
 {
-	
+	return ;
 }
 
 void	execute_export(void)
 {
-	
+	return ;
 }

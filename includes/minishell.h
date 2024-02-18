@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:28 by imehdid           #+#    #+#             */
-/*   Updated: 2024/02/18 15:18:44 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/02/18 15:41:32 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,15 @@
 #include <readline/history.h>
 
 void	program_exit(int code);
-int	handle_commands(char *input, char **envp);
+int		handle_commands(char *input);
 void	handle_signals(void);
 
 //---------------------========================
-int	handle_builtin(char *input);
+int		handle_builtin(char *input);
 void	execute_pwd(void);
 void	execute_export(void);
-
+void	execute_env(void);
+void	execute_unset(void);
+//---------------------========================
 
 #endif
