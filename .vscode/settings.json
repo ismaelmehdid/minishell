@@ -3,6 +3,10 @@
 		"minishell.h": "c",
 		"unistd.h": "c",
 		"libft.h": "c",
-		"ioctl.h": "c"
+		"ioctl.h": "c",
+		"stdlib.h": "c",
+		"types.h": "c",
+		"termcap.h": "c",
+		"errno.h": "c"
 	}
 }
