@@ -6,26 +6,27 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:13:57 by imehdid           #+#    #+#             */
-/*   Updated: 2024/02/18 15:48:50 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/02/18 19:16:32 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-void	execute_pwd(void)
+int	execute_pwd(void)
 {
-	char cwd[PATH_MAX];
+	char	cwd[PATH_MAX];
 
-    if (getcwd(cwd, sizeof(cwd)) != NULL)
-        printf("%s\n", cwd);
-    else
-    {
-        perror("getcwd() error"); // should we exit program or do something?
-        return ;
-    }
+	if (getcwd(cwd, sizeof(cwd)) != NULL)
+		printf("%s\n", cwd);
+	else
+	{
+		perror("getcwd() error");
+		return (1);
+	}
+	return (0);
 }
 
-void	execute_export(void)
+int	execute_export(void)
 {
-	return ;
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 17:11:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/02/17 17:18:28 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/02/18 19:18:51 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,6 @@
 
 void	program_exit(int code)
 {
-	(void)code;
-	exit(EXIT_FAILURE);
+	if (code == 1)
+		exit(EXIT_FAILURE);
 }
