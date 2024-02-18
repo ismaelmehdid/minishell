@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:05 by imehdid           #+#    #+#             */
-/*   Updated: 2024/02/18 14:17:11 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/02/18 14:20:59 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ int	main(void)
 		// functionality parsing ...
 		if (!input)
 			continue;
-		add_history(input);
 		if (handle_commands(input) == 1)
 		{
 			free(input);
