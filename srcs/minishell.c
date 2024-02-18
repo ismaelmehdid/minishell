@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:05 by imehdid           #+#    #+#             */
-/*   Updated: 2024/02/18 14:08:27 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/02/18 14:17:11 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	main(void)
 	{
 		input = readline("BestShell 😎 >>> ");
 		//Parse the input here
+		// functionality parsing ...
 		if (!input)
 			continue;
 		add_history(input);
