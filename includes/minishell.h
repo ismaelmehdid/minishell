@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:28 by imehdid           #+#    #+#             */
-/*   Updated: 2024/02/18 15:41:32 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/02/18 15:48:44 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 #include <termcap.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <limits.h>
 
 void	program_exit(int code);
 int		handle_commands(char *input);
