@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:05 by imehdid           #+#    #+#             */
-/*   Updated: 2024/02/18 14:20:59 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/02/18 14:22:43 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	main(void)
 {
 	char *input;
 
-	handle_signals();
+	printf("test conflict");
 	while (1)
 	{
 		input = readline("BestShell 😎 >>> ");
