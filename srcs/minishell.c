@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:05 by imehdid           #+#    #+#             */
-/*   Updated: 2024/02/19 01:12:42 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/02/19 01:34:16 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,8 @@ void print_tree(t_astnode *root) {
     if (root == NULL) {
         return;
     }
-
-    // Print the data of the current node
     printf("Type: %d, Value: %s\n", root->type, root->value);
-
-    // Recursively print the left subtree
     print_tree(root->left);
-
-    // Recursively print the right subtree
     print_tree(root->right);
 }
 int	main(void)

@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 22:49:26 by imehdid           #+#    #+#             */
-/*   Updated: 2024/02/19 01:16:38 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/02/19 01:22:24 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ enum s_nodetype	get_element_type(char *element)
 		return (PIPE_NODE);
 	else if (contain_str(redirections, element))
 		return (REDIRECTION_NODE);
-	return (UNRECOGNIZED_NODE);
+	return (ARGUMENT_NODE);
 }
 
 t_astnode *create_node(char *element)
