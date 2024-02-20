@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:28 by imehdid           #+#    #+#             */
-/*   Updated: 2024/02/19 01:14:14 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/02/20 23:50:14 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,33 +53,37 @@ typedef struct s_astnode
 }	t_astnode;
 
 //---------------------========================
-void	program_exit(int code);
-int		handle_commands(char *input);
-void	handle_signals(void);
+void			program_exit(int code);
+int				handle_commands(char *input);
+void			handle_signals(void);
 //---------------------========================
-int		handle_builtin(char *input);
-int		execute_pwd(void);
-int		execute_export(void);
-int		execute_env(void);
-int		execute_unset(void);
+int				handle_builtin(char *input);
+int				execute_pwd(void);
+int				execute_export(void);
+int				execute_env(void);
+int				execute_unset(void);
 //---------------------========================
-
-
 
 //-------Parsing-------========================
-t_astnode	*parsing(char *input);
-t_astnode	*init_ast(char **elements);
-t_astnode *create_node(char *element);
+t_astnode		*parsing(char *input);
+t_astnode		*init_ast(char **elements);
+t_astnode		*create_node(char *element);
 enum s_nodetype	get_element_type(char *element);
+//----Split elements---========================
+char			**split_quotes(char *input, char *skip);
+//-------Utils---------========================
+void			skip_quotes(char *input, int *i);
+int				count_words(char *input, char *skip);
+char			*malloc_word(char *input, int *i, char *skip);
+void			copy_word(char *result, char *input, int *i, char *skip);
 //---------------------========================
 
-
-
 //----Parsing utils----========================
-void	free_double_array(char **array);
-void	free_all_nodes(t_astnode *root);
-int		ft_strcmp(char *one, char *two);
-int		contain_str(char **array, char *element);
+void			free_double_array(char **array);
+void			free_all_nodes(t_astnode *root);
+int				ft_strcmp(char *one, char *two);
+int				contain_str(char **array, char *element);
+void			skip_quotes(char *input, int *i);
 //---------------------========================
 
 #endif

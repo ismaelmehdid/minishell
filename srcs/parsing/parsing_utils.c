@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 00:09:18 by imehdid           #+#    #+#             */
-/*   Updated: 2024/02/19 01:04:07 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/02/19 19:47:38 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,27 @@ int	contain_str(char **array, char *element)
 		i++;
 	}
 	return (0);
+}
+
+enum s_nodetype	get_element_type(char *element)
+{
+	char		**args;
+	char		**flags;
+	char		**pipes;
+	char		**redirections;
+
+	args = (char *[]){"echo", "cd", "pwd", "export",
+		"unset", "env", "exit", NULL};
+	flags = (char *[]){"-n", NULL};
+	pipes = (char *[]){"|", NULL};
+	redirections = (char *[]){"<", ">", "<<", ">>", NULL};
+	if (contain_str(args, element))
+		return (COMMAND_NODE);
+	else if (contain_str(flags, element))
+		return (FLAG_NODE);
+	else if (contain_str(pipes, element))
+		return (PIPE_NODE);
+	else if (contain_str(redirections, element))
+		return (REDIRECTION_NODE);
+	return (ARGUMENT_NODE);
 }

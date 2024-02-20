@@ -6,19 +6,21 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:05 by imehdid           #+#    #+#             */
-/*   Updated: 2024/02/19 01:34:16 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/02/19 19:06:02 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-void print_tree(t_astnode *root) {
-    if (root == NULL) {
-        return;
-    }
-    printf("Type: %d, Value: %s\n", root->type, root->value);
-    print_tree(root->left);
-    print_tree(root->right);
+
+void	print_tree(t_astnode *root)
+{
+	if (!root)
+		return ;
+	printf ("Type: %d, Value: %s\n", root->type, root->value);
+	print_tree (root->left);
+	print_tree (root->right);
 }
+
 int	main(void)
 {
 	char		*input;
