@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 15:13:05 by imehdid           #+#    #+#             */
-/*   Updated: 2024/02/22 15:22:10 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/02/22 15:30:09 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	syntax_checker(t_astnode *root)
 		printf("Minishell: command not found: %s\n", root->value);
 		return (1);
 	}
-	if (syntax_checker_env(root))
+	if (ft_strcmp(root->value, "env") && syntax_checker_env(root))
 		return (1);
 	return (0);
 }
