@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:05 by imehdid           #+#    #+#             */
-/*   Updated: 2024/02/19 19:06:02 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/02/22 15:09:59 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,16 @@ int	main(void)
 			program_exit(1);
 		}
 		ast_root = parsing(input);
-		print_tree(ast_root);
-		if (handle_commands(input) == 1)
+		if (ast_root)
 		{
-			free(input);
-			program_exit(1);
+			print_tree(ast_root);
+			if (handle_commands(input) == 1)
+			{
+				free_all_nodes(ast_root);
+				free(input);
+				program_exit(1);
+			}
+			free_all_nodes(ast_root);
 		}
 		free(input);
 	}

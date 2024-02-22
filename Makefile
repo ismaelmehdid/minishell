@@ -6,13 +6,13 @@
 #    By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/15 19:34:20 by imehdid           #+#    #+#              #
-#    Updated: 2024/02/19 19:57:43 by imehdid          ###   ########.fr        #
+#    Updated: 2024/02/22 15:20:40 by imehdid          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
-SRCS = ${wildcard srcs/*.c srcs/parsing/*.c srcs/execution/*.c srcs/errors_handling/*.c srcs/execution/builtin/*.c srcs/parsing/spliting_elements/*.c}
+SRCS = ${wildcard srcs/*.c srcs/parsing/*.c srcs/execution/*.c srcs/errors_handling/*.c srcs/execution/builtin/*.c srcs/parsing/spliting_elements/*.c srcs/parsing/syntax_checker/*.c}
 
 OBJS = ${SRCS:.c=.o}
 

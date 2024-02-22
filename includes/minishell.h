@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:28 by imehdid           #+#    #+#             */
-/*   Updated: 2024/02/20 23:50:14 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/02/22 15:20:14 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <limits.h>
+# include <sys/wait.h>
 
 typedef enum s_nodetype
 {
@@ -69,6 +70,7 @@ t_astnode		*parsing(char *input);
 t_astnode		*init_ast(char **elements);
 t_astnode		*create_node(char *element);
 enum s_nodetype	get_element_type(char *element);
+int				syntax_checker(t_astnode *root);
 //----Split elements---========================
 char			**split_quotes(char *input, char *skip);
 //-------Utils---------========================

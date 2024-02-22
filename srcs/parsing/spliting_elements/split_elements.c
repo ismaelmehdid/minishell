@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 16:17:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/02/19 19:55:27 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/02/22 15:02:44 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static char	**malloc_each_arrays(char **result, char *input, char *skip)
 
 	i = 0;
 	j = 0;
-	result = malloc(sizeof(char **) * count_words(input, skip));
+	result = malloc(sizeof(char *) * (count_words(input, skip) + 1));
 	if (!result)
 		return (NULL);
 	while (input[i])

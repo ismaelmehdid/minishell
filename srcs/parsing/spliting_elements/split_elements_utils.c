@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 19:41:08 by imehdid           #+#    #+#             */
-/*   Updated: 2024/02/19 19:55:59 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/02/22 13:24:47 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,13 @@ int	count_words(char *input, char *skip)
 			if (input[i] == '\'' || input[i] == '"')
 				skip_quotes(input, &i);
 			else
-				i++;
+			{
+				while (input[i] && !ft_strchr(skip, input[i]))
+					i++;
+			}
 		}
 	}
+	printf("nb words: %d\n", count);
 	return (count);
 }
 

@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 22:49:26 by imehdid           #+#    #+#             */
-/*   Updated: 2024/02/20 00:36:42 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/02/22 15:20:58 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_astnode	*create_node(char *element)
 		perror("Malloc problem in function create_node");
 		return (NULL);
 	}
-	node->value = element;
+	node->value = ft_strdup(element);
 	node->left = NULL;
 	node->right = NULL;
 	node->type = get_element_type(element);
@@ -82,11 +82,13 @@ t_astnode	*parsing(char *input)
 	if (!elements)
 		return (NULL);
 	root = init_ast(elements);
+	free_double_array(elements);
 	if (!root)
+		return (NULL);
+	if (syntax_checker(root))
 	{
-		free_double_array(elements);
+		free_all_nodes(root);
 		return (NULL);
 	}
-	//Check if commands are in the right order and no syntax mistakes
 	return (root);
 }
