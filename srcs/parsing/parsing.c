@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 22:49:26 by imehdid           #+#    #+#             */
-/*   Updated: 2024/02/23 17:21:04 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/02/23 17:40:33 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,15 @@ t_astnode	*parsing(char *input)
 	if (!input)
 		return (NULL);
 	elements = split_quotes(input, "|");
-	if (!size_double_array(elements) || !elements)
+	if (!size_double_array(elements))
+	{
+		free(elements);
+		return (NULL);
+	}
+	if (!elements)
 		return (NULL);
 	root = init_ast(elements);
+	free_double_array(elements);
 	if (!root)
 		return (NULL);
 	/*
