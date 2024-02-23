@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:28 by imehdid           #+#    #+#             */
-/*   Updated: 2024/02/22 15:20:14 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/02/23 13:33:28 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,6 @@
 typedef enum s_nodetype
 {
 	COMMAND_NODE,
-	FLAG_NODE,
-	ARGUMENT_NODE,
-	REDIRECTION_NODE,
 	PIPE_NODE,
 	UNRECOGNIZED_NODE
 }	t_nodetype;
@@ -78,6 +75,7 @@ void			skip_quotes(char *input, int *i);
 int				count_words(char *input, char *skip);
 char			*malloc_word(char *input, int *i, char *skip);
 void			copy_word(char *result, char *input, int *i, char *skip);
+int				size_double_array(char **array);
 //---------------------========================
 
 //----Parsing utils----========================
@@ -87,5 +85,6 @@ int				ft_strcmp(char *one, char *two);
 int				contain_str(char **array, char *element);
 void			skip_quotes(char *input, int *i);
 //---------------------========================
+void	launch_executable(char *cmd);
 
 #endif

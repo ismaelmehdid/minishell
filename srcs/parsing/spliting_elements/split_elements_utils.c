@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 19:41:08 by imehdid           #+#    #+#             */
-/*   Updated: 2024/02/22 13:24:47 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/02/23 17:16:13 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ int	count_words(char *input, char *skip)
 			}
 		}
 	}
-	printf("nb words: %d\n", count);
 	return (count);
 }
 

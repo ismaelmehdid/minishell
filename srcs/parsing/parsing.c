@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 22:49:26 by imehdid           #+#    #+#             */
-/*   Updated: 2024/02/22 15:20:58 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/02/23 17:21:04 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,70 +25,61 @@ t_astnode	*create_node(char *element)
 	node->value = ft_strdup(element);
 	node->left = NULL;
 	node->right = NULL;
-	node->type = get_element_type(element);
-	return (node);
-}
-
-static t_astnode	*tree_init(t_astnode **root, t_astnode **curnode, char *str)
-{
-	t_astnode	*new_node;
-
-	new_node = create_node(str);
-	if (!new_node)
-	{
-		free_all_nodes(*root);
-		perror("Error during the creation of a node in AST");
-		return (NULL);
-	}
-	if (!*root)
-	{
-		*root = new_node;
-		*curnode = new_node;
-	}
+	if (ft_strcmp(element, "|"))
+		node->type = PIPE_NODE;
 	else
-	{
-		(*curnode)->right = new_node;
-		*curnode = (*curnode)->right;
-	}
-	return (new_node);
+		node->type = COMMAND_NODE;
+	return (node);
 }
 
 t_astnode	*init_ast(char **elements)
 {
 	t_astnode	*root;
-	t_astnode	*current_node;
-	int			i;
+	t_astnode	*pipe_node;
+	t_astnode	*command_node;
+	int			elements_size;
 
 	root = NULL;
-	current_node = NULL;
-	i = 0;
-	while (elements[i])
+	elements_size = size_double_array(elements);
+	if (elements_size == 1)
+		return (create_node(elements[0]));
+	elements_size--;
+	while (elements_size >= 0)
 	{
-		if (!tree_init(&root, &current_node, elements[i]))
-			return (NULL);
-		i++;
+		if (!root)
+			root = create_node(elements[elements_size]);
+		else
+		{
+			pipe_node = create_node("|");
+			command_node = create_node(elements[elements_size]);
+			pipe_node->right = root;
+			pipe_node->left = command_node;
+			root = pipe_node;
+		}
+		elements_size--;
 	}
 	return (root);
 }
 
 t_astnode	*parsing(char *input)
 {
-	char		**elements;
 	t_astnode	*root;
+	char		**elements;
 
 	if (!input)
 		return (NULL);
-	elements = split_quotes(input, " 	\r\n\v\f");
-	if (!elements)
+	elements = split_quotes(input, "|");
+	if (!size_double_array(elements) || !elements)
 		return (NULL);
 	root = init_ast(elements);
-	free_double_array(elements);
 	if (!root)
 		return (NULL);
+	/*
 	if (syntax_checker(root))
 	{
 		free_all_nodes(root);
 		return (NULL);
 	}
+	*/
 	return (root);
 }
