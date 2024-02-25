@@ -1,32 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute_builtin_one.c                              :+:      :+:    :+:   */
+/*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/18 15:13:57 by imehdid           #+#    #+#             */
-/*   Updated: 2024/02/18 19:16:32 by imehdid          ###   ########.fr       */
+/*   Created: 2024/02/25 15:37:54 by asyvash           #+#    #+#             */
+/*   Updated: 2024/02/25 15:40:19 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-int	execute_pwd(void)
-{
-	char	cwd[PATH_MAX];
-
-	if (getcwd(cwd, sizeof(cwd)) != NULL)
-		printf("%s\n", cwd);
-	else
-	{
-		perror("getcwd() error");
-		return (1);
-	}
-	return (0);
-}
-
-int	execute_export(void)
+int	execute_unset(void)
 {
 	return (0);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute_builtin_two.c                              :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/18 15:14:01 by imehdid           #+#    #+#             */
-/*   Updated: 2024/02/18 19:16:58 by imehdid          ###   ########.fr       */
+/*   Created: 2024/02/25 15:37:38 by asyvash           #+#    #+#             */
+/*   Updated: 2024/02/25 15:40:05 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,5 @@ int	execute_env(void)
 	}
 	else
 		waitpid(pid, NULL, 0);
-	return (0);
-}
-
-int	execute_unset(void)
-{
 	return (0);
 }

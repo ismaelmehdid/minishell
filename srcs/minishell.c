@@ -29,25 +29,24 @@ int	main(void)
 	ast_root = NULL;
 	while (1)
 	{
-		input = readline("BestShell 😎 >>> ");
+		input = readline("BestShell😎$>  ");
 		if (!input)
 		{
 			free(input);
 			program_exit(1);
 		}
 		ast_root = parsing(input);
+		free(input);
 		if (ast_root)
 		{
 			print_tree(ast_root);
-			if (handle_commands(input) == 1)
+			if (init_executor(ast_root) == 1)
 			{
 				free_all_nodes(ast_root);
-				free(input);
 				program_exit(1);
 			}
 			free_all_nodes(ast_root);
 		}
-		free(input);
 	}
 	return (0);
 }

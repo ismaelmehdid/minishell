@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   launch_executable.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 23:56:59 by asyvash           #+#    #+#             */
-/*   Updated: 2024/02/23 17:26:54 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/02/25 13:00:26 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static char	*get_path(char *cmd, char *path_full)
+char	*get_path(char *cmd, char *path_full)
 {
 	int		i;
 	char	*cmd_path;
@@ -44,6 +44,11 @@ static void	ft_execve(char *cmd_path, char **cmds, char **path_env)
 	pid_t		pid;
 
 	pid = fork();
+	if (ft_strncmp(cmds[0], "clear", 5) && path_env[1] == NULL)
+	{
+		printf("TERM variable isn't set\n");
+		return ;
+	}
 	if (pid == -1)
 	{
 		perror("Fork");
@@ -85,7 +90,8 @@ void	launch_executable(char *cmd)
 		free(cmd_path);
 		return ;
 	}
-	path_env = (char *[]){NULL, NULL};
+	path_env = (char *[]){NULL, NULL, NULL};
 	path_env[0] = ft_strjoin("PATH=", path);
+	path_env[1] = ft_strjoin("TERM=", getenv("TERM"));
 	ft_execve(cmd_path, cmds, path_env);
 }
