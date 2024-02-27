@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:28 by imehdid           #+#    #+#             */
-/*   Updated: 2024/02/25 16:23:31 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/02/27 23:17:29 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,14 @@ void			handle_signals(void);
 //-------Execution-------========================
 int				init_executor(t_astnode *root);
 int				execute_pipeline(char **cmds);
-void	launch_executable(char *cmd);
+void			launch_executable(char *cmd);
 
 //-------Execution utils-------==================
-char	*get_path(char *cmd, char *path_full);
-void    close_pipe_fds(int *fd, int size);
-t_pipeline	get_pipe_utils(char **cmds);
-void	launch_cmd(char *cmd, char *path, char **path_env);
-
+char			*get_path(char *cmd, char *path_full);
+void			close_pipe_fds(int *fd, int size);
+t_pipeline		get_pipe_utils(char **cmds);
+void			launch_cmd(char *cmd, char *path, char **path_env);
+char			*pipes_validation(char *input);
 //-------Built-ins-------========================
 int				handle_builtin(char *input);
 int				execute_echo(void);
@@ -83,10 +83,9 @@ t_astnode		*init_ast(char **elements);
 t_astnode		*create_node(char *element);
 enum s_nodetype	get_element_type(char *element);
 int				syntax_checker(t_astnode *root);
-
+char			*pipes_validation(char *input);
 //----Split elements---========================
 char			**split_quotes(char *input, char *skip);
-
 //-------Utils---------========================
 void			skip_quotes(char *input, int *i);
 int				count_words(char *input, char *skip);

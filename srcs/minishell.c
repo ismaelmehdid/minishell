@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:05 by imehdid           #+#    #+#             */
-/*   Updated: 2024/02/23 17:26:59 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/02/27 21:59:54 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,20 +27,19 @@ int	main(void)
 	t_astnode	*ast_root;
 
 	ast_root = NULL;
+	handle_signals();
 	while (1)
 	{
 		input = readline("BestShell😎$>  ");
 		if (!input)
-		{
-			free(input);
-			program_exit(1);
-		}
+			return (1);
+		add_history(input);
 		ast_root = parsing(input);
 		free(input);
 		if (ast_root)
 		{
 			print_tree(ast_root);
-			if (init_executor(ast_root) == 1)
+			if (init_executor(ast_root))
 			{
 				free_all_nodes(ast_root);
 				program_exit(1);

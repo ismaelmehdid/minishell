@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   init_execution.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/02/25 16:21:29 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/02/27 23:19:17 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static int get_pipe_size(t_astnode *node)
+static int	get_pipe_size(t_astnode *node)
 {
-	int counter;
-	t_astnode *tmp_node;
+	int			counter;
+	t_astnode	*tmp_node;
 
 	counter = 1;
 	tmp_node = node;
@@ -27,7 +27,7 @@ static int get_pipe_size(t_astnode *node)
 	return (counter);
 }
 
-static int finish_init_pipe(t_astnode *node, int counter, char **cmds)
+static int	finish_init_pipe(t_astnode *node, int counter, char **cmds)
 {
 	if (node->left && node->right && node->right->type == COMMAND_NODE)
 	{
@@ -49,10 +49,10 @@ static int finish_init_pipe(t_astnode *node, int counter, char **cmds)
 	return (0);
 }
 
-static int init_pipe(t_astnode *node)
+static int	init_pipe(t_astnode *node)
 {
-	int counter;
-	char **cmds;
+	int		counter;
+	char	**cmds;
 
 	cmds = ft_calloc(get_pipe_size(node) + 2, sizeof(char *));
 	if (cmds == NULL)
@@ -75,7 +75,7 @@ static int init_pipe(t_astnode *node)
 	return (0);
 }
 
-static void execute_command(t_astnode *node)
+static void	execute_command(t_astnode *node)
 {
 	if (handle_builtin(node->value) == 0)
 	{
@@ -88,16 +88,16 @@ static void execute_command(t_astnode *node)
 
 int	init_executor(t_astnode *root)
 {
-	t_astnode *working_root;
+	t_astnode	*working_root;
 
-    if (root == NULL)
-        return (1);
+	if (root == NULL)
+		return (1);
 	working_root = root;
 	if (working_root->type == PIPE_NODE)
 		init_pipe(root);
-    else if (working_root->type == COMMAND_NODE)
-        execute_command(root);
-    else
-        return (1);
+	else if (working_root->type == COMMAND_NODE)
+		execute_command(root);
+	else
+		return (1);
 	return (0);
 }

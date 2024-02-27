@@ -3,30 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:55:34 by asyvash           #+#    #+#             */
-/*   Updated: 2024/02/25 17:02:00 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/02/27 23:18:05 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void    close_pipe_fds(int *fd, int size)
+void	close_pipe_fds(int *fd, int size)
 {
-	int i;
+	int	i;
 
 	i = 0;
-    while (i < size)
+	while (i < size)
 	{
-        close(fd[i]);
+		close(fd[i]);
 		i++;
-    }
+	}
 }
 
 t_pipeline	get_pipe_utils(char **cmds)
 {
-	t_pipeline util;
+	t_pipeline	util;
 
 	util.path = getenv("PATH");
 	util.path_env = (char *[]){NULL, NULL};
@@ -43,11 +43,11 @@ t_pipeline	get_pipe_utils(char **cmds)
 
 void	launch_cmd(char *cmd, char *path, char **path_env)
 {
-    char **cmds;
-    char *cmd_path;
+	char	**cmds;
+	char	*cmd_path;
 
 	cmds = ft_split(cmd, ' ');
-    cmd_path = get_path(cmds[0], path);
+	cmd_path = get_path(cmds[0], path);
 	if (cmd_path == NULL)
 	{
 		perror("commad not found");
@@ -55,11 +55,11 @@ void	launch_cmd(char *cmd, char *path, char **path_env)
 		free(cmd_path);
 		exit (127);
 	}
-    if (execve(cmd_path, cmds, path_env) < 0)
+	if (execve(cmd_path, cmds, path_env) < 0)
 	{
-        perror("execve");
+		perror("execve");
 		free(cmd_path);
-    	free_double_array(cmds);
-        return ;
-    }
+		free_double_array(cmds);
+		return ;
+	}
 }

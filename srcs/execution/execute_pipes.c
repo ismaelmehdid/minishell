@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   execute_pipes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/02/25 16:48:21 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/02/27 23:20:38 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void wait_pipes(int num_processes)
+static void	wait_pipes(int num_processes)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < num_processes)
@@ -24,7 +24,7 @@ static void wait_pipes(int num_processes)
 	}
 }
 
-static int pipe_child(char **cmds, t_pipeline *utl)
+static int	pipe_child(char **cmds, t_pipeline *utl)
 {
 	if (cmds[utl->k + 1] != NULL)
 	{
@@ -52,7 +52,7 @@ static int pipe_child(char **cmds, t_pipeline *utl)
 	return (0);
 }
 
-static int pre_execution(char **cmds, t_pipeline *utl)
+static int	pre_execution(char **cmds, t_pipeline *utl)
 {
 	if (!utl->fd)
 	{
@@ -76,9 +76,9 @@ static int pre_execution(char **cmds, t_pipeline *utl)
 	return (0);
 }
 
-int execute_pipeline(char **cmds)
+int	execute_pipeline(char **cmds)
 {
-	t_pipeline utl;
+	t_pipeline	utl;
 
 	utl = get_pipe_utils(cmds);
 	if (pre_execution(cmds, &utl) == 1)
