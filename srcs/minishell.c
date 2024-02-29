@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:05 by imehdid           #+#    #+#             */
-/*   Updated: 2024/02/27 21:59:54 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/02/28 14:53:46 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,9 @@ int	main(void)
 		if (!input)
 			return (1);
 		add_history(input);
-		ast_root = parsing(input);
-		free(input);
+		ast_root = parsing(&input);
+		if (input)
+			free(input);
 		if (ast_root)
 		{
 			print_tree(ast_root);

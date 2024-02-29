@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:28 by imehdid           #+#    #+#             */
-/*   Updated: 2024/02/27 23:17:29 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/02/28 14:45:18 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int				execute_cd(char *path);
 int				execute_unset(void);
 
 //-------Parsing-------========================
-t_astnode		*parsing(char *input);
+t_astnode		*parsing(char **input);
 t_astnode		*init_ast(char **elements);
 t_astnode		*create_node(char *element);
 enum s_nodetype	get_element_type(char *element);

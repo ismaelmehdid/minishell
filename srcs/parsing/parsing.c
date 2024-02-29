@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 22:49:26 by imehdid           #+#    #+#             */
-/*   Updated: 2024/02/27 22:01:40 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/02/29 16:16:31 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,18 +61,18 @@ t_astnode	*init_ast(char **elements)
 	return (root);
 }
 
-t_astnode	*parsing(char *input)
+t_astnode	*parsing(char **input)
 {
 	t_astnode	*root;
 	char		**elements;
 
-	if (!input)
+	if (!*input)
 		return (NULL);
 	elements = NULL;
-	input = pipes_validation(input);
-	if (!input)
+	*input = pipes_validation(*input);
+	if (!*input)
 		return (NULL);
-	elements = split_quotes(input, "|");
+	elements = split_quotes(*input, "|");
 	if (!size_double_array(elements))
 	{
 		free(elements);
