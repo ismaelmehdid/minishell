@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 23:56:59 by asyvash           #+#    #+#             */
-/*   Updated: 2024/02/25 13:00:26 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/01 20:52:17 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,30 +68,29 @@ static void	ft_execve(char *cmd_path, char **cmds, char **path_env)
 		waitpid(pid, NULL, 0);
 }
 
-void	launch_executable(char *cmd)
+void	launch_executable(char *cmd, char **envp)
 {
-	char	*path;
 	char	*cmd_path;
 	char	**cmds;
-	char	**path_env;
+	int		i;
 
-	path = getenv("PATH");
-	if (path == NULL)
+	i = -1;
+	while (envp[++i] != NULL)
+		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
+			break ;
+	if (envp[i] == NULL)
 	{
-		perror("Path not found");
+		ft_putstr_fd("PATH not set\n", 2);
 		return ;
 	}
 	cmds = ft_split(cmd, ' ');
-	cmd_path = get_path(cmds[0], path);
+	cmd_path = get_path(cmds[0], envp[i] + 5);
 	if (cmd_path == NULL)
 	{
-		perror("Command not found");
+		not_found(cmds[0]);
 		free_double_array(cmds);
 		free(cmd_path);
 		return ;
 	}
-	path_env = (char *[]){NULL, NULL, NULL};
-	path_env[0] = ft_strjoin("PATH=", path);
-	path_env[1] = ft_strjoin("TERM=", getenv("TERM"));
-	ft_execve(cmd_path, cmds, path_env);
+	ft_execve(cmd_path, cmds, envp);
 }

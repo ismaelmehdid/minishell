@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_execution.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/02/28 22:28:56 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/01 20:53:30 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,29 +75,35 @@ static int	init_pipe(t_astnode *node)
 	return (0);
 }
 
-static void	execute_command(t_astnode *node)
+static void	execute_command(t_astnode *node, char **envp, t_list *env)
 {
-	if (handle_builtin(node->value) == 0)
-	{
-		printf("The cmd is builtin: %s\n", node->value);
+	int	status;
+
+	status = handle_builtin(node->value, envp, env);
+	if (status != 1)
 		return ;
-	}
-	printf("Not builtin, then launching cmd: %s\n", node->value);
-	launch_executable(node->value);
+	printf("Launching cmd: %s\n", node->value);
+	launch_executable(node->value, envp);
 }
 
-int	init_executor(t_astnode *root)
+int	init_executor(t_astnode *root, t_list *env)
 {
 	t_astnode	*working_root;
+	char	**envp;
 
 	if (root == NULL)
 		return (1);
+	envp = create_envp(env);
+	if (envp == NULL)
+	{
+		ft_putstr_fd("Envp malloc allocation error\n", 2);
+		return (1);
+	}
 	working_root = root;
 	if (working_root->type == PIPE_NODE)
 		init_pipe(root);
 	else if (working_root->type == COMMAND_NODE)
-		execute_command(root);
-	else
-		return (1);
+		execute_command(root, envp, env);
+	free_double_array(envp);
 	return (0);
 }

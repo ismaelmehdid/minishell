@@ -3,14 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:55:34 by asyvash           #+#    #+#             */
-/*   Updated: 2024/02/28 15:10:15 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/01 20:54:55 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+void not_found(char *cmd)
+{
+	ft_putstr_fd("Command not found: ", 2);
+	ft_putstr_fd(cmd, 2);
+	write(2, "\n", 1);
+}
 
 void	close_pipe_fds(int *fd, int size)
 {
@@ -50,7 +57,7 @@ void	launch_cmd(char *cmd, char *path, char **path_env)
 	cmd_path = get_path(cmds[0], path);
 	if (cmd_path == NULL)
 	{
-		perror("commad not found");
+		not_found(cmds[0]);
 		free_double_array(cmds);
 		free(cmd_path);
 		exit (127);
@@ -60,6 +67,6 @@ void	launch_cmd(char *cmd, char *path, char **path_env)
 		perror("execve");
 		free(cmd_path);
 		free_double_array(cmds);
-		return ;
+		exit (128);
 	}
 }

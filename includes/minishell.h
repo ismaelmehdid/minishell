@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:28 by imehdid           #+#    #+#             */
-/*   Updated: 2024/02/28 14:45:18 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/01 20:54:11 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,15 +51,21 @@ typedef struct s_astnode
 	struct s_astnode	*right;
 }	t_astnode;
 
+typedef struct s_list
+{
+	char							*content;
+	struct s_list					*next;
+}	t_list;
+
 //---------------------========================
 void			program_exit(int code);
 int				handle_commands(char *input);
 void			handle_signals(void);
 
 //-------Execution-------========================
-int				init_executor(t_astnode *root);
+int				init_executor(t_astnode *root, t_list *env);
 int				execute_pipeline(char **cmds);
-void			launch_executable(char *cmd);
+void	launch_executable(char *cmd, char **envp);
 
 //-------Execution utils-------==================
 char			*get_path(char *cmd, char *path_full);
@@ -67,15 +73,20 @@ void			close_pipe_fds(int *fd, int size);
 t_pipeline		get_pipe_utils(char **cmds);
 void			launch_cmd(char *cmd, char *path, char **path_env);
 char			*pipes_validation(char *input);
+void			not_found(char *cmd);
+//-------Env utils-------========================
+void free_list(t_list **env);
+char **create_envp(t_list *env);
+int	ft_lstsize(t_list *lst);
 //-------Built-ins-------========================
-int				handle_builtin(char *input);
-int				execute_echo(void);
+int				handle_builtin(char *input, char **envp, t_list *env);
+int				execute_echo(char *arg);
 int				execute_pwd(void);
-int				execute_export(void);
-int				execute_env(void);
+int				execute_export(char *arg, t_list *env, char **envp);
+int				execute_env(char **envp);
 int				execute_exit(void);
 int				execute_cd(char *path);
-int				execute_unset(void);
+int				execute_unset(t_list **head, char *key);
 
 //-------Parsing-------========================
 t_astnode		*parsing(char **input);

@@ -3,57 +3,125 @@
 /*                                                        :::      ::::::::   */
 /*   handle_builtin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/02/27 23:23:00 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/01 20:37:31 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-int	handle_builtin(char *input)
+static int check_cmd(char *cmd, int end)
 {
-	if (ft_strcmp(input, "echo"))
+	if (cmd[end] != ' ' && ft_strlen(cmd) != end)
 	{
-		printf("\nSoon...\n");
-		if (execute_echo() == 0)
-			return (0);
+		not_found(cmd);
+		return (1);
 	}
-	else if (ft_strcmp(input, "cd"))
+	return (0);
+}
+
+/*static char	*unset_if_exist(t_list *env, char *key)
+{
+	int	i;
+	int	j;
+	char	*new_key;
+	t_list	*cur;
+
+	i = 0;
+	while (key[i] != '\0' && key[i] != '=')
+		i++;
+	new_key = malloc(i + 1);
+	if (!new_key)
+		return (NULL);
+	j = 0;
+	while (j < i)
 	{
-		printf("\nPWD, OLDPWD in env should be changed\n");
-		if (execute_cd(input + 3) == 0)
-			return (0);
+		new_key[j] = key[j];
+		j++;
 	}
-	else if (ft_strcmp(input, "pwd"))
+	new_key[j] = '\0';
+	j = 0;
+	while (new_key[j] == ' ')
+		j++;
+	cur = env;
+	while (cur != NULL && ft_strncmp(cur->content, new_key + j, ft_strlen(new_key) - j) != 0)
+        cur = cur->next;
+    if (cur == NULL)
 	{
-		if (execute_pwd() == 0)
-			return (0);
+		free(new_key);
+		return (NULL);
 	}
-	else if (ft_strcmp(input, "export"))
+	return (new_key);
+}*/
+
+static int find_builtin_two(char *cmd, char **envp, t_list *env)
+{
+	//char	*key;
+
+	if (ft_strncmp(cmd, "export", 6) == 0) // check for correct arg, unset if exist
 	{
-		printf("\nSoon...\n");
-		if (execute_export() == 0)
-			return (0);
+		if (check_cmd(cmd, 6) == 1)
+			return (127);
+		//key = unset_if_exist(env, cmd + 6);
+		//if (key != NULL)
+		//	execute_unset(&env, key);
+		//free(key);
+		return (execute_export(cmd + 6, env, envp));
 	}
-	else if (ft_strcmp(input, "unset"))
+	else if (ft_strncmp(cmd, "unset", 5) == 0) // seg fault if firt elem
 	{
-		printf("\nSoon...\n");
-		if (execute_unset() == 0)
-			return (0);
+		if (check_cmd(cmd, 5) == 1)
+			return (127);
+		return (execute_unset(&env, cmd + 5));
 	}
-	else if (ft_strcmp(input, "env"))
+	else if (ft_strncmp(cmd, "env", 3) == 0)
 	{
-		printf("\nNot correct implimentation\n");
-		if (execute_env() == 0)
-			return (0);
-	}
-	else if (ft_strcmp(input, "exit"))
-	{
-		printf("\nSoon...\n");
-		if (execute_unset() == 0)
-			return (0);
+		if (check_cmd(cmd, 3) == 1)
+			return (127);
+		return (execute_env(envp));
 	}
 	return (1);
+}
+
+static int find_builtin(char *cmd, char **envp, t_list *env)
+{
+	if (ft_strncmp(cmd, "echo", 4) == 0) // quotes isn't implemented, env variables, for example echo $PATH
+	{
+		if (check_cmd(cmd, 4) == 1)
+			return (127);
+		return (execute_echo(cmd + 4));
+	}
+	else if (ft_strncmp(cmd, "cd", 2) == 0) // something wrong + OLDPWD, PWD, HOME
+	{
+		if (check_cmd(cmd, 2) == 1)
+			return (127);
+		return (execute_cd(cmd + 2));
+	}
+	else if (ft_strncmp(cmd, "pwd", 3) == 0)
+	{
+		if (check_cmd(cmd, 3) == 1)
+			return (127);
+		return (execute_pwd());
+	}
+	return (find_builtin_two(cmd, envp, env));
+}
+
+int	handle_builtin(char *input, char **envp, t_list *env)
+{
+	int i;
+
+	i = 0;
+	if (!input)
+		return (1);
+	while ((input[i] >= 9 && input[i] <= 13) || input[i] == 32)
+		i++;
+	if (ft_strncmp(input + i, "exit", 4) == 0) // soon
+	{
+		if (check_cmd(input + i, 4) == 1)
+			return (127);
+		return (execute_exit());
+	}
+	return (find_builtin(input + i, envp, env));
 }
