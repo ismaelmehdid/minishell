@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:05 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/01 20:51:22 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/02 21:36:34 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,20 @@
 
 void	print_tree(t_astnode *root)
 {
+	int	i;
+
+	i = 0;
 	if (!root)
 		return ;
 	printf ("Type: %d, Value: %s\n", root->type, root->value);
+	if (root->type == COMMAND_NODE)
+	{
+		while (i < ft_strlen(root->value))
+		{
+			printf ("%d, ", root->quotes_indexes[i]);
+			i++;
+		}
+	}
 	print_tree (root->left);
 	print_tree (root->right);
 }
@@ -77,7 +88,7 @@ int	main(int argc, char **argv, char **envp)
 		if (ast_root)
 		{
 			print_tree(ast_root);
-			if (init_executor(ast_root, env) == 1)
+			if (init_executor(ast_root, &env) == 1)
 			{
 				free_all_nodes(ast_root);
 				free_list(&env);

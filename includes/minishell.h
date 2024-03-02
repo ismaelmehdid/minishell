@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:28 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/01 20:54:11 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/02 21:34:54 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_astnode
 	char				*value;
 	struct s_astnode	*left;
 	struct s_astnode	*right;
+	int					*quotes_indexes;
 }	t_astnode;
 
 typedef struct s_list
@@ -63,7 +64,7 @@ int				handle_commands(char *input);
 void			handle_signals(void);
 
 //-------Execution-------========================
-int				init_executor(t_astnode *root, t_list *env);
+int				init_executor(t_astnode *root, t_list **env);
 int				execute_pipeline(char **cmds);
 void	launch_executable(char *cmd, char **envp);
 
@@ -79,7 +80,7 @@ void free_list(t_list **env);
 char **create_envp(t_list *env);
 int	ft_lstsize(t_list *lst);
 //-------Built-ins-------========================
-int				handle_builtin(char *input, char **envp, t_list *env);
+int				handle_builtin(char *input, char **envp, t_list **env);
 int				execute_echo(char *arg);
 int				execute_pwd(void);
 int				execute_export(char *arg, t_list *env, char **envp);
@@ -95,6 +96,7 @@ t_astnode		*create_node(char *element);
 enum s_nodetype	get_element_type(char *element);
 int				syntax_checker(t_astnode *root);
 char			*pipes_validation(char *input);
+int				quotes_validation(char **elements);
 //----Split elements---========================
 char			**split_quotes(char *input, char *skip);
 //-------Utils---------========================

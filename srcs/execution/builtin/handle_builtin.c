@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_builtin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/01 20:37:31 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/02 20:55:46 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static int check_cmd(char *cmd, int end)
 	return (new_key);
 }*/
 
-static int find_builtin_two(char *cmd, char **envp, t_list *env)
+static int find_builtin_two(char *cmd, char **envp, t_list **env)
 {
 	//char	*key;
 
@@ -68,13 +68,13 @@ static int find_builtin_two(char *cmd, char **envp, t_list *env)
 		//if (key != NULL)
 		//	execute_unset(&env, key);
 		//free(key);
-		return (execute_export(cmd + 6, env, envp));
+		return (execute_export(cmd + 6, *env, envp));
 	}
 	else if (ft_strncmp(cmd, "unset", 5) == 0) // seg fault if firt elem
 	{
 		if (check_cmd(cmd, 5) == 1)
 			return (127);
-		return (execute_unset(&env, cmd + 5));
+		return (execute_unset(env, cmd + 5));
 	}
 	else if (ft_strncmp(cmd, "env", 3) == 0)
 	{
@@ -85,7 +85,7 @@ static int find_builtin_two(char *cmd, char **envp, t_list *env)
 	return (1);
 }
 
-static int find_builtin(char *cmd, char **envp, t_list *env)
+static int find_builtin(char *cmd, char **envp, t_list **env)
 {
 	if (ft_strncmp(cmd, "echo", 4) == 0) // quotes isn't implemented, env variables, for example echo $PATH
 	{
@@ -108,7 +108,7 @@ static int find_builtin(char *cmd, char **envp, t_list *env)
 	return (find_builtin_two(cmd, envp, env));
 }
 
-int	handle_builtin(char *input, char **envp, t_list *env)
+int	handle_builtin(char *input, char **envp, t_list **env)
 {
 	int i;
 

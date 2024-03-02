@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_execution.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/01 20:53:30 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/02 20:52:58 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static int	init_pipe(t_astnode *node)
 	return (0);
 }
 
-static void	execute_command(t_astnode *node, char **envp, t_list *env)
+static void	execute_command(t_astnode *node, char **envp, t_list **env)
 {
 	int	status;
 
@@ -86,14 +86,14 @@ static void	execute_command(t_astnode *node, char **envp, t_list *env)
 	launch_executable(node->value, envp);
 }
 
-int	init_executor(t_astnode *root, t_list *env)
+int	init_executor(t_astnode *root, t_list **env)
 {
 	t_astnode	*working_root;
-	char	**envp;
+	char		**envp;
 
 	if (root == NULL)
 		return (1);
-	envp = create_envp(env);
+	envp = create_envp(*env);
 	if (envp == NULL)
 	{
 		ft_putstr_fd("Envp malloc allocation error\n", 2);
@@ -104,6 +104,5 @@ int	init_executor(t_astnode *root, t_list *env)
 		init_pipe(root);
 	else if (working_root->type == COMMAND_NODE)
 		execute_command(root, envp, env);
-	free_double_array(envp);
 	return (0);
 }
