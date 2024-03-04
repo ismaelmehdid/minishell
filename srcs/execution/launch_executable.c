@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 23:56:59 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/01 20:52:17 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/04 22:14:00 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,6 @@ static void	ft_execve(char *cmd_path, char **cmds, char **path_env)
 	pid_t		pid;
 
 	pid = fork();
-	if (ft_strncmp(cmds[0], "clear", 5) && path_env[1] == NULL)
-	{
-		printf("TERM variable isn't set\n");
-		return ;
-	}
 	if (pid == -1)
 	{
 		perror("Fork");
