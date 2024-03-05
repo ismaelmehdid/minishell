@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/04 22:26:00 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/05 18:59:33 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,21 +22,6 @@ static void	wait_pipes(int num_processes)
 		wait(NULL);
 		i++;
 	}
-}
-
-static void	execute_cmd(char *cmd, t_list **env)
-{
-	int	status;
-	char	**envp;
-
-	envp = create_envp(*env);
-	if (!envp)
-		return ;
-	status = handle_builtin(cmd, envp, env);
-	if (status != 1)
-		return ;
-	printf("Launching cmd: %s\n", cmd);
-	launch_cmd(cmd, envp);
 }
 
 static int	pipe_child(char **cmds, t_pipeline *utl, t_list **env)
@@ -63,8 +48,9 @@ static int	pipe_child(char **cmds, t_pipeline *utl, t_list **env)
 		close(utl->fd[utl->m]);
 		utl->m++;
 	}
-	execute_cmd(cmds[utl->k], env);
-	//launch_cmd(cmds[utl->k], utl->path, utl->path_env);
+	if (handle_builtin(cmds[utl->k], create_envp(*env), env) == 0)
+		exit(0);
+	launch_cmd(cmds[utl->k], create_envp(*env));
 	return (0);
 }
 
@@ -73,11 +59,6 @@ static int	pre_execution(char **cmds, t_pipeline *utl)
 	if (!utl->fd)
 	{
 		printf("\nMalloc error\n");
-		return (1);
-	}
-	if (utl->path == NULL)
-	{
-		printf("PATH variable not set");
 		return (1);
 	}
 	while (cmds[utl->i] != NULL)

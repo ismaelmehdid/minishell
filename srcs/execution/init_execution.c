@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/04 22:17:21 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/05 18:39:22 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static void	execute_command(t_astnode *node, char **envp, t_list **env)
 	status = handle_builtin(node->value, envp, env);
 	if (status != 1)
 		return ;
-	printf("Launching cmd: %s\n", node->value);
+	//printf("Launching cmd: %s\n", node->value);
 	launch_executable(node->value, envp);
 }
 
