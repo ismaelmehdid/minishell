@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:05 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/02 21:36:34 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/03 19:05:45 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	char		*input;
 	t_astnode	*ast_root;
-	t_list	*env;
+	t_list		*env;
 
 	ast_root = NULL;
 	(void)argc;

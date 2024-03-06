@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/02 20:52:58 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/03 19:25:03 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,11 @@ static int	init_pipe(t_astnode *node)
 	return (0);
 }
 
-static void	execute_command(t_astnode *node, char **envp, t_list **env)
+static void	execute_command(t_astnode *node, char **envp, t_list **env, t_astnode *root)
 {
 	int	status;
 
-	status = handle_builtin(node->value, envp, env);
+	status = handle_builtin(node->value, envp, env, root);
 	if (status != 1)
 		return ;
 	printf("Launching cmd: %s\n", node->value);
@@ -103,6 +103,6 @@ int	init_executor(t_astnode *root, t_list **env)
 	if (working_root->type == PIPE_NODE)
 		init_pipe(root);
 	else if (working_root->type == COMMAND_NODE)
-		execute_command(root, envp, env);
+		execute_command(root, envp, env, root);
 	return (0);
 }

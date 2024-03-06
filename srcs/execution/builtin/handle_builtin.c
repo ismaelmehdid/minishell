@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/02 20:55:46 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/05 20:05:22 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ static int find_builtin(char *cmd, char **envp, t_list **env)
 	{
 		if (check_cmd(cmd, 2) == 1)
 			return (127);
-		return (execute_cd(cmd + 2));
+		return (execute_cd(cmd + 2, env));
 	}
 	else if (ft_strncmp(cmd, "pwd", 3) == 0)
 	{
@@ -108,20 +108,20 @@ static int find_builtin(char *cmd, char **envp, t_list **env)
 	return (find_builtin_two(cmd, envp, env));
 }
 
-int	handle_builtin(char *input, char **envp, t_list **env)
+int	handle_builtin(char *input, char **envp, t_list **env, t_astnode *root)
 {
 	int i;
 
 	i = 0;
 	if (!input)
 		return (1);
-	while ((input[i] >= 9 && input[i] <= 13) || input[i] == 32)
+	while (input[i] && (input[i] == 32 || (input[i] >= 9 && input[i] <= 13)))
 		i++;
 	if (ft_strncmp(input + i, "exit", 4) == 0) // soon
 	{
 		if (check_cmd(input + i, 4) == 1)
 			return (127);
-		return (execute_exit());
+		execute_exit(input, env, root, envp);
 	}
 	return (find_builtin(input + i, envp, env));
 }

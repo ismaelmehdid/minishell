@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 19:41:08 by imehdid           #+#    #+#             */
-/*   Updated: 2024/02/27 20:45:33 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/03 17:49:20 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,18 +56,23 @@ char	*malloc_word(char *input, int *i, char *skip)
 {
 	int		nb_letters;
 	char	*word;
+	char	quote;
 
 	nb_letters = 0;
 	while (input[*i] && !ft_strchr(skip, input[*i]))
 	{
 		if (input[*i] == '\'' || input[*i] == '"')
 		{
+			quote = input[*i];
+			nb_letters++;
 			(*i)++;
-			while (input[*i] && input[*i] != '\'' && input[*i] != '"')
+			while (input[*i] && input[*i] != quote)
 			{
 				nb_letters++;
 				(*i)++;
 			}
+			if (input[*i] && input[*i] == quote)
+				nb_letters++;
 			if (input[*i])
 				(*i)++;
 		}
@@ -92,20 +97,20 @@ void	copy_word(char *result, char *input, int *i, char *skip)
 		if (input[*i] == '\'' || input[*i] == '"')
 		{
 			quote = input[*i];
+			result[k++] = input[*i];
 			(*i)++;
 			while (input[*i] && input[*i] != quote)
 			{
 				result[k++] = input[*i];
 				(*i)++;
 			}
+			if (input[*i] && input[*i] == quote)
+				result[k++] = input[*i];
 			if (input[*i])
 				(*i)++;
 		}
 		else
-		{
-			result[k++] = input[*i];
-			(*i)++;
-		}
+			result[k++] = input[(*i)++];
 	}
 	result[k] = '\0';
 }

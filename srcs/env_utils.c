@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 23:54:18 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/02 21:33:20 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/03 19:32:11 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,15 +54,15 @@ char	**create_envp(t_list *env)
 	i = -1;
 	while (i++, i < size)
 	{
-		envp[i] = malloc(ft_strlen(env->content) + 1);
+		envp[i] = ft_strdup(env->content);
 		if (envp[i] == NULL)
 		{
 			free_double_array(envp);
 			ft_putstr_fd("Malloc allocation error\n", 2);
 			return (NULL);
 		}
-		envp[i] = ft_strdup(env->content);
 		env = env->next;
 	}
+	envp[i] = NULL;
 	return (envp);
 }

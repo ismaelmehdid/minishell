@@ -3,54 +3,92 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:37:27 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/01 20:36:20 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/05 21:06:13 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
+static char	*get_old_pwd(t_list **env)
+{
+	t_list	*current;
+	int		i;
 
-/*
-execute_unset("OLDPWD");
-find PWD, then:
-char *temp = ft_strdup(env->content);
-free(env->content);
-env->content = ft_strdup(ft_strjoin("OLD". temp));
-export(ft_strjoin("PWD", execute_pwd);
-*/
+	current = *env;
+	i = 0;
+	while (current && ft_strncmp("OLDPWD", current->content, 6))
+		current = current->next;
+	if (current)
+	{
+		while (current->content[i] && current->content[i] != '=')
+			i++;
+		if (current->content[i] == '=')
+			return (current->content + i + 1);
+	}
+	return (NULL);
+}
 
-int	execute_cd(char *path)
+static int	change_to_absolute_path_dir(char *path)
+{
+	if (chdir(path) != 0)
+	{
+		perror("cd");
+		return (1);
+	}
+	return (0);
+}
+
+static int	change_to_relative_path_dir(char *path)
 {
 	char	cwd[PATH_MAX];
 
-	path++;
-	if (path[0] == '/')
+	if (getcwd(cwd, sizeof(cwd)) == NULL)
 	{
-		if (chdir(path) != 0)
-		{
-			perror("cd");
-			return (1);
-		}
+		perror("cd");
+		return (1);
 	}
-	else
+	if (ft_strlen(cwd) + ft_strlen(path) + 1 > PATH_MAX)
+		return (1);
+	ft_strlcat(cwd, "/", sizeof(cwd));
+	ft_strlcat(cwd, path, sizeof(cwd));
+	if (chdir(cwd) != 0)
 	{
-		if (getcwd(cwd, sizeof(cwd)) == NULL)
-		{
-			perror("cd");
-			return (1);
-		}
-		if (ft_strlen(cwd) + ft_strlen(path) + 1 > PATH_MAX)
-			return (1);
-		ft_strlcat(cwd, "/", sizeof(cwd));
-		ft_strlcat(cwd, path, sizeof(cwd));
-		if (chdir(cwd) != 0)
-		{
-			perror("cd");
-			return (1);
-		}
+		perror("cd");
+		return (1);
 	}
 	return (0);
+}
+
+static int	change_to_old_pwd_dir(t_list **env)
+{
+	char	*old_pwd;
+
+	old_pwd = get_old_pwd(env);
+	if (!old_pwd)
+	{
+		perror("minishell: cd: OLDPWD not set");
+		return (127);
+	}
+	if (chdir(old_pwd) != 0)
+	{
+		perror("cd");
+		return (1);
+	}
+	return (0);
+}
+
+int	execute_cd(char *path, t_list **env)
+{
+	while (*path && (*path == ' ' || (*path >= 9 && *path <= 13)))
+		path++;
+	if (path[0] == '/')
+		return (change_to_absolute_path_dir(path));
+	else if (path[0] == '-')
+		return (change_to_old_pwd_dir(env));
+	else
+		return (change_to_relative_path_dir(path));
+	return (127);
 }

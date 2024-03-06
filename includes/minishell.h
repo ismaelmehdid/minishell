@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:28 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/02 21:34:54 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/05 20:14:15 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,13 +80,13 @@ void free_list(t_list **env);
 char **create_envp(t_list *env);
 int	ft_lstsize(t_list *lst);
 //-------Built-ins-------========================
-int				handle_builtin(char *input, char **envp, t_list **env);
+int				handle_builtin(char *input, char **envp, t_list **env, t_astnode *root);
 int				execute_echo(char *arg);
 int				execute_pwd(void);
 int				execute_export(char *arg, t_list *env, char **envp);
 int				execute_env(char **envp);
-int				execute_exit(void);
-int				execute_cd(char *path);
+void			execute_exit(char *input, t_list **env, t_astnode *root, char **envp);
+int				execute_cd(char *path, t_list **env);
 int				execute_unset(t_list **head, char *key);
 
 //-------Parsing-------========================
