@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/06 16:16:42 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/06 16:21:46 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int	finish_init_pipe(t_astnode *node, int counter, char **cmds, t_list **
 			return (1);
 		}
 	}
-	if (execute_pipeline(cmds, env) == 1)
+	if (execute_pipeline(cmds, env, node) == 1)
 	{
 		free_double_array(cmds);
 		return (1);

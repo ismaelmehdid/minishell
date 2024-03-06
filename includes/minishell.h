@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:28 by imehdid           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/03/05 20:14:15 by imehdid          ###   ########.fr       */
-=======
-/*   Updated: 2024/03/04 22:38:11 by asyvash          ###   ########.fr       */
->>>>>>> f505c3a89fc762a7ca5256188094f5acefd8a06f
+/*   Updated: 2024/03/06 16:22:38 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +65,7 @@ void			handle_signals(void);
 
 //-------Execution-------========================
 int				init_executor(t_astnode *root, t_list **env);
-int				execute_pipeline(char **cmds, t_list **env);
+int				execute_pipeline(char **cmds, t_list **env, t_astnode *root);
 void	launch_executable(char *cmd, char **envp);
 
 //-------Execution utils-------==================

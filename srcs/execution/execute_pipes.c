@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_pipes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/05 18:59:33 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/06 16:22:27 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	wait_pipes(int num_processes)
 	}
 }
 
-static int	pipe_child(char **cmds, t_pipeline *utl, t_list **env)
+static int	pipe_child(char **cmds, t_pipeline *utl, t_list **env, t_astnode *root)
 {
 	if (cmds[utl->k + 1] != NULL)
 	{
@@ -48,7 +48,7 @@ static int	pipe_child(char **cmds, t_pipeline *utl, t_list **env)
 		close(utl->fd[utl->m]);
 		utl->m++;
 	}
-	if (handle_builtin(cmds[utl->k], create_envp(*env), env) == 0)
+	if (handle_builtin(cmds[utl->k], create_envp(*env), env, root) == 0)
 		exit(0);
 	launch_cmd(cmds[utl->k], create_envp(*env));
 	return (0);
@@ -73,7 +73,7 @@ static int	pre_execution(char **cmds, t_pipeline *utl)
 	return (0);
 }
 
-int	execute_pipeline(char **cmds, t_list **env)
+int	execute_pipeline(char **cmds, t_list **env, t_astnode *root)
 {
 	t_pipeline	utl;
 
@@ -88,7 +88,7 @@ int	execute_pipeline(char **cmds, t_list **env)
 			return (1);
 		}
 		else if (utl.pid == 0)
-			pipe_child(cmds, &utl, env);
+			pipe_child(cmds, &utl, env, root);
 		else if (utl.pid < 0)
 		{
 			perror("error");
