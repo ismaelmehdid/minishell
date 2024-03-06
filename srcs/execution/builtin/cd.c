@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:37:27 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/05 21:06:13 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/06 21:32:15 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,10 @@ static char	*get_old_pwd(t_list **env)
 	return (NULL);
 }
 
-static int	change_to_absolute_path_dir(char *path)
+static int	change_to_absolute_path_dir(char *path, t_list **env)
 {
+	if (update_old_pwd_dir(env))
+		return (1);
 	if (chdir(path) != 0)
 	{
 		perror("cd");
@@ -41,7 +43,7 @@ static int	change_to_absolute_path_dir(char *path)
 	return (0);
 }
 
-static int	change_to_relative_path_dir(char *path)
+static int	change_to_relative_path_dir(char *path, t_list **env)
 {
 	char	cwd[PATH_MAX];
 
@@ -54,6 +56,8 @@ static int	change_to_relative_path_dir(char *path)
 		return (1);
 	ft_strlcat(cwd, "/", sizeof(cwd));
 	ft_strlcat(cwd, path, sizeof(cwd));
+	if (update_old_pwd_dir(env))
+		return (1);
 	if (chdir(cwd) != 0)
 	{
 		perror("cd");
@@ -72,6 +76,8 @@ static int	change_to_old_pwd_dir(t_list **env)
 		perror("minishell: cd: OLDPWD not set");
 		return (127);
 	}
+	if (update_old_pwd_dir(env))
+		return (1);
 	if (chdir(old_pwd) != 0)
 	{
 		perror("cd");
@@ -85,10 +91,10 @@ int	execute_cd(char *path, t_list **env)
 	while (*path && (*path == ' ' || (*path >= 9 && *path <= 13)))
 		path++;
 	if (path[0] == '/')
-		return (change_to_absolute_path_dir(path));
+		return (change_to_absolute_path_dir(path, env));
 	else if (path[0] == '-')
 		return (change_to_old_pwd_dir(env));
 	else
-		return (change_to_relative_path_dir(path));
+		return (change_to_relative_path_dir(path, env));
 	return (127);
 }
