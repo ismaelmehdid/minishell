@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:55:34 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/01 20:54:55 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/04 22:38:40 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,6 @@ t_pipeline	get_pipe_utils(char **cmds)
 {
 	t_pipeline	util;
 
-	util.path = getenv("PATH");
-	util.path_env = (char *[]){NULL, NULL};
-	util.path_env[0] = ft_strjoin("PATH=", util.path);
 	util.i = 0;
 	util.j = 0;
 	util.k = -1;
@@ -48,13 +45,23 @@ t_pipeline	get_pipe_utils(char **cmds)
 	return (util);
 }
 
-void	launch_cmd(char *cmd, char *path, char **path_env)
+void	launch_cmd(char *cmd, char **envp)
 {
 	char	**cmds;
 	char	*cmd_path;
+	int		i;
 
+	i = -1;
+	while (envp[++i] != NULL)
+		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
+			break ;
+	if (envp[i] == NULL)
+	{
+		ft_putstr_fd("PATH not set\n", 2);
+		return ;
+	}
 	cmds = ft_split(cmd, ' ');
-	cmd_path = get_path(cmds[0], path);
+	cmd_path = get_path(cmds[0], envp[i] + 5);
 	if (cmd_path == NULL)
 	{
 		not_found(cmds[0]);
@@ -62,7 +69,7 @@ void	launch_cmd(char *cmd, char *path, char **path_env)
 		free(cmd_path);
 		exit (127);
 	}
-	if (execve(cmd_path, cmds, path_env) < 0)
+	if (execve(cmd_path, cmds, envp) < 0)
 	{
 		perror("execve");
 		free(cmd_path);

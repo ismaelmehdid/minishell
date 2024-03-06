@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/01 20:42:06 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/05 18:59:33 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	wait_pipes(int num_processes)
 	}
 }
 
-static int	pipe_child(char **cmds, t_pipeline *utl)
+static int	pipe_child(char **cmds, t_pipeline *utl, t_list **env)
 {
 	if (cmds[utl->k + 1] != NULL)
 	{
@@ -48,7 +48,9 @@ static int	pipe_child(char **cmds, t_pipeline *utl)
 		close(utl->fd[utl->m]);
 		utl->m++;
 	}
-	launch_cmd(cmds[utl->k], utl->path, utl->path_env);
+	if (handle_builtin(cmds[utl->k], create_envp(*env), env) == 0)
+		exit(0);
+	launch_cmd(cmds[utl->k], create_envp(*env));
 	return (0);
 }
 
@@ -57,11 +59,6 @@ static int	pre_execution(char **cmds, t_pipeline *utl)
 	if (!utl->fd)
 	{
 		printf("\nMalloc error\n");
-		return (1);
-	}
-	if (utl->path == NULL)
-	{
-		printf("PATH variable not set");
 		return (1);
 	}
 	while (cmds[utl->i] != NULL)
@@ -76,7 +73,7 @@ static int	pre_execution(char **cmds, t_pipeline *utl)
 	return (0);
 }
 
-int	execute_pipeline(char **cmds)
+int	execute_pipeline(char **cmds, t_list **env)
 {
 	t_pipeline	utl;
 
@@ -91,7 +88,7 @@ int	execute_pipeline(char **cmds)
 			return (1);
 		}
 		else if (utl.pid == 0)
-			pipe_child(cmds, &utl);
+			pipe_child(cmds, &utl, env);
 		else if (utl.pid < 0)
 		{
 			perror("error");

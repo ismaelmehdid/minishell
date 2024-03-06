@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:28 by imehdid           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/03/05 20:14:15 by imehdid          ###   ########.fr       */
+=======
+/*   Updated: 2024/03/04 22:38:11 by asyvash          ###   ########.fr       */
+>>>>>>> f505c3a89fc762a7ca5256188094f5acefd8a06f
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,14 +69,14 @@ void			handle_signals(void);
 
 //-------Execution-------========================
 int				init_executor(t_astnode *root, t_list **env);
-int				execute_pipeline(char **cmds);
+int				execute_pipeline(char **cmds, t_list **env);
 void	launch_executable(char *cmd, char **envp);
 
 //-------Execution utils-------==================
 char			*get_path(char *cmd, char *path_full);
 void			close_pipe_fds(int *fd, int size);
 t_pipeline		get_pipe_utils(char **cmds);
-void			launch_cmd(char *cmd, char *path, char **path_env);
+void			launch_cmd(char *cmd, char **envp);
 char			*pipes_validation(char *input);
 void			not_found(char *cmd);
 //-------Env utils-------========================

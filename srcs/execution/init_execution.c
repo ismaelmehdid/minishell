@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/03 19:25:03 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/06 16:16:42 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int	get_pipe_size(t_astnode *node)
 	return (counter);
 }
 
-static int	finish_init_pipe(t_astnode *node, int counter, char **cmds)
+static int	finish_init_pipe(t_astnode *node, int counter, char **cmds, t_list **env)
 {
 	if (node->left && node->right && node->right->type == COMMAND_NODE)
 	{
@@ -40,7 +40,7 @@ static int	finish_init_pipe(t_astnode *node, int counter, char **cmds)
 			return (1);
 		}
 	}
-	if (execute_pipeline(cmds) == 1)
+	if (execute_pipeline(cmds, env) == 1)
 	{
 		free_double_array(cmds);
 		return (1);
@@ -49,7 +49,7 @@ static int	finish_init_pipe(t_astnode *node, int counter, char **cmds)
 	return (0);
 }
 
-static int	init_pipe(t_astnode *node)
+static int	init_pipe(t_astnode *node, t_list **env)
 {
 	int		counter;
 	char	**cmds;
@@ -70,7 +70,7 @@ static int	init_pipe(t_astnode *node)
 		node = node->right;
 		counter++;
 	}
-	if (finish_init_pipe(node, counter, cmds) == 1)
+	if (finish_init_pipe(node, counter, cmds, env) == 1)
 		return (1);
 	return (0);
 }
@@ -82,7 +82,7 @@ static void	execute_command(t_astnode *node, char **envp, t_list **env, t_astnod
 	status = handle_builtin(node->value, envp, env, root);
 	if (status != 1)
 		return ;
-	printf("Launching cmd: %s\n", node->value);
+	//printf("Launching cmd: %s\n", node->value);
 	launch_executable(node->value, envp);
 }
 
@@ -101,7 +101,7 @@ int	init_executor(t_astnode *root, t_list **env)
 	}
 	working_root = root;
 	if (working_root->type == PIPE_NODE)
-		init_pipe(root);
+		init_pipe(root, env);
 	else if (working_root->type == COMMAND_NODE)
 		execute_command(root, envp, env, root);
 	return (0);

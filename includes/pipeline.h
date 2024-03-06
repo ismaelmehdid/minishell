@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 13:31:31 by asyvash           #+#    #+#             */
-/*   Updated: 2024/02/27 23:16:43 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/04 22:39:22 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ typedef struct s_pipeline
 	int			m;
 	pid_t		pid;
 	int			*fd;
-	char		*path;
-	char		**path_env;
 }t_pipeline;
 
 #endif
