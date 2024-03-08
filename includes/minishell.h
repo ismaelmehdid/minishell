@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:28 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/06 20:44:50 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/08 00:58:26 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,13 @@
 # include <limits.h>
 # include <sys/wait.h>
 # include "pipeline.h"
+
+typedef enum s_redirection
+{
+	IN,
+	OUT,
+	APPEND
+}	t_redirection;
 
 typedef enum s_nodetype
 {
@@ -79,6 +86,16 @@ void			not_found(char *cmd);
 void free_list(t_list **env);
 char **create_envp(t_list *env);
 int	ft_lstsize(t_list *lst);
+//-------Redirection----=======================
+int	dup_error(int fds[2]);
+void	restore_std(int fds[2]);
+int	get_flags(t_redirection type);
+int init_redirection(char **redirections, int fds[2]);
+void del_redirs_from_root(t_astnode **root);
+char **create_redirs(t_astnode *root);
+t_redirection get_redir_type(char *redirection);
+char *get_redirection(char *line);
+int redir_exist(char *line);
 //-------Built-ins-------========================
 int				handle_builtin(char *input, char **envp, t_list **env, t_astnode *root);
 int				execute_echo(char *arg);

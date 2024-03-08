@@ -6,11 +6,11 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:55:34 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/04 22:38:40 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/08 00:37:42 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "../../../includes/minishell.h"
 
 void not_found(char *cmd)
 {
