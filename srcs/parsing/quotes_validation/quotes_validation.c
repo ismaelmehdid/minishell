@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes_validation.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 15:30:16 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/02 16:01:44 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/08 22:14:55 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	element_quotes_checker(char *element)
 				i++;
 			if (element[i] == '\0')
 			{
-				printf("minishell: quotes are not closed near: %c\n", quote);
+				ft_putstr_fd("minishell: quotes are not closed properly\n", 2);
 				return (1);
 			}
 		}

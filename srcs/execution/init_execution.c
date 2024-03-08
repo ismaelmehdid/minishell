@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/08 00:51:18 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/08 22:05:49 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	finish_init_pipe(t_astnode *node, int counter, char **cmds, t_list **
 		cmds[counter + 1] = ft_strdup(node->right->value);
 		if (cmds[counter] == NULL || cmds[counter + 1] == NULL)
 		{
-			printf("Malloc error in finish_init_pipe\n");
+			ft_putstr_fd("Malloc error\n", 2);
 			free_double_array(cmds);
 			return (1);
 		}
@@ -63,7 +63,7 @@ static int	init_pipe(t_astnode *node, t_list **env)
 		cmds[counter] = ft_strdup(node->left->value);
 		if (cmds[counter] == NULL)
 		{
-			printf("Malloc error in init_pipe\n");
+			ft_putstr_fd("Malloc allocation error\n", 2);
 			free_double_array(cmds);
 			return (1);
 		}
@@ -93,7 +93,6 @@ static void	execute_command(t_astnode *node, char **envp, t_list **env)
 
 int	init_executor(t_astnode *root, t_list **env)
 {
-	t_astnode	*working_root;
 	char		**redirections;
 	int	fds[2];
 	
@@ -105,10 +104,9 @@ int	init_executor(t_astnode *root, t_list **env)
 		del_redirs_from_root(&root);
 		init_redirection(redirections, fds);
 	}
-	working_root = root;
-	if (working_root->type == PIPE_NODE)
+	if (root->type == PIPE_NODE)
 		init_pipe(root, env);
-	else if (working_root->type == COMMAND_NODE)
+	else if (root->type == COMMAND_NODE)
 		execute_command(root, create_envp(*env), env);
 	restore_std(fds);
 	if (redirections)

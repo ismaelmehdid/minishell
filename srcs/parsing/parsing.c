@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 22:49:26 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/03 15:46:14 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/08 22:17:21 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ t_astnode	*create_node(char *element)
 	node = malloc(sizeof(t_astnode));
 	if (!node)
 	{
-		perror("Malloc problem in function create_node");
+		ft_putstr_fd("Malloc error\n", 2);
 		return (NULL);
 	}
 	node->value = ft_strdup(element);
@@ -128,12 +128,5 @@ t_astnode	*parsing(char **input)
 	free_double_array(elements);
 	if (!root)
 		return (NULL);
-	/*
-	if (syntax_checker(root))
-	{
-		free_all_nodes(root);
-		return (NULL);
-	}
-	*/
 	return (root);
 }

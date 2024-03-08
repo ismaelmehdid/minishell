@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:55:34 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/08 00:37:42 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/08 22:22:11 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,23 +45,32 @@ t_pipeline	get_pipe_utils(char **cmds)
 	return (util);
 }
 
+static int get_indx(char **envp)
+{
+	int i;
+
+	i = -1;
+	if (!envp)
+		return (-1);
+	while (envp[++i] != NULL)
+		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
+			break ;
+	return (i);
+}
+
 void	launch_cmd(char *cmd, char **envp)
 {
 	char	**cmds;
 	char	*cmd_path;
-	int		i;
 
-	i = -1;
-	while (envp[++i] != NULL)
-		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
-			break ;
-	if (envp[i] == NULL)
+	if (get_indx(envp) == -1 || \
+		envp[get_indx(envp)] == NULL)
 	{
 		ft_putstr_fd("PATH not set\n", 2);
 		return ;
 	}
 	cmds = ft_split(cmd, ' ');
-	cmd_path = get_path(cmds[0], envp[i] + 5);
+	cmd_path = get_path(cmds[0], envp[get_indx(envp)] + 5);
 	if (cmd_path == NULL)
 	{
 		not_found(cmds[0]);

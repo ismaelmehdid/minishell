@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:28 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/08 02:15:22 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/08 22:24:08 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ t_astnode		*parsing(char **input);
 t_astnode		*init_ast(char **elements);
 t_astnode		*create_node(char *element);
 enum s_nodetype	get_element_type(char *element);
-int				syntax_checker(t_astnode *root);
 char			*pipes_validation(char *input);
 int				quotes_validation(char **elements);
 //-------Parsing utils----========================

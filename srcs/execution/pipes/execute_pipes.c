@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/08 00:53:59 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/08 22:06:42 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static int	pre_execution(char **cmds, t_pipeline *utl)
 {
 	if (!utl->fd)
 	{
-		printf("\nMalloc error\n");
+		ft_putstr_fd("\nMalloc error\n", 2);
 		return (1);
 	}
 	while (cmds[utl->i] != NULL)

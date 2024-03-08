@@ -6,7 +6,7 @@
 #    By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/15 19:34:20 by imehdid           #+#    #+#              #
-#    Updated: 2024/03/08 00:49:37 by asyvash          ###   ########.fr        #
+#    Updated: 2024/03/08 22:18:30 by asyvash          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,8 +14,8 @@ NAME = minishell
 
 SRCS = ${wildcard srcs/*.c srcs/parsing/*.c srcs/execution/*.c \
 		srcs/errors_handling/*.c srcs/execution/builtin/*.c \
-		srcs/parsing/spliting_elements/*.c srcs/parsing/syntax_checker/*.c \
-		srcs/parsing/pipes_validation/*.c srcs/parsing/quotes_validation/*.c \
+		srcs/parsing/spliting_elements/*.c srcs/parsing/pipes_validation/*.c \
+		srcs/parsing/quotes_validation/*.c \
 		srcs/execution/redirection/*.c srcs/execution/pipes/*.c}
 
 OBJS = ${SRCS:.c=.o}
