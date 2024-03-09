@@ -6,16 +6,15 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:28 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/09 16:00:20 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/09 16:35:14 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# define CLEAR_SCREEN "\033[2J\033[H"
-
 # include "libft/libft.h"
+# include "pipeline.h"
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
@@ -34,7 +33,13 @@
 # include <readline/history.h>
 # include <limits.h>
 # include <sys/wait.h>
-# include "pipeline.h"
+
+typedef enum s_redirection
+{
+	IN,
+	OUT,
+	APPEND
+}	t_redirection;
 
 typedef enum s_nodetype
 {
@@ -58,16 +63,36 @@ typedef struct s_list
 	struct s_list					*next;
 }	t_list;
 
-//---------------------========================
-void			program_exit(int code);
-int				handle_commands(char *input);
+//-------Env utils-------========================
+void free_list(t_list **env);
+char **create_envp(t_list *env);
+int	ft_lstsize(t_list *lst);
+//-------Parsing-----------=======================
+t_astnode		*parsing(char **input);
+t_astnode		*init_ast(char **elements);
+t_astnode		*create_node(char *element);
+enum s_nodetype	get_element_type(char *element);
+char			*pipes_validation(char *input);
+int				quotes_validation(char **elements);
+//-------Parsing utils----========================
+void			free_double_array(char **array);
+void			free_all_nodes(t_astnode *root);
+int				ft_strcmp(char *one, char *two);
+int				contain_str(char **array, char *element);
+void			skip_quotes(char *input, int *i);
+//-------Split elements---========================
+char			**split_quotes(char *input, char *skip);
+void			skip_quotes(char *input, int *i);
+int				count_words(char *input, char *skip);
+char			*malloc_word(char *input, int *i, char *skip);
+void			copy_word(char *result, char *input, int *i, char *skip);
+int				size_double_array(char **array);
+//-------Signals-------========================
 void			handle_signals(void);
-
 //-------Execution-------========================
 int				init_executor(t_astnode *root, t_list **env);
 int				execute_pipeline(char **cmds, t_list **env, t_astnode *root);
 void	launch_executable(char *cmd, char **envp);
-
 //-------Execution utils-------==================
 char			*get_path(char *cmd, char *path_full);
 void			close_pipe_fds(int *fd, int size);
@@ -75,10 +100,6 @@ t_pipeline		get_pipe_utils(char **cmds);
 void			launch_cmd(char *cmd, char **envp);
 char			*pipes_validation(char *input);
 void			not_found(char *cmd);
-//-------Env utils-------========================
-void free_list(t_list **env);
-char **create_envp(t_list *env);
-int	ft_lstsize(t_list *lst);
 //-------Built-ins-------========================
 int				handle_builtin(char *input, char **envp, t_list **env, t_astnode *root);
 int				execute_echo(char *arg);
@@ -88,33 +109,18 @@ int				execute_env(char **envp);
 void			execute_exit(char *input, t_list **env, t_astnode *root, char **envp);
 int				execute_cd(char *path, t_list **env);
 int				execute_unset(t_list **head, char *key);
-int				update_old_pwd_dir(t_list **env); // cd utils
-int				update_pwd(t_list **env); // cd utils_two
-
-//-------Parsing-------========================
-t_astnode		*parsing(char **input);
-t_astnode		*init_ast(char **elements);
-t_astnode		*create_node(char *element);
-enum s_nodetype	get_element_type(char *element);
-int				syntax_checker(t_astnode *root);
-char			*pipes_validation(char *input);
-int				quotes_validation(char **elements);
-//----Split elements---========================
-char			**split_quotes(char *input, char *skip);
-//-------Utils---------========================
-void			skip_quotes(char *input, int *i);
-int				count_words(char *input, char *skip);
-char			*malloc_word(char *input, int *i, char *skip);
-void			copy_word(char *result, char *input, int *i, char *skip);
-int				size_double_array(char **array);
-//---------------------========================
-
-//----Parsing utils----========================
-void			free_double_array(char **array);
-void			free_all_nodes(t_astnode *root);
-int				ft_strcmp(char *one, char *two);
-int				contain_str(char **array, char *element);
-void			skip_quotes(char *input, int *i);
+int				update_old_pwd_dir(t_list **env);
+int				update_pwd(t_list **env);
+//-------Redirection----=======================
+int	dup_error(int fds[2]);
+void	restore_std(int fds[2]);
+int	get_flags(t_redirection type);
+int init_redirection(char **redirections, int fds[2]);
+void del_redirs_from_root(t_astnode **root);
+char **create_redirs(t_astnode *root);
+t_redirection get_redir_type(char *redirection);
+char *get_redirection(char *line);
+int redir_exist(char *line);
 //---------------------========================
 
 #endif

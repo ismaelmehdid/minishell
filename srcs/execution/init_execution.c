@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_execution.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/06 19:41:28 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/08 22:05:49 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	finish_init_pipe(t_astnode *node, int counter, char **cmds, t_list **
 		cmds[counter + 1] = ft_strdup(node->right->value);
 		if (cmds[counter] == NULL || cmds[counter + 1] == NULL)
 		{
-			printf("Malloc error in finish_init_pipe\n");
+			ft_putstr_fd("Malloc error\n", 2);
 			free_double_array(cmds);
 			return (1);
 		}
@@ -63,7 +63,7 @@ static int	init_pipe(t_astnode *node, t_list **env)
 		cmds[counter] = ft_strdup(node->left->value);
 		if (cmds[counter] == NULL)
 		{
-			printf("Malloc error in init_pipe\n");
+			ft_putstr_fd("Malloc allocation error\n", 2);
 			free_double_array(cmds);
 			return (1);
 		}
@@ -75,11 +75,16 @@ static int	init_pipe(t_astnode *node, t_list **env)
 	return (0);
 }
 
-static void	execute_command(t_astnode *node, char **envp, t_list **env, t_astnode *root)
+static void	execute_command(t_astnode *node, char **envp, t_list **env)
 {
 	int	status;
-
-	status = handle_builtin(node->value, envp, env, root);
+	
+	if (envp == NULL)
+	{
+		ft_putstr_fd("Envp malloc allocation error\n", 2);
+		return ;
+	}
+	status = handle_builtin(node->value, envp, env, node);
 	if (status != 1)
 		return ;
 	//printf("Launching cmd: %s\n", node->value);
@@ -88,21 +93,23 @@ static void	execute_command(t_astnode *node, char **envp, t_list **env, t_astnod
 
 int	init_executor(t_astnode *root, t_list **env)
 {
-	t_astnode	*working_root;
-	char		**envp;
-
+	char		**redirections;
+	int	fds[2];
+	
 	if (root == NULL)
 		return (1);
-	envp = create_envp(*env);
-	if (envp == NULL)
+	redirections = create_redirs(root);
+	if (redirections)
 	{
-		ft_putstr_fd("Envp malloc allocation error\n", 2);
-		return (1);
+		del_redirs_from_root(&root);
+		init_redirection(redirections, fds);
 	}
-	working_root = root;
-	if (working_root->type == PIPE_NODE)
+	if (root->type == PIPE_NODE)
 		init_pipe(root, env);
-	else if (working_root->type == COMMAND_NODE)
-		execute_command(root, envp, env, root);
+	else if (root->type == COMMAND_NODE)
+		execute_command(root, create_envp(*env), env);
+	restore_std(fds);
+	if (redirections)
+		free_double_array(redirections);
 	return (0);
 }

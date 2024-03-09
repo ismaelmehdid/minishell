@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:05 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/06 16:15:35 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/08 02:10:04 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,12 +103,7 @@ int	main(int argc, char **argv, char **envp)
 			if (ast_root)
 			{
 				//print_tree(ast_root);
-				if (init_executor(ast_root, &env) == 1)
-				{
-					free_all_nodes(ast_root);
-					free_list(&env);
-					program_exit(1);
-				}
+				init_executor(ast_root, &env);
 				free_all_nodes(ast_root);
 			}
 		}
