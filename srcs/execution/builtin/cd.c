@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:37:27 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/06 21:32:15 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/09 16:24:10 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,11 @@ static char	*get_old_pwd(t_list **env)
 {
 	t_list	*current;
 	int		i;
+	char	*old_pwd;
 
 	current = *env;
 	i = 0;
+	old_pwd = NULL;
 	while (current && ft_strncmp("OLDPWD", current->content, 6))
 		current = current->next;
 	if (current)
@@ -26,9 +28,12 @@ static char	*get_old_pwd(t_list **env)
 		while (current->content[i] && current->content[i] != '=')
 			i++;
 		if (current->content[i] == '=')
-			return (current->content + i + 1);
+			i++;
 	}
-	return (NULL);
+	old_pwd = ft_strdup(current->content + i);
+	if (!old_pwd)
+		return (NULL);
+	return (old_pwd);
 }
 
 static int	change_to_absolute_path_dir(char *path, t_list **env)
@@ -40,6 +45,8 @@ static int	change_to_absolute_path_dir(char *path, t_list **env)
 		perror("cd");
 		return (1);
 	}
+	if (update_pwd(env))
+		return (1);
 	return (0);
 }
 
@@ -63,6 +70,8 @@ static int	change_to_relative_path_dir(char *path, t_list **env)
 		perror("cd");
 		return (1);
 	}
+	if (update_pwd(env))
+		return (1);
 	return (0);
 }
 
@@ -80,9 +89,13 @@ static int	change_to_old_pwd_dir(t_list **env)
 		return (1);
 	if (chdir(old_pwd) != 0)
 	{
+		free(old_pwd);
 		perror("cd");
 		return (1);
 	}
+	free(old_pwd);
+	if (update_pwd(env))
+		return (1);
 	return (0);
 }
 
