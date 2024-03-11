@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/05 20:05:22 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/11 18:20:45 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ int	handle_builtin(char *input, char **envp, t_list **env, t_astnode *root)
 		return (1);
 	while (input[i] && (input[i] == 32 || (input[i] >= 9 && input[i] <= 13)))
 		i++;
-	if (ft_strncmp(input + i, "exit", 4) == 0) // soon
+	if (ft_strncmp(input + i, "exit", 4) == 0)
 	{
 		if (check_cmd(input + i, 4) == 1)
 			return (127);
