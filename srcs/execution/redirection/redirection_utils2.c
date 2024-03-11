@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 00:01:48 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/09 16:37:00 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/10 21:10:59 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ static char **fill_redirs(t_astnode *node, char ***redirs, int i)
         }
         node = node->right;
     }
-    return ((*redirs));
+    return ((*redirs));	
 }
 
 char **create_redirs(t_astnode *root)

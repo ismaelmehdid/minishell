@@ -6,51 +6,40 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:37:27 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/09 16:24:10 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/11 17:06:19 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-static char	*get_old_pwd(t_list **env)
+static int	change_to_home_dir(t_list **env)
 {
-	t_list	*current;
-	int		i;
-	char	*old_pwd;
+	char	cwd[PATH_MAX];
+	char	*home;
 
-	current = *env;
-	i = 0;
-	old_pwd = NULL;
-	while (current && ft_strncmp("OLDPWD", current->content, 6))
-		current = current->next;
-	if (current)
-	{
-		while (current->content[i] && current->content[i] != '=')
-			i++;
-		if (current->content[i] == '=')
-			i++;
-	}
-	old_pwd = ft_strdup(current->content + i);
-	if (!old_pwd)
-		return (NULL);
-	return (old_pwd);
-}
-
-static int	change_to_absolute_path_dir(char *path, t_list **env)
-{
-	if (update_old_pwd_dir(env))
-		return (1);
-	if (chdir(path) != 0)
+	home = NULL;
+	if (getcwd(cwd, sizeof(cwd)) == NULL)
 	{
 		perror("cd");
 		return (1);
 	}
+	if (get_home_dir(&home, env))
+		return (1);
+	if (chdir(home) != 0)
+	{
+		free(home);
+		perror("cd");
+		return (1);
+	}
+	free(home);
+	if (update_old_pwd_dir(env, cwd))
+		return (1);
 	if (update_pwd(env))
 		return (1);
 	return (0);
 }
 
-static int	change_to_relative_path_dir(char *path, t_list **env)
+static int	change_to_absolute_path_dir(char *path, t_list **env)
 {
 	char	cwd[PATH_MAX];
 
@@ -59,17 +48,40 @@ static int	change_to_relative_path_dir(char *path, t_list **env)
 		perror("cd");
 		return (1);
 	}
+	if (chdir(path) != 0)
+	{
+		perror("cd");
+		return (1);
+	}
+	if (update_old_pwd_dir(env, cwd))
+		return (1);
+	if (update_pwd(env))
+		return (1);
+	return (0);
+}
+
+static int	change_to_relative_path_dir(char *path, t_list **env)
+{
+	char	cwd[PATH_MAX];
+	char	actual_cwd[PATH_MAX];
+
+	if (getcwd(cwd, sizeof(cwd)) == NULL)
+	{
+		perror("cd");
+		return (1);
+	}
+	ft_strlcpy(actual_cwd, cwd, sizeof(cwd));
 	if (ft_strlen(cwd) + ft_strlen(path) + 1 > PATH_MAX)
 		return (1);
 	ft_strlcat(cwd, "/", sizeof(cwd));
 	ft_strlcat(cwd, path, sizeof(cwd));
-	if (update_old_pwd_dir(env))
-		return (1);
 	if (chdir(cwd) != 0)
 	{
 		perror("cd");
 		return (1);
 	}
+	if (update_old_pwd_dir(env, actual_cwd))
+		return (1);
 	if (update_pwd(env))
 		return (1);
 	return (0);
@@ -78,14 +90,15 @@ static int	change_to_relative_path_dir(char *path, t_list **env)
 static int	change_to_old_pwd_dir(t_list **env)
 {
 	char	*old_pwd;
+	char	cwd[PATH_MAX];
 
-	old_pwd = get_old_pwd(env);
-	if (!old_pwd)
+	old_pwd = NULL;
+	if (getcwd(cwd, sizeof(cwd)) == NULL)
 	{
-		perror("minishell: cd: OLDPWD not set");
-		return (127);
+		perror("cd");
+		return (1);
 	}
-	if (update_old_pwd_dir(env))
+	if (get_old_pwd(env, &old_pwd))
 		return (1);
 	if (chdir(old_pwd) != 0)
 	{
@@ -94,6 +107,8 @@ static int	change_to_old_pwd_dir(t_list **env)
 		return (1);
 	}
 	free(old_pwd);
+	if (update_old_pwd_dir(env, cwd))
+		return (1);
 	if (update_pwd(env))
 		return (1);
 	return (0);
@@ -103,6 +118,8 @@ int	execute_cd(char *path, t_list **env)
 {
 	while (*path && (*path == ' ' || (*path >= 9 && *path <= 13)))
 		path++;
+	if (path[0] == '\0')
+		return (change_to_home_dir(env));
 	if (path[0] == '/')
 		return (change_to_absolute_path_dir(path, env));
 	else if (path[0] == '-')

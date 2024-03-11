@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:28 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/09 16:35:14 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/11 16:46:57 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,8 +109,10 @@ int				execute_env(char **envp);
 void			execute_exit(char *input, t_list **env, t_astnode *root, char **envp);
 int				execute_cd(char *path, t_list **env);
 int				execute_unset(t_list **head, char *key);
-int				update_old_pwd_dir(t_list **env);
+int				update_old_pwd_dir(t_list **env, char *cwd);
 int				update_pwd(t_list **env);
+int				get_home_dir(char **home, t_list **env);
+int				get_old_pwd(t_list **env, char **old_pwd);
 //-------Redirection----=======================
 int	dup_error(int fds[2]);
 void	restore_std(int fds[2]);
