@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 20:15:42 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/11 17:03:59 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/11 17:15:25 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	update_old_pwd_to_env(t_list *current, char *cwd)
 {
 	if (current->content)
 		free(current->content);
-	current->content = malloc(7 + ft_strlen(cwd) + 1); // 7 value is corresponding to the size of : "OLDPWD="
+	current->content = malloc(7 + ft_strlen(cwd) + 1);
 	if (!current->content)
 	{
 		perror("cd");
@@ -86,6 +86,9 @@ int	get_home_dir(char **home, t_list **env)
 		perror("minishell: cd: OLDPWD not set");
 		return (1);
 	}
-	*home = ft_strdup(current->content + i);
+	if (current->content[i] == '\0')
+		*home = ft_strdup(".");
+	else
+		*home = ft_strdup(current->content + i);
 	return (0);
 }

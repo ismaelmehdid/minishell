@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:56:44 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/11 16:58:34 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/11 17:15:41 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static int	update_pwd_to_env(t_list *current, char *cwd)
 {
 	if (current->content)
 		free(current->content);
-	current->content = malloc(4 + ft_strlen(cwd) + 1); // 4 value is corresponding to the size of : "PWD="
+	current->content = malloc(4 + ft_strlen(cwd) + 1);
 	if (!current->content)
 	{
 		perror("cd");
