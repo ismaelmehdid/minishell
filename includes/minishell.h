@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:28 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/11 16:46:57 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/12 17:59:40 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ typedef enum s_redirection
 {
 	IN,
 	OUT,
-	APPEND
+	APPEND,
+	HERE_DOC
 }	t_redirection;
 
 typedef enum s_nodetype
@@ -123,6 +124,9 @@ char **create_redirs(t_astnode *root);
 t_redirection get_redir_type(char *redirection);
 char *get_redirection(char *line);
 int redir_exist(char *line);
+int count_redirs(t_astnode *node);
+int still_exist(char *line);
+int here_doc(char *delimeter, int fd, int dup_return);
 //---------------------========================
 
 #endif
