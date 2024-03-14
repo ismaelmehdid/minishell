@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/11 18:20:45 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/13 03:37:35 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,15 +85,16 @@ static int find_builtin_two(char *cmd, char **envp, t_list **env)
 	return (1);
 }
 
-static int find_builtin(char *cmd, char **envp, t_list **env)
+static int find_builtin(char *cmd, char **envp, t_list **env, t_astnode *root)
 {
 	if (ft_strncmp(cmd, "echo", 4) == 0) // quotes isn't implemented, env variables, for example echo $PATH
 	{
 		if (check_cmd(cmd, 4) == 1)
 			return (127);
-		return (execute_echo(cmd + 4));
+		root->starting_index += 4;
+		return (execute_echo(cmd + 4, root, env));
 	}
-	else if (ft_strncmp(cmd, "cd", 2) == 0) // something wrong + OLDPWD, PWD, HOME
+	else if (ft_strncmp(cmd, "cd", 2) == 0)
 	{
 		if (check_cmd(cmd, 2) == 1)
 			return (127);
@@ -117,11 +118,12 @@ int	handle_builtin(char *input, char **envp, t_list **env, t_astnode *root)
 		return (1);
 	while (input[i] && (input[i] == 32 || (input[i] >= 9 && input[i] <= 13)))
 		i++;
+	root->starting_index = i;
 	if (ft_strncmp(input + i, "exit", 4) == 0)
 	{
 		if (check_cmd(input + i, 4) == 1)
 			return (127);
 		execute_exit(input, env, root, envp);
 	}
-	return (find_builtin(input + i, envp, env));
+	return (find_builtin(input + i, envp, env, root));
 }

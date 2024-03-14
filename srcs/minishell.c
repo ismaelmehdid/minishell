@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:05 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/08 02:10:04 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/13 02:53:07 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,12 +90,12 @@ int	main(int argc, char **argv, char **envp)
 		free_list(&env);
 		return (1);
 	}
-	handle_signals();
 	while (1)
 	{
+		handle_signals();
 		input = readline("BestShell😎$>  ");
 		if (!input)
-			return (1);
+			return (0);
 		if (only_spaces(input) == 1)
 		{
 			add_history(input);

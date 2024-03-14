@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:28 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/11 16:46:57 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/13 03:02:21 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ typedef struct s_astnode
 	struct s_astnode	*left;
 	struct s_astnode	*right;
 	int					*quotes_indexes;
+	int					starting_index;
 }	t_astnode;
 
 typedef struct s_list
@@ -89,6 +90,7 @@ void			copy_word(char *result, char *input, int *i, char *skip);
 int				size_double_array(char **array);
 //-------Signals-------========================
 void			handle_signals(void);
+void			handle_signals_pipes(void);
 //-------Execution-------========================
 int				init_executor(t_astnode *root, t_list **env);
 int				execute_pipeline(char **cmds, t_list **env, t_astnode *root);
@@ -102,7 +104,7 @@ char			*pipes_validation(char *input);
 void			not_found(char *cmd);
 //-------Built-ins-------========================
 int				handle_builtin(char *input, char **envp, t_list **env, t_astnode *root);
-int				execute_echo(char *arg);
+int				execute_echo(char *arg, t_astnode *root, t_list **env);
 int				execute_pwd(void);
 int				execute_export(char *arg, t_list *env, char **envp);
 int				execute_env(char **envp);
