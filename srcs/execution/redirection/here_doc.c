@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 21:04:09 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/12 17:25:03 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/14 02:28:51 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 static char    *ft_strjoin_free(char *s1, char const *s2, int s2_len)
 {
-    int        i;
-    int        j;
-    char    *res;
+    int			i;
+    int			j;
+    char		*res;
 
     i = 0;
     j = ft_strlen(s1);
@@ -89,7 +89,7 @@ static int create_tmp_file(char *delimeter, int fd)
 		return (-1);
 	}
     fd = here_doc_loop(delimeter, fd);
-    if (fd == -500)
+	if (fd == -500)
         unlink_file("without");
 	return (fd);
 }
@@ -97,7 +97,7 @@ static int create_tmp_file(char *delimeter, int fd)
 int here_doc(char *delimeter, int fd, int dup_return)
 {
 	fd = create_tmp_file(delimeter, 0);
-    if (fd == -500)
+	if (fd == -500)
         return (-500);
 	if (fd < 0)
 	{
