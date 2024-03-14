@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 21:27:23 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/09 16:35:22 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/12 18:00:28 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ t_redirection get_redir_type(char *redirection)
 {
     if (redirection[0] == '>' && redirection[1] == '>')
         return (APPEND);
+	else if (redirection[0] == '<' && redirection[1] == '<')
+		return (HERE_DOC);
     else if (redirection[0] == '>')
         return (OUT);
     else if (redirection[0] == '<')

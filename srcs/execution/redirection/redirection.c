@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 21:27:27 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/09 16:35:26 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/12 18:02:06 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,45 +69,48 @@ static char *get_file(char *rediction)
     return (file);
 }
 
-static int	dup_std(char *redirection)
+static int	dup_std(t_redirection type, char *file)
 {
 	int	dup_return;
-	int	open_file;
-    t_redirection type;
-    char    *file;
+	int	fd;
 
-    type = get_redir_type(redirection);
-    file = get_file(redirection);
-    if (file == NULL)
-    {
-        ft_putstr_fd("Malloc allocation error\n", 2);
-        return (-1);
-    }
-	open_file = open_file_redir(file, type);
-	if (open_file < 0)
+	if (type == HERE_DOC)
+		return (here_doc(file, 0, 0));
+	fd = open_file_redir(file, type);
+	if (fd < 0)
 		return (-1);
 	if (type == OUT || type == APPEND)
-		dup_return = dup2(open_file, STDOUT_FILENO);
+		dup_return = dup2(fd, STDOUT_FILENO);
 	else
-		dup_return = dup2(open_file, STDIN_FILENO);
+		dup_return = dup2(fd, STDIN_FILENO);
 	if (dup_return < 0)
 		ft_putstr_fd("File error\n", 2);
-	if (close(open_file) < 0)
+	if (close(fd) < 0)
 		ft_putstr_fd("File error\n", 2);
 	return (dup_return);
 }
 
-int init_redirection(char **redirections, int fds[2])
+int init_redirection(char **redirs, int fds[2])
 {
 	int	status;
     int i;
+	char *file;
 
-    i = 0;
+	i = 0;
 	if (!backup_std(fds))
 		return (1);
-	while (redirections[i] != NULL)
+	while (redirs[i] != NULL)
 	{
-		status = dup_std(redirections[i]);
+		file = get_file(redirs[i]);
+    	if (file == NULL)
+    	{
+        	ft_putstr_fd("Malloc allocation error\n", 2);
+        	return (0);
+    	}
+		status = dup_std(get_redir_type(redirs[i]), file);
+		free (file);
+		if (status == -500)
+			return (-500);
 		if (status < 0)
 			return (0);
         i++;

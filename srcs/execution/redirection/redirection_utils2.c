@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   redirection_utils2.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 00:01:48 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/10 21:10:59 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/12 18:01:10 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-char *get_redirection(char *line)
+char *get_redir(char *line)
 {
 	int i;
 	int j;
@@ -40,108 +40,105 @@ char *get_redirection(char *line)
 	return (redir);
 }
 
-static int count_redirs(t_astnode *node)
+static char **fill_last_redir(t_astnode *node, char ***redirs, int i, int j)
 {
-    int count;
-
-	count = 0;
-    while (node->right)
+    if (node->value && redir_exist(node->value) == 0)
 	{
-        if (node->left && redir_exist(node->left->value) == 0)
-            count++;
-        if (node->right && redir_exist(node->right->value) == 0)
-            count++;
-        node = node->right;
+        (*redirs)[++i] = get_redir(node->value);
+        if ((*redirs)[i] == NULL)
+		{
+			ft_putstr_fd("Malloc allocation error\n", 2);
+        	free_double_array((*redirs));
+            return (NULL);
+        }
+		while (1)
+		{
+			j = still_exist(node->value);
+			if (j == -1)
+				break ;
+        	(*redirs)[++i] = get_redir(node->value + j);
+			if ((*redirs)[i] == NULL)
+			{
+				ft_putstr_fd("Malloc allocation error\n", 2);
+        		free_double_array((*redirs));
+        		return (NULL);
+    		}
+        }
     }
-	if (count == 0 && node->value)
-	{
-        if (redir_exist(node->value) == 0)
-            count++;
-	}
-    return (count);
+	return (*(redirs));
 }
 
-static char **fill_redirs(t_astnode *node, char ***redirs, int i)
+static char **fill_redirs(t_astnode *node, char ***redirs, int i, int j)
 {
     while (node->right)
 	{
         if (node->left && redir_exist(node->left->value) == 0)
 		{
-            (*redirs)[++i] = get_redirection(node->left->value);
-            if ((*redirs)[i] == NULL)
+            (*redirs)[++i] = get_redir(node->left->value);
+			while (1)
 			{
-				ft_putstr_fd("Malloc allocation error\n", 2);
-                free_double_array((*redirs));
-                return (NULL);
-            }
+				j = still_exist(node->left->value);
+				if (j == -1)
+					break ;
+        		(*redirs)[++i] = get_redir(node->left->value + j);
+				if ((*redirs)[i] == NULL || (*redirs)[i - 1] == NULL)
+				{
+					ft_putstr_fd("Malloc allocation error\n", 2);
+        			free_double_array((*redirs));
+        			return (NULL);
+    			}
+        	}
         }
-        if (node->right && redir_exist(node->right->value) == 0)
+		if (node->right == NULL)
+			break ;
+		node = node->right;
+	}
+	return (fill_last_redir(node, redirs, i, 0));
+}
+
+static char **fill_root_simple(t_astnode *root, char ***redirs, int i, int j)
+{
+	if (root->value && redir_exist(root->value) == 0)
+	{
+        (*redirs)[++i] = get_redir(root->value);
+    	if ((*redirs)[i] == NULL)
 		{
-            (*redirs)[++i] = get_redirection(node->right->value);
-            if ((*redirs)[i] == NULL)
+			ft_putstr_fd("Allocation error\n", 2);
+        	free_double_array((*redirs));
+        	return (NULL);
+    	}
+		while (1)
+		{
+			j = still_exist(root->value);
+			if (j == -1)
+				break ;
+        	(*redirs)[++i] = get_redir(root->value + j);
+			if ((*redirs)[i] == NULL)
 			{
-				ft_putstr_fd("Malloc allocation error\n", 2);
-                free_double_array((*redirs));
-                return (NULL);
-            }
+				ft_putstr_fd("Allocation error\n", 2);
+        		free_double_array((*redirs));
+        		return (NULL);
+    		}
         }
-        node = node->right;
     }
-    return ((*redirs));	
+	return((*redirs));
 }
 
 char **create_redirs(t_astnode *root)
 {
     int		size;
-	char	**redirections;
+	char	**redirs;
 	
 	size = count_redirs(root);
 	if (size == 0)
 		return (NULL);
-	redirections = ft_calloc(size + 1, sizeof(char *));
-	if (!redirections)
+	redirs = ft_calloc(size + 2, sizeof(char *));
+	if (!redirs)
+	{
+		ft_putstr_fd("Allocation error\n", 2);
 		return (NULL);
-	if (size == 1)
-	{
-        if (root->value && redir_exist(root->value) == 0)
-		{
-        	redirections[0] = get_redirection(root->value);
-    	    if (redirections[0] == NULL)
-			{
-				ft_putstr_fd("Malloc allocation error\n", 2);
-        		free_double_array(redirections);
-        		return (NULL);
-    		}
-			return(redirections);
-        }
 	}
-    return (fill_redirs(root, &redirections, -1));
-}
-
-
-void del_redirs_from_root(t_astnode **root)
-{
-	int		i;
-
-	if (*root == NULL)
-		return;
-	i = 0;
-    if (redir_exist((*root)->value) == 0)
-	{
-		while ((*root)->value[i] != '<' && (*root)->value[i] != '>')
-			i++;
-		while ((*root)->value[i] == '<' || (*root)->value[i] == '>' \
-				|| (*root)->value[i] == ' ')
-		{
-			(*root)->value[i] = ' ';
-			i++;
-		}
-		while ((*root)->value[i] != ' ' && (*root)->value[i] != '\0')
-		{
-			(*root)->value[i] = ' ';
-			i++;
-		}
-    }
-    del_redirs_from_root(&((*root)->left));
-    del_redirs_from_root(&((*root)->right));
+	if (!root->left && !root->right)
+		return (fill_root_simple(root, &redirs, -1, 0));
+    return (fill_redirs(root, &redirs, -1, 0));
 }
