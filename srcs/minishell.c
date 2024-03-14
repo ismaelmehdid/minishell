@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:05 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/13 02:53:07 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/14 22:22:08 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,25 +90,30 @@ int	main(int argc, char **argv, char **envp)
 		free_list(&env);
 		return (1);
 	}
+	signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
-		handle_signals();
+		signal(SIGINT, ctrl_c);
+		toggle_echoctl_status(-1);
 		input = readline("BestShell😎$>  ");
 		if (!input)
-			return (0);
+		{
+			toggle_echoctl_status(0);
+			break ;
+		}
 		if (only_spaces(input) == 1)
 		{
 			add_history(input);
 			ast_root = parsing(&input);
 			if (ast_root)
 			{
-				//print_tree(ast_root);
 				init_executor(ast_root, &env);
 				free_all_nodes(ast_root);
 			}
 		}
 		free(input);
 	}
+	rl_clear_history();
 	free_list(&env);
 	return (0);
 }

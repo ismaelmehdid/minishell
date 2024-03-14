@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:28 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/14 02:27:37 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/14 22:19:31 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,11 @@ char			*malloc_word(char *input, int *i, char *skip);
 void			copy_word(char *result, char *input, int *i, char *skip);
 int				size_double_array(char **array);
 //-------Signals-------========================
-void			handle_signals(void);
-void			handle_signals_pipes(void);
+int	toggle_echoctl_status(int status);
+void	ctrl_c(int signum);
+void	new_ctrl_c(int signum);
+void	new_ctrl_c_pipe(int signum);
+int check_num(int num1, int num2);
 //-------Execution-------========================
 int				init_executor(t_astnode *root, t_list **env);
 int				execute_pipeline(char **cmds, t_list **env, t_astnode *root);
@@ -129,6 +132,7 @@ int redir_exist(char *line);
 int count_redirs(t_astnode *node);
 int still_exist(char *line);
 int here_doc(char *delimeter, int fd, int dup_return);
+char    *ft_strjoin_free(char *s1, char const *s2, int s2_len);
 //---------------------========================
 
 #endif
