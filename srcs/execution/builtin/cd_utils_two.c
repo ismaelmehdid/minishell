@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:56:44 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/11 18:40:52 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/15 22:40:06 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	get_old_pwd(t_list **env, char **old_pwd)
 	current = *env;
 	i = 0;
 	*old_pwd = NULL;
-	while (current && ft_strncmp("HOME", current->content, 4))
+	while (current && ft_strncmp("OLDPWD", current->content, 6))
 		current = current->next;
 	if (current)
 	{
@@ -31,7 +31,7 @@ int	get_old_pwd(t_list **env, char **old_pwd)
 	}
 	else
 	{
-		perror("minishell: cd: OLDPWD not set");
+		ft_putstr_fd("minishell: cd: OLDPWD not set\n", 2);
 		return (1);
 	}
 	*old_pwd = ft_strdup(current->content + i);

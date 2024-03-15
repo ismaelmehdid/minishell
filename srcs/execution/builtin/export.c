@@ -6,21 +6,11 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:37:45 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/06 20:15:30 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/15 18:27:23 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
-
-static void	printlist(t_list *lst)
-{
-	while (lst->next)
-	{
-		printf("%s\n", lst->content);
-		lst = lst->next;
-	}
-		
-}
 
 static int	search_replace_existing_cmp(t_list *lst, char *arg)
 {
@@ -45,7 +35,6 @@ static int	search_replace_existing(t_list **lst, char *arg)
 	current = *lst;
 	while (*arg && (*arg == ' ' || (*arg >= 9 && *arg <= 13)))
 		arg++;
-	printlist(*lst);
 	while (current->next)
 	{
 		if (search_replace_existing_cmp(current, arg))
@@ -103,14 +92,14 @@ int	execute_export(char *arg, t_list *env, char **envp)
 	if (!new)
 	{
 		ft_putstr_fd("Memory allocation error\n", 2);
-		return (1);
+		return (126);
 	}
 	new->content = ft_strdup(arg + i);
 	if (!new->content)
 	{
 		ft_putstr_fd("Memory allocation error\n", 2);
 		free(new);
-		return (1);
+		return (126);
 	}
 	ft_lstadd_back(&env, new);
 	return (0);

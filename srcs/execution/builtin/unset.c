@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:37:54 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/05 18:08:25 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/15 18:31:36 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int  invalid_parameter(char *param)
 
 static char **create_key(char *key)
 {
-    char    **new_key;
+	char	**new_key;
 	char	**temp;
 	char	*old_str;
 
