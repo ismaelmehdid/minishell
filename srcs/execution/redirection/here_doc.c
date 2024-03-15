@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 21:04:09 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/15 04:08:55 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/15 04:10:04 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int write_to_tmp_file(int fd, char *input)
     int bytes_read;
     
     input = ft_strjoin_free(input, "\n", ft_strlen("\n"));
-    if (!input)
+	if (!input)
         return (-1);
 	bytes_read = write(fd, input, ft_strlen(input));
 	if (bytes_read < 0)
