@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:28 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/14 02:27:37 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/15 03:58:29 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,5 +130,7 @@ int count_redirs(t_astnode *node);
 int still_exist(char *line);
 int here_doc(char *delimeter, int fd, int dup_return);
 //---------------------========================
+
+extern int last_command_status;
 
 #endif

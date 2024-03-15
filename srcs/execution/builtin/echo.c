@@ -6,11 +6,21 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:37:32 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/14 02:06:36 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/15 04:04:27 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
+
+static int	length_until_equal(char *str)
+{
+	int	length;
+
+	length = 0;
+	while (str[length] && str[length] != '=')
+		length++;
+	return (length);
+}
 
 static int	search_and_print_env(char *env_found, t_list **env)
 {
@@ -19,9 +29,15 @@ static int	search_and_print_env(char *env_found, t_list **env)
 
 	temp = *env;
 	i = 0;
+	if (ft_strcmp(env_found, "?"))
+	{
+		ft_putnbr_fd(last_command_status, STDOUT_FILENO);
+		return (0);
+	}
 	while (temp)
 	{
-		if (ft_strncmp(temp->content, env_found, ft_strlen(env_found)) == 0)
+		if (length_until_equal(temp->content) == ft_strlen(env_found)
+			&& strncmp(temp->content, env_found, ft_strlen(env_found)) == 0)
 		{
 			while (temp->content[i] && temp->content[i] != '=')
 				i++;
@@ -52,14 +68,13 @@ static void	env_printing(char *arg, t_astnode *root, t_list **env, int *i)
 	quote = root->quotes_indexes[root->starting_index + *i];
 	while (arg[*i] && (root->quotes_indexes[root->starting_index + *i] == quote)
 		&& arg[*i] != ' ' && arg[*i] != '\'' && arg[*i] != '"'
-		&& (arg[*i] < 9 || arg[*i] > 13))
+		&& (arg[*i] < 9 || arg[*i] > 13) && arg[*i] != '=')
 	{
 		env_found[j] = arg[*i];
 		j++;
 		(*i)++;
 	}
-	if (search_and_print_env(env_found, env))
-		*i = *i - j;
+	search_and_print_env(env_found, env);
 }
 
 static int	print_arg(char *arg, int option, t_astnode *root, t_list **env)
