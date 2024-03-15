@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/15 04:06:53 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/15 18:09:45 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int find_builtin_three(char *cmd, char **envp)
 			return (127);
 		return (execute_pwd());
 	}
-	return (1);
+	return (127);
 }
 
 static int find_builtin_two(char *cmd, char **envp, t_list **env)

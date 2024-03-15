@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_execution.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/12 18:02:57 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/15 23:34:17 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static int	init_pipe(t_astnode *node, t_list **env)
 
 static void	execute_command(t_astnode *node, char **envp, t_list **env)
 {
-	int	status;
+	int		status;
 	
 	if (envp == NULL)
 	{
@@ -85,10 +85,10 @@ static void	execute_command(t_astnode *node, char **envp, t_list **env)
 		return ;
 	}
 	status = handle_builtin(node->value, envp, env, node);
-	if (status != 1)
+	if (status != 127)
 		return ;
 	//printf("Launching cmd: %s\n", node->value);
-	launch_executable(node->value, envp);
+	launch_executable(node->value, envp); //update exit status <<<<<<
 }
 
 int	init_executor(t_astnode *root, t_list **env)

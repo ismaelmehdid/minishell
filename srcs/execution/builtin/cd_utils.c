@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 20:15:42 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/11 18:40:20 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/15 22:36:50 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	get_home_dir(char **home, t_list **env)
 	}
 	else
 	{
-		perror("minishell: cd: OLDPWD not set");
+		ft_putstr_fd("minishell: cd: HOME not set\n", 2);
 		return (1);
 	}
 	if (current->content[i] == '\0')

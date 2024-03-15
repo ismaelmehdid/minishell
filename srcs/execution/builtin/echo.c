@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:37:32 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/15 04:04:27 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/15 23:13:25 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,6 @@ static int	search_and_print_env(char *env_found, t_list **env)
 
 	temp = *env;
 	i = 0;
-	if (ft_strcmp(env_found, "?"))
-	{
-		ft_putnbr_fd(last_command_status, STDOUT_FILENO);
-		return (0);
-	}
 	while (temp)
 	{
 		if (length_until_equal(temp->content) == ft_strlen(env_found)
@@ -89,6 +84,12 @@ static int	print_arg(char *arg, int option, t_astnode *root, t_list **env)
 	}
 	while (arg[i] != '\0')
 	{
+		if (arg[i + 1] && arg[i] == '$' && arg[i + 1] == '?')
+		{
+			ft_putnbr_fd(last_command_status, STDOUT_FILENO);
+			i += 2;
+			continue ;
+		}
 		if (arg[i] == '$'
 			&& root->quotes_indexes[root->starting_index + i] != 1)
 			env_printing(arg, root, env, &i);

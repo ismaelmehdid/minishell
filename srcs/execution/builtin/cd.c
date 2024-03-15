@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:37:27 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/14 16:59:46 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/15 22:39:24 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	change_to_home_dir(t_list **env)
 	if (getcwd(cwd, sizeof(cwd)) == NULL)
 	{
 		perror("cd");
-		return (1);
+		return (126);
 	}
 	if (get_home_dir(&home, env))
 		return (1);
@@ -33,9 +33,9 @@ static int	change_to_home_dir(t_list **env)
 	}
 	free(home);
 	if (update_old_pwd_dir(env, cwd))
-		return (1);
+		return (126);
 	if (update_pwd(env))
-		return (1);
+		return (126);
 	return (0);
 }
 
@@ -46,7 +46,7 @@ static int	change_to_absolute_path_dir(char *path, t_list **env)
 	if (getcwd(cwd, sizeof(cwd)) == NULL)
 	{
 		perror("cd");
-		return (1);
+		return (126);
 	}
 	if (chdir(path) != 0)
 	{
@@ -54,9 +54,9 @@ static int	change_to_absolute_path_dir(char *path, t_list **env)
 		return (1);
 	}
 	if (update_old_pwd_dir(env, cwd))
-		return (1);
+		return (126);
 	if (update_pwd(env))
-		return (1);
+		return (126);
 	return (0);
 }
 
@@ -68,7 +68,7 @@ static int	change_to_relative_path_dir(char *path, t_list **env)
 	if (getcwd(cwd, sizeof(cwd)) == NULL)
 	{
 		perror("cd");
-		return (1);
+		return (126);
 	}
 	ft_strlcpy(actual_cwd, cwd, sizeof(cwd));
 	if (ft_strlen(cwd) + ft_strlen(path) + 1 > PATH_MAX)
@@ -81,9 +81,9 @@ static int	change_to_relative_path_dir(char *path, t_list **env)
 		return (1);
 	}
 	if (update_old_pwd_dir(env, actual_cwd))
-		return (1);
+		return (126);
 	if (update_pwd(env))
-		return (1);
+		return (126);
 	return (0);
 }
 
@@ -96,7 +96,7 @@ static int	change_to_old_pwd_dir(t_list **env)
 	if (getcwd(cwd, sizeof(cwd)) == NULL)
 	{
 		perror("cd");
-		return (1);
+		return (126);
 	}
 	if (get_old_pwd(env, &old_pwd))
 		return (1);
@@ -108,9 +108,9 @@ static int	change_to_old_pwd_dir(t_list **env)
 	}
 	free(old_pwd);
 	if (update_old_pwd_dir(env, cwd))
-		return (1);
+		return (126);
 	if (update_pwd(env))
-		return (1);
+		return (126);
 	return (0);
 }
 
@@ -126,5 +126,5 @@ int	execute_cd(char *path, t_list **env)
 		return (change_to_old_pwd_dir(env));
 	else
 		return (change_to_relative_path_dir(path, env));
-	return (127);
+	return (1);
 }
