@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:37:41 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/06 19:51:18 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/15 23:08:28 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,6 @@ void	execute_exit(char *input, t_list **env, t_astnode *root, char **envp)
 	free_list(env);
 	free_double_array(envp);
 	free_all_nodes(root);
+	close(stdin_copy_fd);
 	exit(code);
 }

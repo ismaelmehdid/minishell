@@ -6,53 +6,48 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 20:08:47 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/14 22:25:34 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/16 00:15:33 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-static int	check_last_pipe_command(char *input)
-{
-	int	i;
+extern volatile sig_atomic_t sig_pressed;
 
-	i = ft_strlen(input) - 1;
-	while (i >= 0 && (input[i] == ' ' || input[i] == '\n' \
-		|| input[i] == '\t' || input[i] == '\v' || \
-		input[i] == '\f' || input[i] == '\r'))
-		i--;
-	if (i >= 0 && input[i] == '|')
-		return (1);
-	return (0);
-}
-
-static char	*pipes_checker(char *input, int i)
+static char	*pipes_checker(char *inp, int i)
 {
-	if (input[i + 1] && (input[i + 2] && input[i + 3] \
-		&& input[i + 1] == '|' && input[i + 2] == '|' \
-		&& input[i + 3] == '|'))
+	if (inp[i + 1] && inp[i + 1] == '|' \
+		&& inp[i + 2] && inp[i + 2] == '|')
 	{
 		ft_putstr_fd("parse error near `||'\n", 2);
-		free(input);
+		free(inp);
 		return (NULL);
 	}
-	else if (input[i + 1] && (input[i + 1] && input[i + 2]
-			&& input[i + 1] == '|' && input[i + 2] == '|'))
+	else if (inp[i + 1] && inp[i + 1] == '|')
 	{
 		ft_putstr_fd("parse error near `|'\n", 2);
-		free(input);
+		free(inp);
 		return (NULL);
 	}
-	return (input);
+	if (inp[i + 1] != '\0')
+	{
+		if (check_for_spaces(inp + i + 1) == 1)
+		{
+			free(inp);
+			ft_putstr_fd("parse error near `|'\n", 2);
+			return (NULL);
+		}
+	}
+	return (inp);
 }
+
 
 static char	*pipes_format_checker(char *inp)
 {
 	int	i;
 
 	i = 0;
-	while (inp[i] && (inp[i] == ' ' || inp[i] == '\n' || inp[i] == 9 \
-			|| inp[i] == '\v' || inp[i] == '\f' || inp[i] == '\r'))
+	while (inp[i] && (inp[i] == ' ' || (inp[i] >= 9 && inp[i] <= 13)))
 		i++;
 	if (inp[i] == '|')
 	{
@@ -75,45 +70,73 @@ static char	*pipes_format_checker(char *inp)
 	return (inp);
 }
 
-static char	*set_new_command(char *input)
+static char	*set_new_command(char *input, int i)
 {
-	char		*new_input;
-	char		*new_command;
+	char		*new_inp;
+	char		*cmd;
 
-	new_input = NULL;
-	new_command = readline("pipe> ");
-	if (!new_command)
-	{
-		if (new_command)
-			free(new_command);
-		return (NULL);
-	}	
-	if (!pipes_format_checker(new_command))
+	cmd = readline("pipe> ");
+	if (!cmd)
 	{
 		free(input);
+		sig_pressed++;
 		return (NULL);
 	}
-	new_input = malloc(ft_strlen(input) + ft_strlen(new_command) + 1);
-	if (!new_input)
+	while (cmd[i] && (cmd[i] == ' ' || (cmd[i] >= 9 && cmd[i] <= 13)))
+		i++;
+	new_inp = ft_strjoin_free(input, cmd, ft_strlen(cmd));
+	if (!new_inp)
 	{
 		free(input);
+		free(cmd);
 		return (NULL);
 	}
-	ft_strlcpy(new_input, input, ft_strlen(new_input) + ft_strlen(input) + 1);
-	ft_strlcat(new_input, new_command,
-		ft_strlen(new_input) + ft_strlen(new_command) + 1);
-	free(input);
-	return (new_input);
+	free(cmd);
+	return (new_inp);
+}
+
+static char *validation_loop(char *input, char *backup, int num)
+{
+	while (input && check_last_pipe_command(input))
+	{
+		backup = get_backup(backup, input);
+		if (!backup)
+			return (NULL);
+		num = sig_pressed;
+		input = set_new_command(input, 0);
+		if (!input && num >= sig_pressed)
+		{
+			dup2(stdin_copy_fd, STDIN_FILENO);
+			return (NULL);
+		}
+		else if (input && !pipes_format_checker(input))
+			return (NULL);
+		else if (!input && check_num(num + 1, sig_pressed) == 0)
+		{
+			input = ft_strdup(backup);
+			if (!input)
+				return (NULL);
+			continue ;
+		}
+		if (input)
+			input = pipes_format_checker(input);
+	}
+	return (input);
 }
 
 char	*pipes_validation(char *input)
 {
+	char	*backup;
+	
+	backup = NULL;
 	input = pipes_format_checker(input);
-	while (input && check_last_pipe_command(input))
-	{
-		input = set_new_command(input);
-		if (input)
-			input = pipes_format_checker(input);
-	}
+	if (!input)
+		return (NULL);
+	signal(SIGINT, new_ctrl_c_pipe);
+	input = validation_loop(input, backup, 0);
+	if (backup)
+		free(backup);
+	if (!input)
+		return (NULL);
 	return (input);
 }

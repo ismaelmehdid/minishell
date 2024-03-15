@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 17:00:34 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/14 22:26:04 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/15 23:21:56 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,10 @@ void	new_ctrl_c_pipe(int signum)
 {
 	if (signum == SIGINT)
 	{
-		if (sig_pressed == INT_MAX)
+		if (sig_pressed == INT_MIN)
 			sig_pressed = 0;
-		sig_pressed++;
+		sig_pressed -= 2;
+		close(STDIN_FILENO);
 	}
 }
 

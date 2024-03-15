@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:05 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/15 04:09:47 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/15 23:27:50 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ int	main(int argc, char **argv, char **envp)
 		return (1);
 	}
 	signal(SIGQUIT, SIG_IGN);
+	stdin_copy_fd = dup(STDIN_FILENO);
 	while (1)
 	{
 		signal(SIGINT, ctrl_c);
@@ -115,5 +116,6 @@ int	main(int argc, char **argv, char **envp)
 	}
 	rl_clear_history();
 	free_list(&env);
+	close(stdin_copy_fd);
 	return (0);
 }

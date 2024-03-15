@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 21:04:09 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/15 04:10:04 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/16 00:16:08 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,11 @@ static int here_doc_loop(char *delimeter, int fd, int check_val)
 	{
         check_val = sig_pressed;
         signal(SIGINT, new_ctrl_c);
-        toggle_echoctl_status(-1);
 		input = readline("heredoc> ");
 		if (!input)
         {
             if (check_num(check_val, sig_pressed) == 0)
                 continue ;
-            toggle_echoctl_status(0);
             return (-500);
         }
         if (ft_strlen(input) == ft_strlen(delimeter) \
