@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 21:04:15 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/11 21:05:57 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/14 22:20:28 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,4 +110,34 @@ int still_exist(char *line)
 	if (line[i] == '\0')
 		i = 0;
 	return (-1);
+}
+
+char    *ft_strjoin_free(char *s1, char const *s2, int s2_len)
+{
+    int			i;
+    int			j;
+    char		*res;
+
+    i = 0;
+    j = ft_strlen(s1);
+    res = malloc(j + s2_len + 1);
+    if (!res)
+    {
+        free(s1);
+        return (NULL);
+    }
+    j = 0;
+    while (s1[i])
+    {
+        res[i] = s1[i];
+        i++;
+    }
+    while (s2[j])
+    {
+        res[i + j] = s2[j];
+        j++;
+    }
+    res[i + j] = '\0';
+    free(s1);
+    return (res);
 }

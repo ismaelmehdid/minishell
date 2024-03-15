@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_validation.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 20:08:47 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/11 22:28:26 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/14 22:25:34 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
-
-extern volatile sig_atomic_t sig_int_pressed;
 
 static int	check_last_pipe_command(char *input)
 {
@@ -83,13 +81,11 @@ static char	*set_new_command(char *input)
 	char		*new_command;
 
 	new_input = NULL;
-	handle_signals_pipes();
-	new_command = readline("pipe->");
-	if (!new_command || sig_int_pressed == 1)
+	new_command = readline("pipe> ");
+	if (!new_command)
 	{
 		if (new_command)
 			free(new_command);
-		sig_int_pressed = 0;
 		return (NULL);
 	}	
 	if (!pipes_format_checker(new_command))

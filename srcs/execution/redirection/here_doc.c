@@ -6,67 +6,55 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 21:04:09 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/14 02:30:41 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/15 04:08:55 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-static char    *ft_strjoin_free(char *s1, char const *s2, int s2_len)
-{
-    int			i;
-    int			j;
-    char		*res;
+extern volatile sig_atomic_t sig_pressed;
 
-    i = 0;
-    j = ft_strlen(s1);
-    res = malloc(j + s2_len + 1);
-    if (!res)
-    {
-        free(s1);
-        return (NULL);
-    }
-    j = 0;
-    while (s1[i])
-    {
-        res[i] = s1[i];
-        i++;
-    }
-    while (s2[j])
-    {
-        res[i + j] = s2[j];
-        j++;
-    }
-    res[i + j] = '\0';
-    free(s1);
-    return (res);
+static int write_to_tmp_file(int fd, char *input)
+{
+    int bytes_read;
+    
+    input = ft_strjoin_free(input, "\n", ft_strlen("\n"));
+    if (!input)
+        return (-1);
+	bytes_read = write(fd, input, ft_strlen(input));
+	if (bytes_read < 0)
+	{
+        close(fd);
+        return (-1);
+	}
+    return (0);
 }
 
-static int here_doc_loop(char *delimeter, int fd)
+static int here_doc_loop(char *delimeter, int fd, int check_val)
 {
     char *input;
-    int bytes_read;
 
 	while (1)
 	{
+        check_val = sig_pressed;
+        signal(SIGINT, new_ctrl_c);
+        toggle_echoctl_status(-1);
 		input = readline("heredoc> ");
 		if (!input)
+        {
+            if (check_num(check_val, sig_pressed) == 0)
+                continue ;
+            toggle_echoctl_status(0);
             return (-500);
+        }
         if (ft_strlen(input) == ft_strlen(delimeter) \
 			&& ft_strnstr(input, delimeter, ft_strlen(delimeter)))
 		{
             free(input);
             break ;
         }
-        input = ft_strjoin_free(input, "\n", ft_strlen("\n"));
-        if (!input)
+        if (write_to_tmp_file(fd, input) == -1)
             return (-1);
-		bytes_read = write(fd, input, ft_strlen(input));
-		if (bytes_read < 0)
-		{
-        	close(fd);
-        	return (-1);
-		}
 	}
     return (fd);
 }
@@ -88,7 +76,7 @@ static int create_tmp_file(char *delimeter, int fd)
 		ft_putstr_fd("File creation error\n", 2);
 		return (-1);
 	}
-    fd = here_doc_loop(delimeter, fd);
+    fd = here_doc_loop(delimeter, fd, 0);
 	if (fd == -500)
         unlink_file("without");
 	return (fd);
