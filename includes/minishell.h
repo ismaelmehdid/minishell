@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:28 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/19 00:17:44 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/19 00:20:55 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ typedef struct s_list
 	struct s_list					*next;
 }	t_list;
 
-int stdin_copy_fd;
+extern int stdin_copy_fd;
 
 //-------Env utils-------========================
 void free_list(t_list **env);

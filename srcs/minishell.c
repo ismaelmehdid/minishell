@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:05 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/15 23:27:50 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/19 00:24:43 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+int stdin_copy_fd = 0;
 
 /*void	print_tree(t_astnode *root)
 {
