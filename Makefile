@@ -1,42 +1,40 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/02/15 19:34:20 by imehdid           #+#    #+#              #
-#    Updated: 2024/03/08 22:18:30 by asyvash          ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 NAME = minishell
 
-SRCS = ${wildcard srcs/*.c srcs/parsing/*.c srcs/execution/*.c \
+SRCS = $(wildcard srcs/*.c srcs/parsing/*.c srcs/execution/*.c \
 		srcs/errors_handling/*.c srcs/execution/builtin/*.c \
 		srcs/parsing/spliting_elements/*.c srcs/parsing/pipes_validation/*.c \
 		srcs/parsing/quotes_validation/*.c \
-		srcs/execution/redirection/*.c srcs/execution/pipes/*.c}
+		srcs/execution/redirection/*.c srcs/execution/pipes/*.c)
 
-OBJS = ${SRCS:.c=.o}
+OBJS_DIR = objs/
+OBJS = $(patsubst srcs/%.c,$(OBJS_DIR)%.o,$(SRCS))
 
 CC = cc
 CFLAGS = -g -Wall -Wextra -Werror -Iincludes
 
 RM = rm -rf
 
-all: ${NAME}
+CLEAR = clear
 
-${NAME}: ${OBJS}
-		@${MAKE} -C ./includes/libft
-		 @${CC} ${CFLAGS} ${OBJS} ./includes/libft/libft.a -o ${NAME} -lreadline
+all: $(NAME)
+
+$(NAME): $(OBJS)
+	@$(MAKE) -C ./includes/libft
+	@$(CC) $(CFLAGS) $(OBJS) ./includes/libft/libft.a -o $(NAME) -lreadline
+	@$(CLEAR)
+	@printf "\033[1;32m$(NAME) built successfully\033[0m\n"
+
+$(OBJS_DIR)%.o: srcs/%.c
+	@mkdir -p $(dir $@)
+	@printf "\033[1;36mCompiling $<\033[0m\n"
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-		@${MAKE} -C ./includes/libft fclean
-		@${RM} ${OBJS}
+	@$(MAKE) -C ./includes/libft fclean
+	@$(RM) $(OBJS_DIR)
 
 fclean: clean
-		@${RM} ${NAME} ${OBJS}
+	@$(RM) $(NAME)
 
 re: fclean all
 

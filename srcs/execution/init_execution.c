@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/16 18:05:59 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/19 00:18:09 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int	init_executor(t_astnode *root, t_list **env)
 		if (init_redirection(redirections, fds) == -500)
 		{
 			restore_std(fds);
-			ft_putchar_fd('\n', STDIN_FILENO);
+			ft_putchar_fd('\n', 2);
 			free_double_array(redirections);
 			return (0);
 		}
