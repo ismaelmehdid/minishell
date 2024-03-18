@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:37:54 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/15 18:31:36 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/19 00:12:09 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ static char **create_key(char *key)
 		free(old_str);
 		temp++;
 	}
+	*temp = NULL;
 	return (new_key);
 }
 
@@ -88,6 +89,7 @@ static void	search_and_remove_env(t_list **head, char **args)
 			free(current->content);
 			free(current);
 		}
+		previous = NULL;
 		current = *head;
 		args++;
 	}

@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:28 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/15 04:09:42 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/18 23:02:44 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,10 @@ int				update_old_pwd_dir(t_list **env, char *cwd);
 int				update_pwd(t_list **env);
 int				get_home_dir(char **home, t_list **env);
 int				get_old_pwd(t_list **env, char **old_pwd);
+t_list			*get_last_node(t_list *lst);
+int				export_print_error(char *arg);
+int				search_replace_existing_cmp(t_list *lst, char *arg);
+
 //-------Redirection----=======================
 int	dup_error(int fds[2]);
 void	restore_std(int fds[2]);

@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/15 18:09:45 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/16 17:44:34 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static int find_builtin(char *cmd, char **envp, t_list **env, t_astnode *root)
 int	handle_builtin(char *input, char **envp, t_list **env, t_astnode *root)
 {
 	int i;
-
+ 
 	i = 0;
 	if (!input)
 		return (1);

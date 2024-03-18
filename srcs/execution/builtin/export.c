@@ -6,35 +6,23 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:37:45 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/15 18:27:23 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/18 23:08:37 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-static int	search_replace_existing_cmp(t_list *lst, char *arg)
+static int	search_replace_existing(t_list **lst, char *arg)
 {
-	int	i;
+	int		i;
+	t_list	*current;
 
 	i = 0;
 	while (arg[i] && arg[i] != '=')
-	{
-		if (arg[i] != lst->content[i])
-			return (0);
 		i++;
-	}
-	if (arg[i] && arg[i] == '=' && lst->content[i] == '=')
+	if (arg[i] == '\0')
 		return (1);
-	return (0);
-}
-
-static int	search_replace_existing(t_list **lst, char *arg)
-{
-	t_list	*current;
-
 	current = *lst;
-	while (*arg && (*arg == ' ' || (*arg >= 9 && *arg <= 13)))
-		arg++;
 	while (current->next)
 	{
 		if (search_replace_existing_cmp(current, arg))
@@ -48,59 +36,92 @@ static int	search_replace_existing(t_list **lst, char *arg)
 	return (0);
 }
 
-static t_list	*ft_lstlast(t_list *lst)
+static int	checking_errors(char **exports)
 {
 	int	i;
 	int	j;
 
+	i = 0;
 	j = 0;
-	i = ft_lstsize(lst);
-	while (j < i - 1)
+	while (exports[i])
 	{
-		lst = lst->next;
-		j++;
+		if (exports[i][0] == '='
+			|| (exports[i][0] != '_' && !ft_isalpha(exports[i][0])))
+			return (export_print_error(exports[i]));
+		while (exports[i][j] && exports[i][j] != '=')
+		{
+			if (exports[i][j] != '_' && !ft_isalnum(exports[i][j]))
+				return (export_print_error(exports[i]));
+			j++;
+		}
+		j = 0;
+		i++;
 	}
-	return (lst);
+	return (0);
 }
 
-static void	ft_lstadd_back(t_list **lst, t_list *new)
+static int	add_to_env(char *arg, t_list **env)
 {
-	if (!lst || !new)
-		return ;
-	if (*lst)
-		ft_lstlast(*lst)->next = new;
-	else
-		*lst = new;
-}
-
-int	execute_export(char *arg, t_list *env, char **envp)
-{
-	int		i;
 	t_list	*new;
 
-	i = 0;
-	if (arg[0] == '\0')
-	{
-		execute_env(envp);
-		return (0);
-	}
-	if (search_replace_existing(&env, arg))
-		return (0);
-	while (arg[i] == ' ')
-		i++;
 	new = (t_list *)malloc(sizeof(t_list));
 	if (!new)
 	{
 		ft_putstr_fd("Memory allocation error\n", 2);
 		return (126);
 	}
-	new->content = ft_strdup(arg + i);
+	new->content = ft_strdup(arg);
 	if (!new->content)
 	{
 		ft_putstr_fd("Memory allocation error\n", 2);
 		free(new);
 		return (126);
 	}
-	ft_lstadd_back(&env, new);
+	if (*env)
+		get_last_node(*env)->next = new;
+	else
+		*env = new;
+	return (0);
+}
+
+int	execute_export_utils(char **exports, t_list *env)
+{
+	int	i;
+
+	i = 0;
+	while (exports[i])
+	{
+		if (search_replace_existing(&env, exports[i]))
+			i++;
+		else
+		{
+			if (add_to_env(exports[i], &env))
+			{
+				free_double_array(exports);
+				return (126);
+			}
+			i++;
+		}
+	}
+	return (0);
+}
+
+int	execute_export(char *arg, t_list *env, char **envp)
+{
+	char	**exports;
+
+	exports = split_quotes(arg, " \t\n\v\f\r");
+	if (!exports || size_double_array(exports) == 0)
+	{
+		execute_env(envp);
+		return (0);
+	}
+	if (checking_errors(exports))
+	{
+		free_double_array(exports);
+		return (1);
+	}
+	if (execute_export_utils(exports, env))
+		return (126);
 	return (0);
 }
