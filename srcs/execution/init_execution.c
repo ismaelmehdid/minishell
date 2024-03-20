@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_execution.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/20 17:44:27 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/21 00:20:56 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,12 @@ static void	execute_command(t_astnode *node, char **envp, t_list **env)
 	}
 	status = handle_builtin(node->value, envp, env, node);
 	if (status != 300)
+	{
+		free(envp);
 		return ;
+	}
 	launch_executable(node->value, envp);
+	free(envp);
 }
 
 int	init_executor(t_astnode *root, t_list **env)

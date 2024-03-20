@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_modify_input.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 00:19:05 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/20 17:31:23 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/21 00:04:26 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static char	*check_redirs(char *inp, int i)
 			while (is_whitespace(inp[i]))
 				i++;
 			if (inp[i] == '\0' || inp[i] == '<' || \
-				inp[i] == '>')
+				inp[i] == '>' || inp[i] == '|')
 			{
 				free(inp);
 				return (NULL);

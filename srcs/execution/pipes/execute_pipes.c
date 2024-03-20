@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_pipes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/20 18:22:49 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/21 00:23:05 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ static int	pipe_child(char **cmds, t_pipeline *utl, t_list **env, t_astnode *roo
 			return (1);
 		}
 	}
-	utl->m = 0;
 	while (utl->m < 2 * utl->i)
 	{
 		close(utl->fd[utl->m]);
@@ -50,7 +49,7 @@ static int	pipe_child(char **cmds, t_pipeline *utl, t_list **env, t_astnode *roo
 	}
 	if (handle_builtin(cmds[utl->k], create_envp(*env), env, root) == 0)
 		exit(0);
-	launch_cmd(cmds[utl->k], create_envp(*env));
+	launch_cmd(cmds[utl->k], create_envp(*env), NULL);
 	return (0);
 }
 

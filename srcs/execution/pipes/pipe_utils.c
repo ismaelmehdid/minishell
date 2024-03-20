@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:55:34 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/20 18:08:21 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/21 00:25:38 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ t_pipeline	get_pipe_utils(char **cmds)
 	util.i = 0;
 	util.j = 0;
 	util.k = -1;
+	util.m = 0;
 	while (cmds[util.i] != NULL)
 		util.i++;
 	util.fd = (int *)malloc(sizeof(int) * (2 * util.i + 1));
@@ -58,10 +59,9 @@ static int	get_indx(char **envp)
 	return (i);
 }
 
-void	launch_cmd(char *cmd, char **envp)
+void	launch_cmd(char *cmd, char **envp, char *cmd_path)
 {
 	char	**cmds;
-	char	*cmd_path;
 
 	if (get_indx(envp) == -1 || \
 		envp[get_indx(envp)] == NULL)
@@ -76,13 +76,14 @@ void	launch_cmd(char *cmd, char **envp)
 		not_found(cmds[0]);
 		free_double_array(cmds);
 		free(cmd_path);
+		free(envp);
 		exit (127);
 	}
 	if (execve(cmd_path, cmds, envp) < 0)
 	{
 		perror("execve");
-		free(cmd_path);
 		free_double_array(cmds);
-		exit (128);
+		free(envp);
+		exit (126);
 	}
 }

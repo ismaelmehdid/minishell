@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   launch_executable.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 23:56:59 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/20 17:43:01 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/21 00:29:21 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	print_error(char *cmd)
 	int	i;
 
 	i = 0;
-	ft_putstr_fd("Minishell: command not found: ", 2);
+	ft_putstr_fd("Command not found: ", 2);
 	while (cmd[i] && (cmd[i] == ' ' || (cmd[i] >= 9 && cmd[i] <= 13)))
 		i++;
 	while (cmd[i] && cmd[i] != ' ' && (cmd[i] < 9 || cmd[i] > 13))
@@ -35,6 +35,8 @@ char	*get_path(char *cmd, char *path_full)
 	char	*path;
 	char	**paths;
 
+	if (!cmd)
+		return (NULL);
 	if (access(cmd, F_OK) == 0)
 		return (cmd);
 	paths = ft_split(path_full, ':');
@@ -74,6 +76,7 @@ static void	ft_execve(char *cmd_path, char **cmds, char **path_env)
 			free_double_array(path_env);
 			perror("Execve");
 			g_last_command_status = 126;
+			exit(126);
 		}
 	}
 	else
@@ -104,7 +107,7 @@ void	launch_executable(char *cmd, char **envp)
 		free_double_array(cmds);
 		free(cmd_path);
 		g_last_command_status = 127;
-		return ;
+		exit(127);
 	}
 	ft_execve(cmd_path, cmds, envp);
 }

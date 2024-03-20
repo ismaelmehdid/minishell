@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:28 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/20 18:48:23 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/21 00:23:02 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void			launch_executable(char *cmd, char **envp);
 char			*get_path(char *cmd, char *path_full);
 void			close_pipe_fds(int *fd, int size);
 t_pipeline		get_pipe_utils(char **cmds);
-void			launch_cmd(char *cmd, char **envp);
+void			launch_cmd(char *cmd, char **envp, char *cmd_path);
 void			not_found(char *cmd);
 //-------Built-ins-------========================
 int				handle_builtin(char *input, char **envp, t_list **env, t_astnode *root);
