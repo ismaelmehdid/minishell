@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 22:49:26 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/15 23:07:32 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/20 17:32:39 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,8 @@ t_astnode	*parsing(char **input)
 	if (!*input)
 		return (NULL);
 	elements = split_quotes(*input, "|");
-	if (!elements || !size_double_array(elements) || quotes_validation(elements))
+	if (!elements || !size_double_array(elements)
+		|| quotes_validation(elements))
 	{
 		free_double_array(elements);
 		return (NULL);
@@ -126,7 +127,5 @@ t_astnode	*parsing(char **input)
 		return (NULL);
 	root = init_ast(elements);
 	free_double_array(elements);
-	if (!root)
-		return (NULL);
 	return (root);
 }

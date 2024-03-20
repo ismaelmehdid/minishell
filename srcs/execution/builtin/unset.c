@@ -6,32 +6,32 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:37:54 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/19 00:12:09 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/20 18:06:46 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-static int  invalid_parameter(char *param)
+static int	invalid_parameter(char *param)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    while (param[i] != '\0')
-    {
-        if (param[i] == '=')
-        {
-            ft_putstr_fd("unset: ", 2);
-            ft_putstr_fd(param, 2);
-            ft_putstr_fd(": invalid parameter name\n", 2);
-            return (-1);
-        }
-        i++;
-    }
-    return (0);
+	i = 0;
+	while (param[i] != '\0')
+	{
+		if (param[i] == '=')
+		{
+			ft_putstr_fd("unset: ", 2);
+			ft_putstr_fd(param, 2);
+			ft_putstr_fd(": invalid parameter name\n", 2);
+			return (-1);
+		}
+		i++;
+	}
+	return (0);
 }
 
-static char **create_key(char *key)
+static char	**create_key(char *key)
 {
 	char	**new_key;
 	char	**temp;
@@ -74,8 +74,8 @@ static void	search_and_remove_env(t_list **head, char **args)
 	previous = NULL;
 	while (*args)
 	{
-		while (current &&
-			ft_strncmp(current->content, *args, ft_strlen(*args)) != 0)
+		while (current
+			&& ft_strncmp(current->content, *args, ft_strlen(*args)) != 0)
 		{
 			previous = current;
 			current = current->next;
@@ -95,7 +95,7 @@ static void	search_and_remove_env(t_list **head, char **args)
 	}
 }
 
-int  execute_unset(t_list **head, char *key)
+int	execute_unset(t_list **head, char *key)
 {
 	char	**args;
 

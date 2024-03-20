@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 21:27:27 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/15 18:04:25 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/20 17:57:15 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,28 +45,28 @@ static int	open_file_redir(char *file, t_redirection type)
 	return (open_file);
 }
 
-static char *get_file(char *rediction)
+static char	*get_file(char *rediction)
 {
-    int i;
-	int j;
-    char *file;
+	int		i;
+	int		j;
+	char	*file;
 
-    i = 0;
-    while (rediction[i] == '>' || rediction[i] == '<' \
-                || rediction[i] == ' ')
-        i++;
-    file = malloc(ft_strlen(rediction) - i + 1);
-    if (!file)
-        return (NULL);
-    file[ft_strlen(rediction) - i] = '\0';
-    j = 0;
-    while (rediction[i] != '\0')
-    {
-        file[j] = rediction[i];
-        i++;
-        j++;
-    }
-    return (file);
+	i = 0;
+	while (rediction[i] == '>' || rediction[i] == '<'
+		|| rediction[i] == ' ')
+		i++;
+	file = malloc(ft_strlen(rediction) - i + 1);
+	if (!file)
+		return (NULL);
+	file[ft_strlen(rediction) - i] = '\0';
+	j = 0;
+	while (rediction[i] != '\0')
+	{
+		file[j] = rediction[i];
+		i++;
+		j++;
+	}
+	return (file);
 }
 
 static int	dup_std(t_redirection type, char *file)
@@ -90,11 +90,11 @@ static int	dup_std(t_redirection type, char *file)
 	return (dup_return);
 }
 
-int init_redirection(char **redirs, int fds[2])
+int	init_redirection(char **redirs, int fds[2])
 {
-	int	status;
-    int i;
-	char *file;
+	int		status;
+	int		i;
+	char	*file;
 
 	i = 0;
 	if (!backup_std(fds))
@@ -102,18 +102,18 @@ int init_redirection(char **redirs, int fds[2])
 	while (redirs[i] != NULL)
 	{
 		file = get_file(redirs[i]);
-    	if (file == NULL)
-    	{
-        	ft_putstr_fd("Malloc allocation error\n", 2);
-        	return (0);
-    	}
+		if (file == NULL)
+		{
+			ft_putstr_fd("Malloc allocation error\n", 2);
+			return (0);
+		}
 		status = dup_std(get_redir_type(redirs[i]), file);
 		free (file);
 		if (status == -500)
 			return (-500);
 		if (status < 0)
 			return (0);
-        i++;
+		i++;
 	}
 	return (1);
 }

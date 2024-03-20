@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:55:34 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/08 22:22:11 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/20 18:08:21 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-void not_found(char *cmd)
+void	not_found(char *cmd)
 {
 	ft_putstr_fd("Command not found: ", 2);
 	ft_putstr_fd(cmd, 2);
@@ -45,9 +45,9 @@ t_pipeline	get_pipe_utils(char **cmds)
 	return (util);
 }
 
-static int get_indx(char **envp)
+static int	get_indx(char **envp)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	if (!envp)

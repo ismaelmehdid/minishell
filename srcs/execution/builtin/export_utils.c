@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 23:01:03 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/18 23:01:50 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/20 18:07:50 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ t_list	*get_last_node(t_list *lst)
 		lst = lst->next;
 	return (lst);
 }
-
 
 int	export_print_error(char *arg)
 {

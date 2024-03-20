@@ -3,66 +3,66 @@
 /*                                                        :::      ::::::::   */
 /*   check_modify_input.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 00:19:05 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/20 01:46:52 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/20 17:31:23 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static char    *ft_strnjoin(char *s1, char const *s2, int n)
+static char	*ft_strnjoin(char *s1, char const *s2, int n)
 {
-    int			i;
-    int			j;
-    char		*res;
+	int			i;
+	int			j;
+	char		*res;
 
-    i = -1;
-    res = malloc(ft_strlen(s1) + n + 1);
-    if (!res)
-    {
-        free(s1);
-        return (NULL);
-    }
-    j = -1;
-    while (i++, s1[i])
-        res[i] = s1[i];
-    while (j++, j < n)
-        res[i + j] = s2[j];
+	i = -1;
+	res = malloc(ft_strlen(s1) + n + 1);
+	if (!res)
+	{
+		free(s1);
+		return (NULL);
+	}
+	j = -1;
+	while (i++, s1[i])
+		res[i] = s1[i];
+	while (j++, j < n)
+		res[i + j] = s2[j];
 	res[i + j] = '\0';
 	if (s1)
-    	free(s1);
-    return (res);
+		free(s1);
+	return (res);
 }
 
-static char *check_redirs(char *inp, int i)
+static char	*check_redirs(char *inp, int i)
 {
-    while (inp[i] != '\0')
+	while (inp[i] != '\0')
 	{
-        if (inp[i] == '>' || inp[i] == '<')
+		if (inp[i] == '>' || inp[i] == '<')
 		{
-            if (inp[i] == '>' && inp[i + 1] == '>')
-                i += 2;
+			if (inp[i] == '>' && inp[i + 1] == '>')
+				i += 2;
 			else if (inp[i] == '<' && inp[i + 1 == '<'])
 				i += 2;
 			else
-                i++;
-            while (is_whitespace(inp[i]))
-                i++;
-            if (inp[i] == '\0' || inp[i] == '<' || \
+				i++;
+			while (is_whitespace(inp[i]))
+				i++;
+			if (inp[i] == '\0' || inp[i] == '<' || \
 				inp[i] == '>')
 			{
-                free(inp);
-                return NULL;
-            }
-        }
-        i++;
-    }
-    return (inp);
+				free(inp);
+				return (NULL);
+			}
+		}
+		i++;
+	}
+	return (inp);
 }
 
-static char *add_tee_cmd(char *inp, char *new, int *i)
+static char	*add_tee_cmd(char *inp, char *new, int *i)
 {
 	if (inp[(*i)] == '>' && inp[(*i) + 1] == '>')
 	{
@@ -87,10 +87,10 @@ static char *add_tee_cmd(char *inp, char *new, int *i)
 	return (new);
 }
 
-static char *modyfing(char *inp, char *new, int last, int i)
+static char	*modyfing(char *inp, char *new, int last, int i)
 {
-	int j;
-	
+	int	j;
+
 	while (1)
 	{
 		j = i;
@@ -118,8 +118,8 @@ static char *modyfing(char *inp, char *new, int last, int i)
 
 char	*check_and_modify(char *input, int append, int out)
 {
-	char *new;
-	
+	char	*new;
+
 	input = check_redirs(input, 0);
 	if (input == NULL)
 	{

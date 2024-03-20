@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 23:54:18 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/03 19:32:11 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/20 17:25:18 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,13 @@ void	free_list(t_list **env)
 {
 	t_list	*temp;
 
-    while ((*env) != NULL)
-    {
-        temp = (*env);
-        (*env) = (*env)->next;
-        free(temp->content);
-        free(temp);
-    }
+	while ((*env) != NULL)
+	{
+		temp = (*env);
+		(*env) = (*env)->next;
+		free(temp->content);
+		free(temp);
+	}
 }
 
 char	**create_envp(t_list *env)

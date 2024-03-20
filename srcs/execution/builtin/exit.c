@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:37:41 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/16 00:47:04 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/20 17:19:47 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	execute_exit(char *input, t_list **env, t_astnode *root, char **envp)
 	free_list(env);
 	free_double_array(envp);
 	free_all_nodes(root);
-	if (close(stdin_copy_fd) < 0)
+	if (close(g_stdin_copy_fd) < 0)
 		ft_putstr_fd("File error\n", 2);
 	exit(code);
 }

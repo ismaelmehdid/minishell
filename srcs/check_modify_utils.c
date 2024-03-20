@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   check_modify_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 00:15:22 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/20 00:55:51 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/20 17:26:57 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int count_out(char *input)
+int	count_out(char *input)
 {
-	int i;
-	int count;
+	int	i;
+	int	count;
 
 	i = 0;
 	count = 0;
@@ -25,18 +25,18 @@ int count_out(char *input)
 			input[i + 1] != '>')
 		{
 			count++;
-            while (is_whitespace(input[i]))
-                i++;
+			while (is_whitespace(input[i]))
+				i++;
 		}
 		i++;
 	}
 	return (count);
 }
 
-int count_append(char *input)
+int	count_append(char *input)
 {
-	int i;
-	int count;
+	int	i;
+	int	count;
 
 	i = 0;
 	count = 0;
@@ -46,19 +46,19 @@ int count_append(char *input)
 			input[i + 1] == '>')
 		{
 			count++;
-            while (is_whitespace(input[i]))
-                i++;
+			while (is_whitespace(input[i]))
+				i++;
 		}
 		i++;
 	}
 	return (count);
 }
 
-int get_next_index(char *line, int last)
+int	get_next_index(char *line, int last)
 {
-	static int i;
-	int return_value;
-	
+	static int	i;
+	int			return_value;
+
 	if (!i)
 		i = 0;
 	while (i != last)
@@ -79,9 +79,9 @@ int get_next_index(char *line, int last)
 	return (-1);
 }
 
-int get_last_index(char *input)
+int	get_last_index(char *input)
 {
-	int i;
+	int	i;
 
 	i = ft_strlen(input) - 1;
 	while (i >= 0 && input[i] != '>')
@@ -91,13 +91,13 @@ int get_last_index(char *input)
 	return (i);
 }
 
-int get_prelast_file(char *input, int i)
+int	get_prelast_file(char *input, int i)
 {
 	while (input[i] == '>' || input[i] == '<')
 		i--;
 	while (is_whitespace(input[i]))
-    	i--;
-	while(input[i] != '>')
+		i--;
+	while (input[i] != '>')
 		i--;
 	return (i + 1);
 }

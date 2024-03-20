@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 23:56:59 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/15 19:04:09 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/20 17:43:01 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static void	ft_execve(char *cmd_path, char **cmds, char **path_env)
 			free(cmd_path);
 			free_double_array(path_env);
 			perror("Execve");
-			last_command_status = 126;
+			g_last_command_status = 126;
 		}
 	}
 	else
@@ -93,7 +93,7 @@ void	launch_executable(char *cmd, char **envp)
 	if (envp[i] == NULL)
 	{
 		print_error(cmd);
-		last_command_status = 127;
+		g_last_command_status = 127;
 		return ;
 	}
 	cmds = ft_split(cmd, ' ');
@@ -103,7 +103,7 @@ void	launch_executable(char *cmd, char **envp)
 		not_found(cmds[0]);
 		free_double_array(cmds);
 		free(cmd_path);
-		last_command_status = 127;
+		g_last_command_status = 127;
 		return ;
 	}
 	ft_execve(cmd_path, cmds, envp);

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   pipes_validation_utils.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 00:04:18 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/16 00:06:57 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/20 17:42:11 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-char *get_backup(char *backup, char *input)
+char	*get_backup(char *backup, char *input)
 {
 	if (backup)
 		free(backup);
@@ -28,7 +28,7 @@ char *get_backup(char *backup, char *input)
 
 int	check_for_spaces(char *inp)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (inp[i] && (inp[i] == ' ' || (inp[i] >= 9 && inp[i] <= 13)))

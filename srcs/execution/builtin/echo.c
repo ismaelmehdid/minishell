@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:37:32 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/15 23:13:25 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/20 17:23:31 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ static int	print_arg(char *arg, int option, t_astnode *root, t_list **env)
 	{
 		if (arg[i + 1] && arg[i] == '$' && arg[i + 1] == '?')
 		{
-			ft_putnbr_fd(last_command_status, STDOUT_FILENO);
+			ft_putnbr_fd(g_last_command_status, STDOUT_FILENO);
 			i += 2;
 			continue ;
 		}

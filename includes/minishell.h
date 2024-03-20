@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:28 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/20 00:56:01 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/20 18:48:23 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,21 +65,19 @@ typedef struct s_list
 	struct s_list					*next;
 }	t_list;
 
-extern int stdin_copy_fd;
-
-//-------Env utils-------========================
-void free_list(t_list **env);
-char **create_envp(t_list *env);
-int	ft_lstsize(t_list *lst);
+//-------Env utils-------======================================================
+void			free_list(t_list **env);
+char			**create_envp(t_list *env);
+int				ft_lstsize(t_list *lst);
 //-------Parsing-----------=======================
 t_astnode		*parsing(char **input);
 t_astnode		*init_ast(char **elements);
 t_astnode		*create_node(char *element);
 enum s_nodetype	get_element_type(char *element);
 char			*pipes_validation(char *input);
-int	check_last_pipe_command(char *inp);
-int	check_for_spaces(char *inp);
-char *get_backup(char *backup, char *input);
+int				check_last_pipe_command(char *inp);
+int				check_for_spaces(char *inp);
+char			*get_backup(char *backup, char *input);
 int				quotes_validation(char **elements);
 //-------Parsing utils----========================
 void			free_double_array(char **array);
@@ -95,15 +93,15 @@ char			*malloc_word(char *input, int *i, char *skip);
 void			copy_word(char *result, char *input, int *i, char *skip);
 int				size_double_array(char **array);
 //-------Signals-------========================
-int	toggle_echoctl_status(int status);
-void	ctrl_c(int signum);
-void	new_ctrl_c(int signum);
-void	new_ctrl_c_pipe(int signum);
-int check_num(int num1, int num2);
+int				toggle_echoctl_status(int status);
+void			ctrl_c(int signum);
+void			new_ctrl_c(int signum);
+void			new_ctrl_c_pipe(int signum);
+int				check_num(int num1, int num2);
 //-------Execution-------========================
 int				init_executor(t_astnode *root, t_list **env);
 int				execute_pipeline(char **cmds, t_list **env, t_astnode *root);
-void	launch_executable(char *cmd, char **envp);
+void			launch_executable(char *cmd, char **envp);
 //-------Execution utils-------==================
 char			*get_path(char *cmd, char *path_full);
 void			close_pipe_fds(int *fd, int size);
@@ -118,6 +116,7 @@ int				execute_export(char *arg, t_list *env, char **envp);
 int				execute_env(char **envp);
 void			execute_exit(char *input, t_list **env, t_astnode *root, char **envp);
 int				execute_cd(char *path, t_list **env);
+int				prepare_cd(char *path, char *thepath);
 int				execute_unset(t_list **head, char *key);
 int				update_old_pwd_dir(t_list **env, char *cwd);
 int				update_pwd(t_list **env);
@@ -127,28 +126,30 @@ t_list			*get_last_node(t_list *lst);
 int				export_print_error(char *arg);
 int				search_replace_existing_cmp(t_list *lst, char *arg);
 //-------Redirection----=======================
-int	dup_error(int fds[2]);
-void	restore_std(int fds[2]);
-int	get_flags(t_redirection type);
-int init_redirection(char **redirections, int fds[2]);
-void del_redirs_from_root(t_astnode **root);
-char **create_redirs(t_astnode *root);
-t_redirection get_redir_type(char *redirection);
-char *get_redirection(char *line);
-int redir_exist(char *line);
-int count_redirs(t_astnode *node);
-int still_exist(char *line);
-int here_doc(char *delimeter, int fd, int dup_return);
-char    *ft_strjoin_free(char *s1, char const *s2, int s2_len);
+int				dup_error(int fds[2]);
+void			restore_std(int fds[2]);
+int				get_flags(t_redirection type);
+int				init_redirection(char **redirections, int fds[2]);
+void			del_redirs_from_root(t_astnode **root);
+char			**create_redirs(t_astnode *root);
+t_redirection	get_redir_type(char *redirection);
+char			*get_redirection(char *line);
+int				redir_exist(char *line);
+int				count_redirs(t_astnode *node);
+int				still_exist(char *line);
+int				here_doc(char *delimeter, int fd, int dup_return);
+char			*ft_strjoin_free(char *s1, char const *s2, int s2_len);
 //---------------------========================
-char	*check_and_modify(char *input, int append, int out);
-int count_out(char *input);
-int is_whitespace(char c);
-int count_append(char *input);
-int get_next_index(char *line, int last);
-int get_last_index(char *input);
-int get_prelast_file(char *input, int i);
+char			*check_and_modify(char *input, int append, int out);
+int				count_out(char *input);
+int				is_whitespace(char c);
+int				count_append(char *input);
+int				get_next_index(char *line, int last);
+int				get_last_index(char *input);
+int				get_prelast_file(char *input, int i);
 
-extern int last_command_status;
+extern int						g_last_command_status;
+extern int						g_stdin_copy_fd;
+extern volatile sig_atomic_t	g_sig_pressed;
 
 #endif

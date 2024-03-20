@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:37:27 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/15 22:39:24 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/20 20:22:56 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,15 +116,19 @@ static int	change_to_old_pwd_dir(t_list **env)
 
 int	execute_cd(char *path, t_list **env)
 {
-	while (*path && (*path == ' ' || (*path >= 9 && *path <= 13)))
-		path++;
-	if (path[0] == '\0')
+	char	thepath[PATH_MAX];
+	int		code;
+
+	code = prepare_cd(path, thepath);
+	if (code != 0)
+		return (code);
+	if (thepath[0] == '\0')
 		return (change_to_home_dir(env));
-	if (path[0] == '/')
-		return (change_to_absolute_path_dir(path, env));
-	else if (path[0] == '-')
+	if (thepath[0] == '/')
+		return (change_to_absolute_path_dir(thepath, env));
+	else if (thepath[0] == '-')
 		return (change_to_old_pwd_dir(env));
 	else
-		return (change_to_relative_path_dir(path, env));
+		return (change_to_relative_path_dir(thepath, env));
 	return (1);
 }

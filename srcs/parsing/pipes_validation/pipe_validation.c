@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_validation.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 20:08:47 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/16 00:15:33 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/20 17:41:33 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
-
-extern volatile sig_atomic_t sig_pressed;
 
 static char	*pipes_checker(char *inp, int i)
 {
@@ -40,7 +38,6 @@ static char	*pipes_checker(char *inp, int i)
 	}
 	return (inp);
 }
-
 
 static char	*pipes_format_checker(char *inp)
 {
@@ -79,7 +76,7 @@ static char	*set_new_command(char *input, int i)
 	if (!cmd)
 	{
 		free(input);
-		sig_pressed++;
+		g_sig_pressed++;
 		return (NULL);
 	}
 	while (cmd[i] && (cmd[i] == ' ' || (cmd[i] >= 9 && cmd[i] <= 13)))
@@ -95,23 +92,23 @@ static char	*set_new_command(char *input, int i)
 	return (new_inp);
 }
 
-static char *validation_loop(char *input, char *backup, int num)
+static char	*validation_loop(char *input, char *backup, int num)
 {
 	while (input && check_last_pipe_command(input))
 	{
 		backup = get_backup(backup, input);
 		if (!backup)
 			return (NULL);
-		num = sig_pressed;
+		num = g_sig_pressed;
 		input = set_new_command(input, 0);
-		if (!input && num >= sig_pressed)
+		if (!input && num >= g_sig_pressed)
 		{
-			dup2(stdin_copy_fd, STDIN_FILENO);
+			dup2(g_stdin_copy_fd, STDIN_FILENO);
 			return (NULL);
 		}
 		else if (input && !pipes_format_checker(input))
 			return (NULL);
-		else if (!input && check_num(num + 1, sig_pressed) == 0)
+		else if (!input && check_num(num + 1, g_sig_pressed) == 0)
 		{
 			input = ft_strdup(backup);
 			if (!input)
@@ -127,7 +124,7 @@ static char *validation_loop(char *input, char *backup, int num)
 char	*pipes_validation(char *input)
 {
 	char	*backup;
-	
+
 	backup = NULL;
 	input = pipes_format_checker(input);
 	if (!input)

@@ -6,23 +6,23 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 21:27:23 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/16 17:59:36 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/20 17:59:26 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-t_redirection get_redir_type(char *redirection)
+t_redirection	get_redir_type(char *redirection)
 {
-    if (redirection[0] == '>' && redirection[1] == '>')
-        return (APPEND);
+	if (redirection[0] == '>' && redirection[1] == '>')
+		return (APPEND);
 	else if (redirection[0] == '<' && redirection[1] == '<')
 		return (HERE_DOC);
-    else if (redirection[0] == '>')
-        return (OUT);
-    else if (redirection[0] == '<')
-        return (IN);
-    return (1);
+	else if (redirection[0] == '>')
+		return (OUT);
+	else if (redirection[0] == '<')
+		return (IN);
+	return (1);
 }
 
 int	get_flags(t_redirection type)
@@ -55,9 +55,9 @@ int	dup_error(int fds[2])
 	return (0);
 }
 
-int redir_exist(char *line)
+int	redir_exist(char *line)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (line[i] != '\0')

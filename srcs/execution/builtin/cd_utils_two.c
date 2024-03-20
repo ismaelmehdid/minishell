@@ -6,11 +6,40 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:56:44 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/15 22:40:06 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/20 19:04:10 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
+
+int	prepare_cd(char *path, char *thepath)
+{
+	char	**args;
+
+	while (*path && (*path == ' ' || (*path>= 9 && *path <= 13)))
+		path++;
+	args = split_quotes(path, " \t\n\v\f\r");
+	if (!args)
+		return (126);
+	if (size_double_array(args) > 0)
+	{
+		if (size_double_array(args) > 1)
+		{
+			ft_putstr_fd("Minishell: cd: too many arguments\n", 2);
+			return (1);
+		}
+		if (ft_strlen(args[0]) > PATH_MAX)
+		{
+			ft_putstr_fd("Minishell: cd: ", 2);
+			ft_putstr_fd(args[0], 2);
+			ft_putstr_fd(" : File name too long\n", 2);
+			return (1);
+		}
+		ft_strlcpy(thepath, args[0], ft_strlen(args[0]) + 1);
+	}
+	free_double_array(args);
+	return (0);
+}
 
 int	get_old_pwd(t_list **env, char **old_pwd)
 {

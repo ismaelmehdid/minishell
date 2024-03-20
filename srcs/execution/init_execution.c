@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_execution.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/20 01:57:42 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/20 17:44:27 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static int	init_pipe(t_astnode *node, t_list **env)
 static void	execute_command(t_astnode *node, char **envp, t_list **env)
 {
 	int		status;
-	
+
 	if (envp == NULL)
 	{
 		ft_putstr_fd("Allocation error\n", 2);
@@ -87,14 +87,14 @@ static void	execute_command(t_astnode *node, char **envp, t_list **env)
 	status = handle_builtin(node->value, envp, env, node);
 	if (status != 300)
 		return ;
-	launch_executable(node->value, envp); //update exit status <<<<<<
+	launch_executable(node->value, envp);
 }
 
 int	init_executor(t_astnode *root, t_list **env)
 {
 	char		**redirections;
-	int	fds[2];
-	
+	int			fds[2];
+
 	if (root == NULL)
 		return (1);
 	redirections = create_redirs(root);

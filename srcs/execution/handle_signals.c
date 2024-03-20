@@ -6,22 +6,20 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 17:00:34 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/19 22:04:11 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/20 17:47:07 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-volatile sig_atomic_t sig_pressed = 0;
-
-int check_num(int num1, int num2)
+int	check_num(int num1, int num2)
 {
-    if (num1 == num2)
-    {
-        printf("\033[F\033[K");
-        return (0);
-    }
-    return (1);
+	if (num1 == num2)
+	{
+		printf("\033[F\033[K");
+		return (0);
+	}
+	return (1);
 }
 
 void	ctrl_c(int signum)
@@ -39,10 +37,10 @@ void	new_ctrl_c_pipe(int signum)
 {
 	if (signum == SIGINT)
 	{
-		if (sig_pressed == INT_MIN)
-			sig_pressed = 0;
-		sig_pressed -= 2;
-		write(STDIN_FILENO, "\n" ,1);
+		if (g_sig_pressed == INT_MIN)
+			g_sig_pressed = 0;
+		g_sig_pressed -= 2;
+		write(STDIN_FILENO, "\n", 1);
 		close(STDIN_FILENO);
 	}
 }
@@ -52,9 +50,9 @@ void	new_ctrl_c(int signum)
 	if (signum == SIGINT)
 	{
 		close(STDIN_FILENO);
-		if (sig_pressed == INT_MAX)
-			sig_pressed = 0;
-		sig_pressed++;
+		if (g_sig_pressed == INT_MAX)
+			g_sig_pressed = 0;
+		g_sig_pressed++;
 	}
 }
 
