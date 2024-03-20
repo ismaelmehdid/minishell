@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_execution.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/19 00:18:09 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/20 01:57:42 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	finish_init_pipe(t_astnode *node, int counter, char **cmds, t_list **
 		cmds[counter + 1] = ft_strdup(node->right->value);
 		if (cmds[counter] == NULL || cmds[counter + 1] == NULL)
 		{
-			ft_putstr_fd("Malloc error\n", 2);
+			ft_putstr_fd("Allocation error\n", 2);
 			free_double_array(cmds);
 			return (1);
 		}
@@ -63,7 +63,7 @@ static int	init_pipe(t_astnode *node, t_list **env)
 		cmds[counter] = ft_strdup(node->left->value);
 		if (cmds[counter] == NULL)
 		{
-			ft_putstr_fd("Malloc allocation error\n", 2);
+			ft_putstr_fd("Allocation error\n", 2);
 			free_double_array(cmds);
 			return (1);
 		}
@@ -81,13 +81,12 @@ static void	execute_command(t_astnode *node, char **envp, t_list **env)
 	
 	if (envp == NULL)
 	{
-		ft_putstr_fd("Envp malloc allocation error\n", 2);
+		ft_putstr_fd("Allocation error\n", 2);
 		return ;
 	}
 	status = handle_builtin(node->value, envp, env, node);
-	if (status != 127)
+	if (status != 300)
 		return ;
-	//printf("Launching cmd: %s\n", node->value);
 	launch_executable(node->value, envp); //update exit status <<<<<<
 }
 
