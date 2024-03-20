@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 00:19:05 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/20 01:13:29 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/20 01:46:52 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ char	*check_and_modify(char *input, int append, int out)
 	if ((append == 0 && out == 0) || append + out == 1)
 		return (input);
 	new = ft_calloc(ft_strlen(input) + (append * 4) \
-		+ (out * 6) + 1, sizeof(char));
+		+ (out * 6 - out) + 1, sizeof(char));
 	if (!new)
 	{
 		free(input);
