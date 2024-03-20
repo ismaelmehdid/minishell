@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_signals.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 17:00:34 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/16 00:22:14 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/19 22:04:11 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	new_ctrl_c_pipe(int signum)
 		if (sig_pressed == INT_MIN)
 			sig_pressed = 0;
 		sig_pressed -= 2;
+		write(STDIN_FILENO, "\n" ,1);
 		close(STDIN_FILENO);
 	}
 }
