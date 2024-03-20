@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:28 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/19 00:20:55 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/20 00:56:01 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,13 @@ int still_exist(char *line);
 int here_doc(char *delimeter, int fd, int dup_return);
 char    *ft_strjoin_free(char *s1, char const *s2, int s2_len);
 //---------------------========================
+char	*check_and_modify(char *input, int append, int out);
+int count_out(char *input);
+int is_whitespace(char c);
+int count_append(char *input);
+int get_next_index(char *line, int last);
+int get_last_index(char *input);
+int get_prelast_file(char *input, int i);
 
 extern int last_command_status;
 
