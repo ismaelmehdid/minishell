@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_builtin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/16 17:44:34 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/20 01:57:03 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int find_builtin_three(char *cmd, char **envp)
 			return (127);
 		return (execute_pwd());
 	}
-	return (127);
+	return (300);
 }
 
 static int find_builtin_two(char *cmd, char **envp, t_list **env)
