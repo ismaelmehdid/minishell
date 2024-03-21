@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 23:56:59 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/21 00:29:21 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/21 01:03:48 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char	*get_path(char *cmd, char *path_full)
 	return (NULL);
 }
 
-static void	ft_execve(char *cmd_path, char **cmds, char **path_env)
+static int	ft_execve(char *cmd_path, char **cmds, char **path_env)
 {
 	pid_t		pid;
 
@@ -65,7 +65,7 @@ static void	ft_execve(char *cmd_path, char **cmds, char **path_env)
 	if (pid == -1)
 	{
 		perror("Fork");
-		return ;
+		return (1);
 	}
 	else if (pid == 0)
 	{
@@ -81,9 +81,10 @@ static void	ft_execve(char *cmd_path, char **cmds, char **path_env)
 	}
 	else
 		waitpid(pid, NULL, 0);
+	return (0);
 }
 
-void	launch_executable(char *cmd, char **envp)
+int	launch_executable(char *cmd, char **envp)
 {
 	char	*cmd_path;
 	char	**cmds;
@@ -97,7 +98,7 @@ void	launch_executable(char *cmd, char **envp)
 	{
 		print_error(cmd);
 		g_last_command_status = 127;
-		return ;
+		return (127);
 	}
 	cmds = ft_split(cmd, ' ');
 	cmd_path = get_path(cmds[0], envp[i] + 5);
@@ -109,5 +110,5 @@ void	launch_executable(char *cmd, char **envp)
 		g_last_command_status = 127;
 		exit(127);
 	}
-	ft_execve(cmd_path, cmds, envp);
+	return (ft_execve(cmd_path, cmds, envp));
 }

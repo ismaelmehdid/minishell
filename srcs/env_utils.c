@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 23:54:18 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/20 17:25:18 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/21 00:54:07 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,32 @@ char	**create_envp(t_list *env)
 	}
 	envp[i] = NULL;
 	return (envp);
+}
+
+int		create_env(t_list **env, char **envp)
+{
+	t_list	*new_node;
+	int		i;
+
+	i = 0;
+	*env = NULL;
+	while (envp[i] != NULL)
+	{
+		new_node = (t_list *)malloc(sizeof(t_list));
+		if (new_node == NULL)
+		{
+			ft_putstr_fd("Allocation error\n", 2);
+			return (1);
+		}
+		new_node->content = ft_strdup(envp[i]);
+		if (new_node->content == NULL)
+		{
+			ft_putstr_fd("Allocation error\n", 2);
+			return (1);
+		}
+		new_node->next = *env;
+		*env = new_node;
+		i++;
+	}
+	return (0);
 }

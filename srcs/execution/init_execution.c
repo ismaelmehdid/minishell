@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/21 00:20:56 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/21 01:02:36 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,26 +75,27 @@ static int	init_pipe(t_astnode *node, t_list **env)
 	return (0);
 }
 
-static void	execute_command(t_astnode *node, char **envp, t_list **env)
+static int	execute_command(t_astnode *node, char **envp, t_list **env)
 {
 	int		status;
 
 	if (envp == NULL)
 	{
 		ft_putstr_fd("Allocation error\n", 2);
-		return ;
+		return (1);
 	}
 	status = handle_builtin(node->value, envp, env, node);
 	if (status != 300)
 	{
 		free(envp);
-		return ;
+		return (status);
 	}
-	launch_executable(node->value, envp);
+	status = launch_executable(node->value, envp);
 	free(envp);
+	return (status);
 }
 
-int	init_executor(t_astnode *root, t_list **env)
+int	init_executor(t_astnode *root, t_list **env, int status)
 {
 	char		**redirections;
 	int			fds[2];
@@ -110,15 +111,15 @@ int	init_executor(t_astnode *root, t_list **env)
 			restore_std(fds);
 			ft_putchar_fd('\n', 2);
 			free_double_array(redirections);
-			return (0);
+			return (130);
 		}
 	}
 	if (root->type == PIPE_NODE)
 		init_pipe(root, env);
 	else if (root->type == COMMAND_NODE)
-		execute_command(root, create_envp(*env), env);
+		status = execute_command(root, create_envp(*env), env);
 	restore_std(fds);
 	if (redirections)
 		free_double_array(redirections);
-	return (0);
+	return (status);
 }
