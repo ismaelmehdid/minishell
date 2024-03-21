@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 23:56:59 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/21 01:03:48 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/21 01:12:28 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static int	ft_execve(char *cmd_path, char **cmds, char **path_env)
 			free_double_array(path_env);
 			perror("Execve");
 			g_last_command_status = 126;
-			exit(126);
+			return (126);
 		}
 	}
 	else
@@ -108,7 +108,7 @@ int	launch_executable(char *cmd, char **envp)
 		free_double_array(cmds);
 		free(cmd_path);
 		g_last_command_status = 127;
-		exit(127);
+		return (127);
 	}
 	return (ft_execve(cmd_path, cmds, envp));
 }
