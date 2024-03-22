@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_signals.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 17:00:34 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/22 17:52:22 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/23 00:18:37 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,17 @@ void	ctrl_c(int signum)
 
 void	new_ctrl_c_pipe(int signum)
 {
+	int	bytes;
+	
 	g_last_command_status = 130;
 	if (signum == SIGINT)
 	{
 		if (g_sig_pressed == INT_MIN)
 			g_sig_pressed = 0;
 		g_sig_pressed -= 2;
-		write(STDIN_FILENO, "\n", 1);
+		bytes = write(STDIN_FILENO, "\n", 1);
+		if (bytes < 0)
+			ft_putstr_fd("write() failed\n", 2);
 		close(STDIN_FILENO);
 	}
 }
