@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   launch_executable.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 23:56:59 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/22 17:12:41 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/22 23:44:22 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,22 +61,24 @@ static int	ft_execve(char *cmd_path, char **cmds, char **path_env)
 {
 	pid_t		pid;
 
+	g_last_command_status = 0;
 	pid = fork();
 	if (pid == -1)
 	{
 		perror("Fork");
+		g_last_command_status = 1;
 		return (1);
 	}
 	else if (pid == 0)
 	{
 		if (execve(cmd_path, cmds, path_env) == -1)
 		{
+			g_last_command_status = 126;
 			free_double_array(cmds);
 			free(cmd_path);
 			free_double_array(path_env);
 			perror("Execve");
-			g_last_command_status = 126;
-			return (126);
+			exit (1);
 		}
 	}
 	else

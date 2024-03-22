@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_execution.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/22 17:17:51 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/22 23:46:37 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,9 +86,10 @@ static int	execute_command(t_astnode *node, char **envp, t_list **env)
 	if (g_last_command_status != 300)
 	{
 		free(envp);
+		g_last_command_status = 127;
 		return (0);
 	}
-	g_last_command_status = launch_executable(node->value, envp);
+	launch_executable(node->value, envp);
 	free(envp);
 	return (0);
 }

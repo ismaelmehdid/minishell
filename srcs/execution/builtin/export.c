@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:37:45 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/18 23:08:37 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/22 23:34:40 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ int	execute_export(char *arg, t_list *env, char **envp)
 	if (checking_errors(exports))
 	{
 		free_double_array(exports);
-		return (1);
+		return (128);
 	}
 	if (execute_export_utils(exports, env))
 		return (126);

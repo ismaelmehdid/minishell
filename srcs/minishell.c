@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:05 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/22 18:34:55 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/22 23:27:46 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,5 +103,5 @@ int	main(int argc, char **argv, char **envp)
 	toggle_echoctl_status(0);
 	free_list(&env);
 	close(g_stdin_copy_fd);
-	return (0);
+	return (g_last_command_status);
 }
