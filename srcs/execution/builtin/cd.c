@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:37:27 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/20 20:22:56 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/22 18:32:10 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ int	execute_cd(char *path, t_list **env)
 	char	thepath[PATH_MAX];
 	int		code;
 
+	ft_memset(thepath, '\0', sizeof(thepath));
 	code = prepare_cd(path, thepath);
 	if (code != 0)
 		return (code);
@@ -126,7 +127,7 @@ int	execute_cd(char *path, t_list **env)
 		return (change_to_home_dir(env));
 	if (thepath[0] == '/')
 		return (change_to_absolute_path_dir(thepath, env));
-	else if (thepath[0] == '-')
+	else if (thepath[0] == '-' && (!thepath[1] || is_whitespace(thepath[1])))
 		return (change_to_old_pwd_dir(env));
 	else
 		return (change_to_relative_path_dir(thepath, env));

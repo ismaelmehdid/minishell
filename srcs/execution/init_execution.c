@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_execution.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/21 01:02:36 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/22 17:17:51 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,31 +77,29 @@ static int	init_pipe(t_astnode *node, t_list **env)
 
 static int	execute_command(t_astnode *node, char **envp, t_list **env)
 {
-	int		status;
-
 	if (envp == NULL)
 	{
 		ft_putstr_fd("Allocation error\n", 2);
 		return (1);
 	}
-	status = handle_builtin(node->value, envp, env, node);
-	if (status != 300)
+	handle_builtin(node->value, envp, env, node);
+	if (g_last_command_status != 300)
 	{
 		free(envp);
-		return (status);
+		return (0);
 	}
-	status = launch_executable(node->value, envp);
+	g_last_command_status = launch_executable(node->value, envp);
 	free(envp);
-	return (status);
+	return (0);
 }
 
-int	init_executor(t_astnode *root, t_list **env, int status)
+void	init_executor(t_astnode *root, t_list **env)
 {
 	char		**redirections;
 	int			fds[2];
 
 	if (root == NULL)
-		return (1);
+		return ;
 	redirections = create_redirs(root);
 	if (redirections)
 	{
@@ -111,15 +109,15 @@ int	init_executor(t_astnode *root, t_list **env, int status)
 			restore_std(fds);
 			ft_putchar_fd('\n', 2);
 			free_double_array(redirections);
-			return (130);
+			g_last_command_status = 130;
+			return ;
 		}
 	}
 	if (root->type == PIPE_NODE)
 		init_pipe(root, env);
 	else if (root->type == COMMAND_NODE)
-		status = execute_command(root, create_envp(*env), env);
+		execute_command(root, create_envp(*env), env);
 	restore_std(fds);
 	if (redirections)
 		free_double_array(redirections);
-	return (status);
 }

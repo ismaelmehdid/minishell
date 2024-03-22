@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:28 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/21 00:54:20 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/22 17:49:44 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ typedef struct s_list
 void			free_list(t_list **env);
 char			**create_envp(t_list *env);
 int				ft_lstsize(t_list *lst);
-int		create_env(t_list **env, char **envp);
+int				create_env(t_list **env, char **envp);
 //-------Parsing-----------=======================
 t_astnode		*parsing(char **input);
 t_astnode		*init_ast(char **elements);
@@ -100,7 +100,7 @@ void			new_ctrl_c(int signum);
 void			new_ctrl_c_pipe(int signum);
 int				check_num(int num1, int num2);
 //-------Execution-------========================
-int				init_executor(t_astnode *root, t_list **env, int status);
+void			init_executor(t_astnode *root, t_list **env);
 int				execute_pipeline(char **cmds, t_list **env, t_astnode *root);
 int				launch_executable(char *cmd, char **envp);
 //-------Execution utils-------==================
@@ -148,6 +148,8 @@ int				count_append(char *input);
 int				get_next_index(char *line, int last);
 int				get_last_index(char *input);
 int				get_prelast_file(char *input, int i);
+
+void			print_prompt(int status);
 
 extern int						g_last_command_status;
 extern int						g_stdin_copy_fd;

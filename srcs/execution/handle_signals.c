@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 17:00:34 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/20 17:47:07 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/22 17:52:22 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,19 @@ int	check_num(int num1, int num2)
 
 void	ctrl_c(int signum)
 {
+	g_last_command_status = 130;
 	if (signum == SIGINT)
 	{
 		ft_putchar_fd('\n', 2);
 		rl_replace_line("", 0);
 		rl_on_new_line();
-		rl_redisplay();
+		print_prompt(g_last_command_status);
 	}
 }
 
 void	new_ctrl_c_pipe(int signum)
 {
+	g_last_command_status = 130;
 	if (signum == SIGINT)
 	{
 		if (g_sig_pressed == INT_MIN)
@@ -47,6 +49,7 @@ void	new_ctrl_c_pipe(int signum)
 
 void	new_ctrl_c(int signum)
 {
+	g_last_command_status = 130;
 	if (signum == SIGINT)
 	{
 		close(STDIN_FILENO);
