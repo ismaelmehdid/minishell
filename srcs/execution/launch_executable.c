@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 23:56:59 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/22 17:12:41 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/23 02:56:36 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,26 @@
 static void	print_error(char *cmd)
 {
 	int	i;
+	int	quote;
 
 	i = 0;
 	ft_putstr_fd("Command not found: ", 2);
 	while (cmd[i] && (cmd[i] == ' ' || (cmd[i] >= 9 && cmd[i] <= 13)))
 		i++;
-	while (cmd[i] && cmd[i] != ' ' && (cmd[i] < 9 || cmd[i] > 13))
+	while (cmd[i])
 	{
+		if (cmd[i] == '\'' || cmd[i] == '"')
+		{
+			quote = cmd[i];
+			while (cmd[i] != quote)
+			{
+				ft_putchar_fd(cmd[i], 2);
+				i++;
+			}
+			if (cmd[i] == quote)
+				ft_putchar_fd(cmd[i++], 2);
+			continue ;
+		}
 		ft_putchar_fd(cmd[i], 2);
 		i++;
 	}
@@ -100,15 +113,16 @@ int	launch_executable(char *cmd, char **envp)
 		g_last_command_status = 127;
 		return (127);
 	}
-	cmds = ft_split(cmd, ' ');
+	cmds = split_quotes(cmd, " \t\n\v\f\r");
 	cmd_path = get_path(cmds[0], envp[i] + 5);
 	if (cmd_path == NULL)
 	{
-		not_found(cmds[0]);
+		print_error(cmds[0]);
 		free_double_array(cmds);
 		free(cmd_path);
 		g_last_command_status = 127;
 		return (127);
 	}
-	return (ft_execve(cmd_path, cmds, envp));
+	g_last_command_status = ft_execve(cmd_path, cmds, envp);
+	return (g_last_command_status);
 }

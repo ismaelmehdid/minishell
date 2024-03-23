@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:28 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/22 17:49:44 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/23 02:07:45 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,8 @@ int				get_last_index(char *input);
 int				get_prelast_file(char *input, int i);
 
 void			print_prompt(int status);
+int				get_command(char *input, char *checking, t_astnode *root);
+int				get_command_args_indexes(char *input, t_astnode *root);
 
 extern int						g_last_command_status;
 extern int						g_stdin_copy_fd;
