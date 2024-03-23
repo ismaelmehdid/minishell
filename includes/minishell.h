@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:28 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/22 17:49:44 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/23 23:19:33 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ int				search_replace_existing_cmp(t_list *lst, char *arg);
 int				dup_error(int fds[2]);
 void			restore_std(int fds[2]);
 int				get_flags(t_redirection type);
-int				init_redirection(char **redirections, int fds[2]);
+int				init_redirection(char **redirections, int fds[2], int status, int i);
 void			del_redirs_from_root(t_astnode **root);
 char			**create_redirs(t_astnode *root);
 t_redirection	get_redir_type(char *redirection);
@@ -138,8 +138,11 @@ char			*get_redirection(char *line);
 int				redir_exist(char *line);
 int				count_redirs(t_astnode *node);
 int				still_exist(char *line);
-int				here_doc(char *delimeter, int fd, int dup_return);
+int				here_doc(char *delimeter, int fd, int dup_return, int in_flag);
 char			*ft_strjoin_free(char *s1, char const *s2, int s2_len);
+int				write_to_tmp_file(int fd, char *input);
+void			unlink_file(char *msg);
+int				write_from_stdin_to_fd(int *fd, int	bytes_read, int bytes_written);
 //---------------------========================
 char			*check_and_modify(char *input, int append, int out);
 int				count_out(char *input);

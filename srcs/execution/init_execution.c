@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/22 23:46:37 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/23 22:54:30 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void	init_executor(t_astnode *root, t_list **env)
 	if (redirections)
 	{
 		del_redirs_from_root(&root);
-		if (init_redirection(redirections, fds) == -500)
+		if (init_redirection(redirections, fds, 0, 0) == -500)
 		{
 			restore_std(fds);
 			ft_putchar_fd('\n', 2);
