@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:28 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/26 14:39:13 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/26 18:34:43 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ char			*get_path(char *cmd, char *path_full);
 void			close_pipe_fds(int *fd, int size);
 t_pipeline		get_pipe_utils(char **cmds);
 void			launch_cmd(char *cmd, char **envp, char *cmd_path);
-void			not_found(char *cmd);
+void			print_error_not_found(char *cmd);
 //-------Built-ins-------========================
 int				handle_builtin(char *input, char **envp, t_list **env, t_astnode *root);
 int				execute_echo(char *arg);
@@ -128,6 +128,7 @@ int				get_old_pwd(t_list **env, char **old_pwd);
 t_list			*get_last_node(t_list *lst);
 int				export_print_error(char *arg);
 int				search_replace_existing_cmp(t_list *lst, char *arg);
+int				trim_quotes(char **args);
 //-------Redirection----=======================
 int				dup_error(int fds[2]);
 void			restore_std(int fds[2]);

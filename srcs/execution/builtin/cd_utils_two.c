@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:56:44 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/26 14:43:17 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/26 19:09:32 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ int	prepare_cd(char *path, char *thepath)
 {
 	char	**args;
 
-	while (*path && (*path == ' ' || (*path>= 9 && *path <= 13)))
-		path++;
-	args = ft_split(path, ' ');
+	args = split_quotes(path, " \t\n\v\f\r", NULL);
 	if (!args)
+		return (126);
+	if (trim_quotes(args) != 0)
 		return (126);
 	if (size_double_array(args) > 0)
 	{

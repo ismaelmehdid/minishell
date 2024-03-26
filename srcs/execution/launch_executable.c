@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 23:56:59 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/26 16:52:46 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/26 17:31:59 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	remove_quotes(char *cmd)
 	cmd[j] = '\0';
 }
 
-static void	print_error(char *cmd)
+void	print_error_not_found(char *cmd)
 {
 	int	i;
 	int	quote;
@@ -141,15 +141,16 @@ void	launch_executable(char *cmd, char **envp)
 			break ;
 	if (envp[i] == NULL)
 	{
-		print_error(cmd);
+		print_error_not_found(cmd);
 		g_last_command_status = 127;
 		return ;
 	}
 	cmds = split_quotes(cmd, " \t\n\v\f\r", NULL);
+	remove_quotes(cmds[0]);
 	cmd_path = get_path(cmds[0], envp[i] + 5);
 	if (cmd_path == NULL)
 	{
-		print_error(cmds[0]);
+		print_error_not_found(cmds[0]);
 		free_double_array(cmds);
 		free(cmd_path);
 		g_last_command_status = 127;
