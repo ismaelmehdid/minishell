@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:05 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/26 14:39:17 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/26 18:49:19 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,8 @@ void	print_prompt(int status)
 	printf(" $> ");
 }
 
-static void	minishell_loop(t_astnode *ast_root, t_list **env)
+static void	minishell_loop(t_astnode *ast_root, t_list **env, char *input)
 {
-	char	*input;
-
 	while (1)
 	{
 		signal(SIGINT, ctrl_c);
@@ -75,6 +73,8 @@ static void	minishell_loop(t_astnode *ast_root, t_list **env)
 				init_executor(ast_root, env);
 				free_all_nodes(ast_root);
 			}
+			else if (ast_root == NULL && g_last_command_status != 2)
+				g_last_command_status = 1;
 		}
 		if (input)
 			free(input);
@@ -99,7 +99,7 @@ int	main(int argc, char **argv, char **envp)
 	signal(SIGQUIT, SIG_IGN);
 	g_stdin_copy_fd = dup(STDIN_FILENO);
 	toggle_echoctl_status(-1);
-	minishell_loop(ast_root, &env);
+	minishell_loop(ast_root, &env, NULL);
 	toggle_echoctl_status(0);
 	free_list(&env);
 	close(g_stdin_copy_fd);
