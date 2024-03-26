@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 15:33:38 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/26 15:40:01 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/26 16:47:28 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,10 +88,6 @@ char	*malloc_word(char *input, int *i, char *skip, t_list *env)
 			quote = input[*i];
 			nb_letters++;
 			nb_letters += handle_quote(input, i, quote, env);
-			if (input[*i] && input[*i] == quote)
-				nb_letters++;
-			if (input[*i])
-				(*i)++;
 		}
 		else
 			handle_no_quote(input, i, &nb_letters, env);

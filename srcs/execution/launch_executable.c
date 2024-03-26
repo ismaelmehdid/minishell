@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 23:56:59 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/26 15:02:27 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/26 16:50:30 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,20 +49,20 @@ static void	print_error(char *cmd)
 
 	i = 0;
 	ft_putstr_fd("Command not found: ", 2);
-	while (cmd[i] && (cmd[i] == ' ' || (cmd[i] >= 9 && cmd[i] <= 13)))
+	while (cmd[i] && is_whitespace(cmd[i]))
 		i++;
 	while (cmd[i])
 	{
 		if (cmd[i] == '\'' || cmd[i] == '"')
 		{
-			quote = cmd[i];
-			while (cmd[i] != quote)
+			quote = cmd[i++];
+			while (cmd[i] && cmd[i] != quote)
 			{
 				ft_putchar_fd(cmd[i], 2);
 				i++;
 			}
 			if (cmd[i] == quote)
-				ft_putchar_fd(cmd[i++], 2);
+				i++;
 			continue ;
 		}
 		ft_putchar_fd(cmd[i], 2);
