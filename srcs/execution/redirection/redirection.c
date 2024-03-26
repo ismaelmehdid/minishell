@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 21:27:27 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/22 18:46:34 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/23 22:54:07 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static int	dup_std(t_redirection type, char *file)
 	int	fd;
 
 	if (type == HERE_DOC)
-		return (here_doc(file, 0, 0));
+		return (here_doc(file, 0, 0, -1));
 	fd = open_file_redir(file, type);
 	if (fd < 0)
 		return (-1);
@@ -90,13 +90,10 @@ static int	dup_std(t_redirection type, char *file)
 	return (dup_return);
 }
 
-int	init_redirection(char **redirs, int fds[2])
+int	init_redirection(char **redirs, int fds[2], int status, int i)
 {
-	int		status;
-	int		i;
 	char	*file;
 
-	i = 0;
 	if (!backup_std(fds))
 		return (1);
 	while (redirs[i] != NULL)
@@ -104,10 +101,14 @@ int	init_redirection(char **redirs, int fds[2])
 		file = get_file(redirs[i]);
 		if (file == NULL)
 		{
-			ft_putstr_fd("Malloc allocation error\n", 2);
-			return (0);
+			ft_putstr_fd("Allocation error\n", 2);
+			return (1);
 		}
-		status = dup_std(get_redir_type(redirs[i]), file);
+		if (i - 1 >= 0 && get_redir_type(redirs[i - 1]) == IN && \
+			get_redir_type(redirs[i]) == HERE_DOC)
+			status = here_doc(file, 0, 0, 1);
+		else
+			status = dup_std(get_redir_type(redirs[i]), file);
 		free (file);
 		if (status == -500)
 			return (-500);

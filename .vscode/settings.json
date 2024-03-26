@@ -18,6 +18,8 @@
 		"tuple": "c",
 		"type_traits": "c",
 		"random": "c",
-		"cmath": "c"
+		"cmath": "c",
+		"readline.h": "c",
+		"curses.h": "c"
 	}
 }

@@ -3,30 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 21:04:09 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/22 00:14:11 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/23 23:20:44 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
-
-static int	write_to_tmp_file(int fd, char *input)
-{
-	int	bytes_read;
-
-	input = ft_strjoin_free(input, "\n", ft_strlen("\n"));
-	if (!input)
-		return (-1);
-	bytes_read = write(fd, input, ft_strlen(input));
-	if (bytes_read < 0)
-	{
-		close(fd);
-		return (-1);
-	}
-	return (0);
-}
 
 static int	here_doc_loop(char *delimeter, int fd, int check_val)
 {
@@ -55,15 +39,7 @@ static int	here_doc_loop(char *delimeter, int fd, int check_val)
 	return (fd);
 }
 
-static void	unlink_file(char *msg)
-{
-	if (unlink("/tmp/heredoc") < 0)
-		ft_putstr_fd("Unlinking failed\n", 2);
-	if (ft_strncmp(msg, "without", 7) != 0)
-		ft_putstr_fd(msg, 2);
-}
-
-static int	create_tmp_file(char *delimeter, int fd)
+static int	create_tmp_file(char *delimeter, int fd, int in_flag)
 {
 	fd = open("/tmp/heredoc", O_RDWR | O_CREAT | O_TRUNC,
 			S_IRUSR | S_IWUSR);
@@ -72,15 +48,26 @@ static int	create_tmp_file(char *delimeter, int fd)
 		ft_putstr_fd("File creation error\n", 2);
 		return (-1);
 	}
+	if (in_flag >= 0)
+	{
+		in_flag = write_from_stdin_to_fd(&fd, 1, 0);
+		if (in_flag < 0)
+		{
+			ft_putstr_fd("Error with read, write or dup2\n", 2);
+			if (close(fd) < 0)
+				ft_putstr_fd("File error\n", 2);
+			return (-1);
+		}
+	}
 	fd = here_doc_loop(delimeter, fd, 0);
 	if (fd == -500)
 		unlink_file("without");
 	return (fd);
 }
 
-int	here_doc(char *delimeter, int fd, int dup_return)
+int	here_doc(char *delimeter, int fd, int dup_return, int in_flag)
 {
-	fd = create_tmp_file(delimeter, 0);
+	fd = create_tmp_file(delimeter, 0, in_flag);
 	if (fd == -500)
 		return (-500);
 	if (fd < 0)

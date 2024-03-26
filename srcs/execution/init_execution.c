@@ -6,7 +6,11 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/03/23 22:02:27 by imehdid          ###   ########.fr       */
+=======
+/*   Updated: 2024/03/23 22:54:30 by asyvash          ###   ########.fr       */
+>>>>>>> 53ec03d67d7e7187440ae9fd2f477d78a4901fcd
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +108,7 @@ void	init_executor(t_astnode *root, t_list **env)
 	if (redirections)
 	{
 		del_redirs_from_root(&root);
-		if (init_redirection(redirections, fds) == -500)
+		if (init_redirection(redirections, fds, 0, 0) == -500)
 		{
 			restore_std(fds);
 			ft_putchar_fd('\n', 2);
