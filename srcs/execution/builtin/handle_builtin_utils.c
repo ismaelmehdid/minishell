@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 23:25:04 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/26 16:41:34 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/26 16:55:25 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,21 +50,14 @@ int	get_command(char *input, char *checking)
 			quote = input[i++];
 			while (input[i] && input[i] != quote)
 			{
-				if (input[i] != checking[j])
+				if (input[i++] != checking[j++])
 					return (1);
-				i++;
-				j++;
 			}
 			if (input[i] == quote)
 				i++;
 		}
-		else
-		{
-			if (input[i] != checking[j])
-				return (1);
-			i++;
-			j++;
-		}
+		else if (input[i++] != checking[j++])
+			return (1);
 	}
 	if (checking[j] != '\0')
 		return (1);
