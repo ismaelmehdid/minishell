@@ -6,13 +6,13 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 16:17:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/03 18:09:04 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/24 22:29:32 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-static char	**malloc_each_arrays(char **result, char *input, char *skip)
+static char	**malloc_each_arrays(char **result, char *input, char *skip, t_list *env)
 {
 	int	i;
 	int	j;
@@ -28,7 +28,7 @@ static char	**malloc_each_arrays(char **result, char *input, char *skip)
 			i++;
 		if (input[i])
 		{
-			result[j] = malloc_word(input, &i, skip);
+			result[j] = malloc_word(input, &i, skip, env);
 			if (!result[j])
 			{
 				free_double_array(result);
@@ -41,7 +41,7 @@ static char	**malloc_each_arrays(char **result, char *input, char *skip)
 	return (result);
 }
 
-static void	copy_each_elements(char **result, char *input, char *skip)
+static void	copy_each_elements(char **result, char *input, char *skip, t_list *env)
 {
 	int	i;
 	int	j;
@@ -50,26 +50,26 @@ static void	copy_each_elements(char **result, char *input, char *skip)
 	j = 0;
 	while (input[i])
 	{
-		while (input[i] && ft_strchr(skip, input[i]))
-			i++;
-		if (input[i])
+		while (*input && ft_strchr(skip, *input))
+			input++;
+		if (*input)
 		{
-			copy_word(result[j], input, &i, skip);
+			input += copy_word(result[j], input, skip, env);
 			j++;
 		}
 	}
 }
 
-char	**split_quotes(char *input, char *skip)
+char	**split_quotes(char *input, char *skip, t_list *env)
 {
 	char	**result;
 
 	result = NULL;
 	if (!input || !skip)
 		return (NULL);
-	result = malloc_each_arrays(result, input, skip);
+	result = malloc_each_arrays(result, input, skip, env);
 	if (!result)
 		return (NULL);
-	copy_each_elements(result, input, skip);
+	copy_each_elements(result, input, skip, env);
 	return (result);
 }

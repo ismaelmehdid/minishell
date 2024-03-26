@@ -6,11 +6,41 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 23:56:59 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/23 02:56:36 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/24 16:25:20 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+void	remove_quotes(char *cmd)
+{
+	int		i;
+	int		j;
+	char	temp[NAME_MAX];
+
+	i = 0;
+	j = 0;
+	ft_strlcpy(temp, cmd, ft_strlen(cmd) + 1);
+	free(cmd);
+	while (temp[i])
+	{
+		if (temp[i] != '\'' && temp[i] != '"')
+			j++;
+		i++;
+	}
+	cmd = malloc(sizeof(char) * j + sizeof(char));
+	if (!cmd)
+		return ;
+	i = 0;
+	j = 0;
+	while (temp[i])
+	{
+		if (temp[i] != '\'' && temp[i] != '"')
+			cmd[j++] = temp[i];
+		i++;
+	}
+	cmd[j] = '\0';
+}
 
 static void	print_error(char *cmd)
 {
@@ -74,22 +104,24 @@ static int	ft_execve(char *cmd_path, char **cmds, char **path_env)
 {
 	pid_t		pid;
 
+	g_last_command_status = 0;
 	pid = fork();
 	if (pid == -1)
 	{
 		perror("Fork");
+		g_last_command_status = 1;
 		return (1);
 	}
 	else if (pid == 0)
 	{
 		if (execve(cmd_path, cmds, path_env) == -1)
 		{
+			g_last_command_status = 126;
 			free_double_array(cmds);
 			free(cmd_path);
 			free_double_array(path_env);
 			perror("Execve");
-			g_last_command_status = 126;
-			return (126);
+			exit (1);
 		}
 	}
 	else
@@ -97,7 +129,7 @@ static int	ft_execve(char *cmd_path, char **cmds, char **path_env)
 	return (0);
 }
 
-int	launch_executable(char *cmd, char **envp)
+void	launch_executable(char *cmd, char **envp)
 {
 	char	*cmd_path;
 	char	**cmds;
@@ -111,9 +143,11 @@ int	launch_executable(char *cmd, char **envp)
 	{
 		print_error(cmd);
 		g_last_command_status = 127;
-		return (127);
+		return ;
 	}
-	cmds = split_quotes(cmd, " \t\n\v\f\r");
+	cmds = ft_split(cmd, ' ');
+	//cmds = split_quotes(cmd, " \t\n\v\f\r");
+	//remove_quotes(cmds[0]);
 	cmd_path = get_path(cmds[0], envp[i] + 5);
 	if (cmd_path == NULL)
 	{
@@ -121,8 +155,7 @@ int	launch_executable(char *cmd, char **envp)
 		free_double_array(cmds);
 		free(cmd_path);
 		g_last_command_status = 127;
-		return (127);
+		return ;
 	}
 	g_last_command_status = ft_execve(cmd_path, cmds, envp);
-	return (g_last_command_status);
 }

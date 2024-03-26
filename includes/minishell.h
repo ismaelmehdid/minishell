@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:28 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/23 02:07:45 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/25 01:37:07 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,6 @@ typedef struct s_astnode
 	char				*value;
 	struct s_astnode	*left;
 	struct s_astnode	*right;
-	int					*quotes_indexes;
-	int					starting_index;
 }	t_astnode;
 
 typedef struct s_list
@@ -71,7 +69,7 @@ char			**create_envp(t_list *env);
 int				ft_lstsize(t_list *lst);
 int				create_env(t_list **env, char **envp);
 //-------Parsing-----------=======================
-t_astnode		*parsing(char **input);
+t_astnode		*parsing(char **input, t_list *env);
 t_astnode		*init_ast(char **elements);
 t_astnode		*create_node(char *element);
 enum s_nodetype	get_element_type(char *element);
@@ -79,7 +77,7 @@ char			*pipes_validation(char *input);
 int				check_last_pipe_command(char *inp);
 int				check_for_spaces(char *inp);
 char			*get_backup(char *backup, char *input);
-int				quotes_validation(char **elements);
+int				quotes_validation(char *elements);
 //-------Parsing utils----========================
 void			free_double_array(char **array);
 void			free_all_nodes(t_astnode *root);
@@ -87,12 +85,16 @@ int				ft_strcmp(char *one, char *two);
 int				contain_str(char **array, char *element);
 void			skip_quotes(char *input, int *i);
 //-------Split elements---========================
-char			**split_quotes(char *input, char *skip);
+char			**split_quotes(char *input, char *skip, t_list *env);
 void			skip_quotes(char *input, int *i);
 int				count_words(char *input, char *skip);
-char			*malloc_word(char *input, int *i, char *skip);
-void			copy_word(char *result, char *input, int *i, char *skip);
+char			*malloc_word(char *input, int *i, char *skip, t_list *env);
+int				copy_word(char *result, char *input, char *skip, t_list *env);
 int				size_double_array(char **array);
+int				search_env_size(char *input, int *i, t_list *env);
+void			add_env_value(char *result, char *input, int *i, int *k, t_list *env);
+int				get_variable_name(char *input, int i, char *dest);
+int				env_var_name_size(char *env_var);
 //-------Signals-------========================
 int				toggle_echoctl_status(int status);
 void			ctrl_c(int signum);
@@ -102,7 +104,7 @@ int				check_num(int num1, int num2);
 //-------Execution-------========================
 void			init_executor(t_astnode *root, t_list **env);
 int				execute_pipeline(char **cmds, t_list **env, t_astnode *root);
-int				launch_executable(char *cmd, char **envp);
+void			launch_executable(char *cmd, char **envp);
 //-------Execution utils-------==================
 char			*get_path(char *cmd, char *path_full);
 void			close_pipe_fds(int *fd, int size);
@@ -111,7 +113,7 @@ void			launch_cmd(char *cmd, char **envp, char *cmd_path);
 void			not_found(char *cmd);
 //-------Built-ins-------========================
 int				handle_builtin(char *input, char **envp, t_list **env, t_astnode *root);
-int				execute_echo(char *arg, t_astnode *root, t_list **env);
+int				execute_echo(char *arg);
 int				execute_pwd(void);
 int				execute_export(char *arg, t_list *env, char **envp);
 int				execute_env(char **envp);
@@ -150,8 +152,9 @@ int				get_last_index(char *input);
 int				get_prelast_file(char *input, int i);
 
 void			print_prompt(int status);
-int				get_command(char *input, char *checking, t_astnode *root);
-int				get_command_args_indexes(char *input, t_astnode *root);
+int				get_command(char *input, char *checking);
+int				get_command_args_indexes(char *input);
+void			remove_quotes(char *cmd);
 
 extern int						g_last_command_status;
 extern int						g_stdin_copy_fd;

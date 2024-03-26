@@ -6,42 +6,11 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 22:49:26 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/22 17:25:49 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/25 01:42:43 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-static int	*quotes_indexing(char *element)
-{
-	int		*quotes_indexes;
-	int		i;
-	char	quote;
-
-	i = 0;
-	quotes_indexes = calloc(ft_strlen(element), sizeof(int));
-	if (!quotes_indexes)
-		return (NULL);
-	while (element[i])
-	{
-		if (element[i] == '\'' || element[i] == '"')
-		{
-			quote = element[i];
-			i++;
-			while (element[i] && element[i] != quote)
-			{
-				if (quote == '\'')
-					quotes_indexes[i] = 1;
-				else if (quote == '"')
-					quotes_indexes[i] = 2;
-				i++;
-			}
-		}
-		quotes_indexes[i] = 0;
-		i++;
-	}
-	return (quotes_indexes);
-}
 
 t_astnode	*create_node(char *element)
 {
@@ -58,16 +27,10 @@ t_astnode	*create_node(char *element)
 		return (NULL);
 	node->left = NULL;
 	node->right = NULL;
-	node->quotes_indexes = NULL;
 	if (ft_strcmp(element, "|"))
 		node->type = PIPE_NODE;
 	else
-	{
 		node->type = COMMAND_NODE;
-		node->quotes_indexes = quotes_indexing(element);
-		if (!node->quotes_indexes)
-			return (NULL);
-	}
 	return (node);
 }
 
@@ -105,7 +68,7 @@ t_astnode	*init_ast(char **elements)
 	return (root);
 }
 
-t_astnode	*parsing(char **input)
+t_astnode	*parsing(char **input, t_list *env)
 {
 	t_astnode	*root;
 	char		**elements;
@@ -116,15 +79,14 @@ t_astnode	*parsing(char **input)
 	*input = pipes_validation(*input);
 	if (!*input)
 		return (NULL);
-	elements = split_quotes(*input, "|");
-	if (!elements || !size_double_array(elements)
-		|| quotes_validation(elements))
+	if (quotes_validation(*input))
+		return (NULL);
+	elements = split_quotes(*input, "|", env);
+	if (!elements || !size_double_array(elements))
 	{
 		free_double_array(elements);
 		return (NULL);
 	}
-	if (!elements)
-		return (NULL);
 	root = init_ast(elements);
 	free_double_array(elements);
 	return (root);

@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 19:41:08 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/20 17:42:43 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/25 01:45:58 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	count_words(char *input, char *skip)
 	return (count);
 }
 
-char	*malloc_word(char *input, int *i, char *skip)
+char	*malloc_word(char *input, int *i, char *skip, t_list *env)
 {
 	int		nb_letters;
 	char	*word;
@@ -68,8 +68,13 @@ char	*malloc_word(char *input, int *i, char *skip)
 			(*i)++;
 			while (input[*i] && input[*i] != quote)
 			{
-				nb_letters++;
-				(*i)++;
+				if (input[*i] == '$' && quote == '"')
+					nb_letters += search_env_size(input, i, env);
+				else
+				{
+					nb_letters++;
+					(*i)++;
+				}
 			}
 			if (input[*i] && input[*i] == quote)
 				nb_letters++;
@@ -78,39 +83,53 @@ char	*malloc_word(char *input, int *i, char *skip)
 		}
 		else
 		{
-			nb_letters++;
-			(*i)++;
+			if (input[*i] == '$')
+				nb_letters += search_env_size(input, i, env);
+			else
+			{
+				nb_letters++;
+				(*i)++;
+			}
 		}
 	}
 	word = malloc(sizeof(char) * (nb_letters + 1));
 	return (word);
 }
 
-void	copy_word(char *result, char *input, int *i, char *skip)
+int	copy_word(char *result, char *input, char *skip, t_list *env)
 {
 	int		k;
+	int		i;
 	char	quote;
 
+	i = 0;
 	k = 0;
-	while (input[*i] && !ft_strchr(skip, input[*i]))
+	while (input[i] && !ft_strchr(skip, input[i]))
 	{
-		if (input[*i] == '\'' || input[*i] == '"')
+		if (input[i] == '\'' || input[i] == '"')
 		{
-			quote = input[*i];
-			result[k++] = input[*i];
-			(*i)++;
-			while (input[*i] && input[*i] != quote)
+			quote = input[i];
+			result[k++] = input[i++];
+			while (input[i] && input[i] != quote)
 			{
-				result[k++] = input[*i];
-				(*i)++;
+				if (quote == '"' && input[i] == '$')
+					add_env_value(result, input, &i, &k, env);
+				else
+				{
+					result[k++] = input[i];
+					i++;
+				}
 			}
-			if (input[*i] && input[*i] == quote)
-				result[k++] = input[*i];
-			if (input[*i])
-				(*i)++;
+			if (input[i] && input[i] == quote)
+				result[k++] = input[i];
+			if (input[i])
+				i++;
 		}
+		else if (input[i] == '$')
+			add_env_value(result, input, &i, &k, env);
 		else
-			result[k++] = input[(*i)++];
+			result[k++] = input[i++];
 	}
 	result[k] = '\0';
+	return (i);
 }

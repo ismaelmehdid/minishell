@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:05 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/23 16:26:14 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/24 17:26:03 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static void	minishell_loop(t_astnode *ast_root, t_list **env)
 		{
 			add_history(input);
 			input = check_and_modify(input, 0, 0);
-			ast_root = parsing(&input);
+			ast_root = parsing(&input, *env);
 			if (ast_root)
 			{
 				init_executor(ast_root, env);
@@ -103,5 +103,5 @@ int	main(int argc, char **argv, char **envp)
 	toggle_echoctl_status(0);
 	free_list(&env);
 	close(g_stdin_copy_fd);
-	return (0);
+	return (g_last_command_status);
 }

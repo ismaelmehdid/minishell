@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 00:09:18 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/15 03:19:29 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/25 00:55:55 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,6 @@ void	free_all_nodes(t_astnode *root)
 	free_all_nodes(root->left);
 	free_all_nodes(root->right);
 	free(root->value);
-	if (root->quotes_indexes)
-		free(root->quotes_indexes);
 	free(root);
 }
 
