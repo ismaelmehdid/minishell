@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/23 23:27:00 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/26 14:56:48 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ static int	pipe_child(char **cmds, t_pipeline *utl, t_list **env, t_astnode *roo
 	{
 		if (dup2(utl->fd[utl->j + 1], 1) < 0)
 		{
-			printf("\npipi\n");
 			perror("dup2");
 			return (1);
 		}
@@ -39,7 +38,6 @@ static int	pipe_child(char **cmds, t_pipeline *utl, t_list **env, t_astnode *roo
 	{
 		if (dup2(utl->fd[utl->j - 2], 0) < 0)
 		{
-			printf("\ncaca\n");
 			perror("dup2");
 			return (1);
 		}
@@ -49,7 +47,6 @@ static int	pipe_child(char **cmds, t_pipeline *utl, t_list **env, t_astnode *roo
 		close(utl->fd[utl->m]);
 		utl->m++;
 	}
-	printf("\nHOOOOO\n");
 	if (handle_builtin(cmds[utl->k], create_envp(*env), env, root) == 0)
 		exit(0);
 	launch_cmd(cmds[utl->k], create_envp(*env), NULL);
@@ -90,10 +87,7 @@ int	execute_pipeline(char **cmds, t_list **env, t_astnode *root)
 			return (1);
 		}
 		else if (utl.pid == 0)
-		{
-			write (1, "salut\n", 7);
 			pipe_child(cmds, &utl, env, root);
-		}
 		else if (utl.pid < 0)
 		{
 			perror("error");

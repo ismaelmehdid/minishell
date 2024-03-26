@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 23:56:59 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/24 16:25:20 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/26 15:02:27 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,9 +145,7 @@ void	launch_executable(char *cmd, char **envp)
 		g_last_command_status = 127;
 		return ;
 	}
-	cmds = ft_split(cmd, ' ');
-	//cmds = split_quotes(cmd, " \t\n\v\f\r");
-	//remove_quotes(cmds[0]);
+	cmds = split_quotes(cmd, " \t\n\v\f\r", NULL);
 	cmd_path = get_path(cmds[0], envp[i] + 5);
 	if (cmd_path == NULL)
 	{

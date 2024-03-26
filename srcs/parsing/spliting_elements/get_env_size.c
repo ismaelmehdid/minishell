@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 17:56:06 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/26 14:37:04 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/26 14:55:30 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,27 @@ int	get_variable_name(char *input, int i, char *dest)
 	return (j);
 }
 
+static int	compare_env_name(char *content, int *i, int var_size, char *var_name)
+{
+	if (env_var_name_size(content) == var_size)
+	{
+		if (ft_strncmp(content, var_name, env_var_name_size(content)) == 0)
+		{
+			*i += (var_size + sizeof(char));
+			return (env_var_value_size(content));
+		}
+	}
+	return (-1);
+}
+
 int	search_env_size(char *input, int *i, t_list *env)
 {
 	char	env_var_name[NAME_MAX];
 	t_list	*temp;
 	int		input_var_size;
+	int		res;
 
+	res = 0;
 	input_var_size = get_variable_name(input, *i, env_var_name);
 	if (ft_strncmp(env_var_name, "?", input_var_size) == 0)
 	{
@@ -74,14 +89,9 @@ int	search_env_size(char *input, int *i, t_list *env)
 	temp = env;
 	while (temp)
 	{
-		if (env_var_name_size(temp->content) == input_var_size)
-		{
-			if (ft_strncmp(temp->content, env_var_name, env_var_name_size(temp->content)) == 0)
-			{
-				*i += (input_var_size + sizeof(char));
-				return (env_var_value_size(temp->content));
-			}
-		}
+		res = compare_env_name(temp->content, i, input_var_size, env_var_name);
+		if (res != -1)
+			return (res);
 		temp = temp->next;
 	}
 	*i += (input_var_size + sizeof(char));

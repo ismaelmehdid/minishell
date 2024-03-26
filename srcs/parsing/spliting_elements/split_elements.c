@@ -6,11 +6,23 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 16:17:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/24 22:29:32 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/26 15:35:10 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
+
+void	skip_quotes(char *input, int *i)
+{
+	char	quote;
+
+	quote = input[*i];
+	(*i)++;
+	while (input[*i] && input[*i] != quote)
+		(*i)++;
+	if (input[*i] == quote)
+		(*i)++;
+}
 
 static char	**malloc_each_arrays(char **result, char *input, char *skip, t_list *env)
 {

@@ -1,28 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   split_elements_utils.c                             :+:      :+:    :+:   */
+/*   split_elements_malloc.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/19 19:41:08 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/25 01:45:58 by imehdid          ###   ########.fr       */
+/*   Created: 2024/03/26 15:33:38 by imehdid           #+#    #+#             */
+/*   Updated: 2024/03/26 15:40:01 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
-
-void	skip_quotes(char *input, int *i)
-{
-	char	quote;
-
-	quote = input[*i];
-	(*i)++;
-	while (input[*i] && input[*i] != quote)
-		(*i)++;
-	if (input[*i] == quote)
-		(*i)++;
-}
 
 int	count_words(char *input, char *skip)
 {
@@ -52,6 +40,40 @@ int	count_words(char *input, char *skip)
 	return (count);
 }
 
+static int	handle_quote(char *input, int *i, char quote, t_list *env)
+{
+	int	nb_letters;
+
+	nb_letters = 0;
+	(*i)++;
+	while (input[*i] && input[*i] != quote)
+	{
+		if (input[*i] == '$' && quote == '"')
+			nb_letters += search_env_size(input, i, env);
+		else
+		{
+			nb_letters++;
+			(*i)++;
+		}
+	}
+	if (input[*i] && input[*i] == quote)
+		nb_letters++;
+	if (input[*i])
+		(*i)++;
+	return (nb_letters);
+}
+
+static void handle_no_quote(char *input, int *i, int *nb_letters, t_list *env)
+{
+	if (input[*i] == '$')
+		*nb_letters += search_env_size(input, i, env);
+	else
+	{
+		(*nb_letters)++;
+		(*i)++;
+    }
+}
+
 char	*malloc_word(char *input, int *i, char *skip, t_list *env)
 {
 	int		nb_letters;
@@ -65,71 +87,15 @@ char	*malloc_word(char *input, int *i, char *skip, t_list *env)
 		{
 			quote = input[*i];
 			nb_letters++;
-			(*i)++;
-			while (input[*i] && input[*i] != quote)
-			{
-				if (input[*i] == '$' && quote == '"')
-					nb_letters += search_env_size(input, i, env);
-				else
-				{
-					nb_letters++;
-					(*i)++;
-				}
-			}
+			nb_letters += handle_quote(input, i, quote, env);
 			if (input[*i] && input[*i] == quote)
 				nb_letters++;
 			if (input[*i])
 				(*i)++;
 		}
 		else
-		{
-			if (input[*i] == '$')
-				nb_letters += search_env_size(input, i, env);
-			else
-			{
-				nb_letters++;
-				(*i)++;
-			}
-		}
+			handle_no_quote(input, i, &nb_letters, env);
 	}
 	word = malloc(sizeof(char) * (nb_letters + 1));
 	return (word);
-}
-
-int	copy_word(char *result, char *input, char *skip, t_list *env)
-{
-	int		k;
-	int		i;
-	char	quote;
-
-	i = 0;
-	k = 0;
-	while (input[i] && !ft_strchr(skip, input[i]))
-	{
-		if (input[i] == '\'' || input[i] == '"')
-		{
-			quote = input[i];
-			result[k++] = input[i++];
-			while (input[i] && input[i] != quote)
-			{
-				if (quote == '"' && input[i] == '$')
-					add_env_value(result, input, &i, &k, env);
-				else
-				{
-					result[k++] = input[i];
-					i++;
-				}
-			}
-			if (input[i] && input[i] == quote)
-				result[k++] = input[i];
-			if (input[i])
-				i++;
-		}
-		else if (input[i] == '$')
-			add_env_value(result, input, &i, &k, env);
-		else
-			result[k++] = input[i++];
-	}
-	result[k] = '\0';
-	return (i);
 }
