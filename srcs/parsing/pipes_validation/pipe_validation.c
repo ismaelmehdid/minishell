@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_validation.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 20:08:47 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/20 17:41:33 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/26 18:52:34 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,12 +128,18 @@ char	*pipes_validation(char *input)
 	backup = NULL;
 	input = pipes_format_checker(input);
 	if (!input)
+	{
+		g_last_command_status = 2;
 		return (NULL);
+	}
 	signal(SIGINT, new_ctrl_c_pipe);
 	input = validation_loop(input, backup, 0);
 	if (backup)
 		free(backup);
-	if (!input)
+	if (!input || input == NULL)
+	{
+		g_last_command_status = 2;
 		return (NULL);
+	}
 	return (input);
 }

@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 00:19:05 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/21 00:04:26 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/26 18:45:23 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ static char	*check_redirs(char *inp, int i)
 				inp[i] == '>' || inp[i] == '|')
 			{
 				free(inp);
+				g_last_command_status = 2;
 				return (NULL);
 			}
 		}
@@ -64,6 +65,8 @@ static char	*check_redirs(char *inp, int i)
 
 static char	*add_tee_cmd(char *inp, char *new, int *i)
 {
+	if (!new || new == NULL)
+		return (NULL);
 	if (inp[(*i)] == '>' && inp[(*i) + 1] == '>')
 	{
 		new = ft_strjoin_free(new, "| tee -a", 8);
@@ -102,15 +105,14 @@ static char	*modyfing(char *inp, char *new, int last, int i)
 			break ;
 		}
 		new = ft_strnjoin(new, inp + j, i - j);
-		if (!new)
-			break ;
 		new = add_tee_cmd(inp, new, &i);
 		if (!new)
 			break ;
 	}
-	if (!new)
+	if (new == NULL || !new)
 	{
 		ft_putstr_fd("Allocation error\n", 2);
+		g_last_command_status = 1;
 		return (NULL);
 	}
 	return (new);
@@ -140,7 +142,7 @@ char	*check_and_modify(char *input, int append, int out)
 	}
 	new = modyfing(input, new, get_last_index(input), 0);
 	free(input);
-	if (new == NULL)
+	if (new == NULL || !new)
 		return (NULL);
 	return (new);
 }
