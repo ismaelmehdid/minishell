@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   launch_executable.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 23:56:59 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/26 17:31:59 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/27 16:59:14 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,23 +100,19 @@ char	*get_path(char *cmd, char *path_full)
 	return (NULL);
 }
 
-static int	ft_execve(char *cmd_path, char **cmds, char **path_env)
+static void	ft_execve(char *cmd_path, char **cmds, char **path_env, int status, pid_t pid)
 {
-	pid_t		pid;
-
-	g_last_command_status = 0;
 	pid = fork();
 	if (pid == -1)
 	{
 		perror("Fork");
 		g_last_command_status = 1;
-		return (1);
+		return ;
 	}
 	else if (pid == 0)
 	{
 		if (execve(cmd_path, cmds, path_env) == -1)
 		{
-			g_last_command_status = 126;
 			free_double_array(cmds);
 			free(cmd_path);
 			free_double_array(path_env);
@@ -125,17 +121,18 @@ static int	ft_execve(char *cmd_path, char **cmds, char **path_env)
 		}
 	}
 	else
-		waitpid(pid, NULL, 0);
-	return (0);
+	{
+		waitpid(pid, &status, 0);
+		if (WEXITSTATUS(status) == 1)
+			g_last_command_status = 126;
+	}
 }
 
-void	launch_executable(char *cmd, char **envp)
+void	launch_executable(char *cmd, char **envp, int i)
 {
 	char	*cmd_path;
 	char	**cmds;
-	int		i;
 
-	i = -1;
 	while (envp[++i] != NULL)
 		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
 			break ;
@@ -156,5 +153,5 @@ void	launch_executable(char *cmd, char **envp)
 		g_last_command_status = 127;
 		return ;
 	}
-	g_last_command_status = ft_execve(cmd_path, cmds, envp);
+	ft_execve(cmd_path, cmds, envp, 0, 0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_modify_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 00:15:22 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/20 17:26:57 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/27 00:14:18 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,13 @@ int	count_out(char *input)
 	count = 0;
 	while (input[i] != '\0')
 	{
-		if (input[i + 1] && input[i] == '>' && \
-			input[i + 1] != '>')
+		if (i > 0 && is_whitespace(input[i]) && \
+			input[i] == '>' && \
+			input[i + 1] != '\0' && \
+			is_whitespace(input[i + 1]))
 		{
 			count++;
+			i += 2;
 			while (is_whitespace(input[i]))
 				i++;
 		}
@@ -46,6 +49,7 @@ int	count_append(char *input)
 			input[i + 1] == '>')
 		{
 			count++;
+			i += 2;
 			while (is_whitespace(input[i]))
 				i++;
 		}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:37:54 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/26 19:03:09 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/27 17:22:42 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ static int	invalid_parameter(char *param)
 			ft_putstr_fd("unset: ", 2);
 			ft_putstr_fd(param, 2);
 			ft_putstr_fd(": invalid parameter name\n", 2);
-			return (-1);
+			g_last_command_status = 128;
+			return (1);
 		}
 		i++;
 	}
@@ -105,7 +106,12 @@ int	execute_unset(t_list **head, char *key)
 		return (0);
 	args = create_key(key);
 	if (!args)
-		return (2);
+	{
+		if (g_last_command_status == 128)
+			return (128);
+		else
+			return (1);
+	}
 	search_and_remove_env(head, args);
 	free_double_array(args);
 	return (0);

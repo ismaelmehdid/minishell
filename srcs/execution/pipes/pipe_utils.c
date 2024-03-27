@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:55:34 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/26 17:31:13 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/27 18:29:41 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,24 @@ void	launch_cmd(char *cmd, char **envp, char *cmd_path)
 	}
 	if (execve(cmd_path, cmds, envp) < 0)
 	{
-		perror("execve");
+		perror("Execve");
 		free_double_array(cmds);
 		free(envp);
 		exit (126);
 	}
+}
+
+int	get_pipe_size(t_astnode *node)
+{
+	int			counter;
+	t_astnode	*tmp_node;
+
+	counter = 1;
+	tmp_node = node;
+	while (tmp_node->right && tmp_node->right->type == PIPE_NODE)
+	{
+		tmp_node = tmp_node->right;
+		counter++;
+	}
+	return (counter);
 }

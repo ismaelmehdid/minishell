@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_builtin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/25 01:38:16 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/27 17:21:02 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,13 @@ int	handle_builtin(char *input, char **envp, t_list **env, t_astnode *root)
 	i = 0;
 	if (!input)
 		return (1);
-	while (input[i] && (input[i] == 32 || (input[i] >= 9 && input[i] <= 13)))
+	while (is_whitespace(input[i]))
 		i++;
 	input += i;
 	if (get_command(input, "exit") == 0)
 	{
-		execute_exit(input + get_command_args_indexes(input), env, root, envp);
+		execute_exit(input + get_command_args_indexes(input), 
+			env, root, envp);
 	}
 	g_last_command_status = find_builtin(input + i, envp, env, root);
 	return (g_last_command_status);

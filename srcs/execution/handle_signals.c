@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 17:00:34 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/23 00:18:37 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/27 18:18:06 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,23 +30,20 @@ void	ctrl_c(int signum)
 		ft_putchar_fd('\n', 2);
 		rl_replace_line("", 0);
 		rl_on_new_line();
-		print_prompt(g_last_command_status);
+		printf("(%d) ", g_last_command_status);
+		rl_redisplay();
 	}
 }
 
 void	new_ctrl_c_pipe(int signum)
 {
-	int	bytes;
-	
 	g_last_command_status = 130;
 	if (signum == SIGINT)
 	{
 		if (g_sig_pressed == INT_MIN)
 			g_sig_pressed = 0;
 		g_sig_pressed -= 2;
-		bytes = write(STDIN_FILENO, "\n", 1);
-		if (bytes < 0)
-			ft_putstr_fd("write() failed\n", 2);
+		ft_putchar_fd('\n', 2);
 		close(STDIN_FILENO);
 	}
 }

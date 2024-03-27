@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_pipes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/26 14:56:48 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/27 18:28:24 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,14 @@
 static void	wait_pipes(int num_processes)
 {
 	int	i;
+	int status;
 
 	i = 0;
 	while (i < num_processes)
 	{
-		wait(NULL);
+		wait(&status);
+		if (WEXITSTATUS(status))
+			g_last_command_status = WEXITSTATUS(status);
 		i++;
 	}
 }
@@ -83,14 +86,14 @@ int	execute_pipeline(char **cmds, t_list **env, t_astnode *root)
 	{
 		if ((utl.pid = fork()) == -1)
 		{
-			perror("fork");
+			ft_putstr_fd("Fork failted\n", 2);
 			return (1);
 		}
 		else if (utl.pid == 0)
 			pipe_child(cmds, &utl, env, root);
 		else if (utl.pid < 0)
 		{
-			perror("error");
+			ft_putstr_fd("Pid < 0 error\n", 2);
 			return (1);
 		}
 		utl.j += 2;

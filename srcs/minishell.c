@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:05 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/26 18:49:19 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/27 18:18:12 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@ int	is_whitespace(char c)
 	return (c == ' ' || (c >= 9 && c <= 13));
 }
 
-static int	only_spaces(char *line)
+int	only_spaces(char *line)
 {
 	int	i;
 
 	i = 0;
 	while (line[i])
 	{
-		if (line[i] == ' ')
+		if (is_whitespace(line[i]))
 			i++;
 		else
 			return (1);
@@ -36,31 +36,13 @@ static int	only_spaces(char *line)
 	return (0);
 }
 
-void	print_prompt(int status)
-{
-	printf("BestShell😎");
-	if (status != 0)
-	{
-		printf("\x1b[31m");
-    	printf("(%d)", status);
-    	printf("\x1b[0m");
-	}
-	else
-	{
-		printf("\x1b[32m");
-    	printf("(%d)", status);
-    	printf("\x1b[0m");
-	}
-	printf(" $> ");
-}
-
 static void	minishell_loop(t_astnode *ast_root, t_list **env, char *input)
 {
 	while (1)
 	{
 		signal(SIGINT, ctrl_c);
-		print_prompt(g_last_command_status);
-		input = readline("");
+		printf("(%d) ", g_last_command_status);
+		input = readline("BestShell😎$> ");
 		if (!input)
 			break ;
 		if (only_spaces(input) == 1)
@@ -73,7 +55,8 @@ static void	minishell_loop(t_astnode *ast_root, t_list **env, char *input)
 				init_executor(ast_root, env);
 				free_all_nodes(ast_root);
 			}
-			else if (ast_root == NULL && g_last_command_status != 2)
+			else if (ast_root == NULL && g_last_command_status != 2 && \
+				g_last_command_status != 130)
 				g_last_command_status = 1;
 		}
 		if (input)
