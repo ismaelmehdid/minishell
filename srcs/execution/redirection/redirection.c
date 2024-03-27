@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 21:27:27 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/23 22:54:07 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/26 23:29:01 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ static int	dup_std(t_redirection type, char *file)
 	return (dup_return);
 }
 
-int	init_redirection(char **redirs, int fds[2], int status, int i)
+int	make_redirection(char **redirs, int fds[2], int status, int i)
 {
 	char	*file;
 

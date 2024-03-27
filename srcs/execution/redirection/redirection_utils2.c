@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection_utils2.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 00:01:48 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/20 18:01:27 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/26 23:12:45 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,7 @@ char	**create_redirs(t_astnode *root)
 	if (!redirs)
 	{
 		ft_putstr_fd("Allocation error\n", 2);
+		g_last_command_status = 350;
 		return (NULL);
 	}
 	if (!root->left && !root->right)

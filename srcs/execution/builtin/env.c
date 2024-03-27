@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:37:38 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/15 18:36:14 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/27 17:13:08 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	execute_env(char **envp)
 
 	i = 0;
 	if (!envp)
-		return (0);
+		return (1);
 	while (envp[i] != NULL)
 	{
 		ft_putstr_fd(envp[i], STDOUT_FILENO);

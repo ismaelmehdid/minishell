@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:37:32 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/26 17:58:38 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/27 17:56:10 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,18 @@ static int	print_args(char **args, int option)
 
 static bool	check_option(char *arg)
 {
+	int	i;
+
+	i = 1;
 	if (!arg)
 		return (false);
-	if (arg[0] && arg[1] && arg[0] == '-' && arg[1] == 'n' && arg[2] == '\0')
-		return (true);
+	if (arg[0] == '-' && arg[1] != '\0')
+	{
+		while (arg[i] == 'n')
+			i++;
+		if (i > 1 && arg[i] == '\0')
+			return (true);
+	}
 	return (false);
 }
 

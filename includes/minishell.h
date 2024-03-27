@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:28 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/26 18:34:43 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/27 01:04:59 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define MINISHELL_H
 
 # include "libft/libft.h"
-# include "pipeline.h"
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
@@ -63,6 +62,16 @@ typedef struct s_list
 	struct s_list					*next;
 }	t_list;
 
+typedef struct s_pipeline
+{
+	int			i;
+	int			j;
+	int			k;
+	int			m;
+	pid_t		pid;
+	int			*fd;
+}t_pipeline;
+
 //-------Env utils-------======================================================
 void			free_list(t_list **env);
 char			**create_envp(t_list *env);
@@ -84,6 +93,7 @@ void			free_all_nodes(t_astnode *root);
 int				ft_strcmp(char *one, char *two);
 int				contain_str(char **array, char *element);
 void			skip_quotes(char *input, int *i);
+int				only_spaces(char *line);
 //-------Split elements---========================
 char			**split_quotes(char *input, char *skip, t_list *env);
 void			skip_quotes(char *input, int *i);
@@ -104,11 +114,12 @@ int				check_num(int num1, int num2);
 //-------Execution-------========================
 void			init_executor(t_astnode *root, t_list **env);
 int				execute_pipeline(char **cmds, t_list **env, t_astnode *root);
-void			launch_executable(char *cmd, char **envp);
+void			launch_executable(char *cmd, char **envp, int i);
 //-------Execution utils-------==================
 char			*get_path(char *cmd, char *path_full);
 void			close_pipe_fds(int *fd, int size);
 t_pipeline		get_pipe_utils(char **cmds);
+int				get_pipe_size(t_astnode *node);
 void			launch_cmd(char *cmd, char **envp, char *cmd_path);
 void			print_error_not_found(char *cmd);
 //-------Built-ins-------========================
@@ -133,7 +144,7 @@ int				trim_quotes(char **args);
 int				dup_error(int fds[2]);
 void			restore_std(int fds[2]);
 int				get_flags(t_redirection type);
-int				init_redirection(char **redirections, int fds[2], int status, int i);
+int				make_redirection(char **redirections, int fds[2], int status, int i);
 void			del_redirs_from_root(t_astnode **root);
 char			**create_redirs(t_astnode *root);
 t_redirection	get_redir_type(char *redirection);
