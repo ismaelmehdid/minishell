@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   launch_executable.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 23:56:59 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/27 16:59:14 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/27 23:34:42 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,8 @@ static void	ft_execve(char *cmd_path, char **cmds, char **path_env, int status, 
 	}
 	else if (pid == 0)
 	{
-		if (execve(cmd_path, cmds, path_env) == -1)
+		g_last_command_status = execve(cmd_path, cmds, path_env);
+		if (g_last_command_status == -1)
 		{
 			free_double_array(cmds);
 			free(cmd_path);
@@ -119,12 +120,12 @@ static void	ft_execve(char *cmd_path, char **cmds, char **path_env, int status, 
 			perror("Execve");
 			exit (1);
 		}
+		exit(g_last_command_status);
 	}
 	else
 	{
 		waitpid(pid, &status, 0);
-		if (WEXITSTATUS(status) == 1)
-			g_last_command_status = 126;
+		g_last_command_status = WEXITSTATUS(status);
 	}
 }
 

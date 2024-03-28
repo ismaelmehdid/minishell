@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 21:27:27 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/26 23:29:01 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/27 18:57:47 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int	open_file_redir(char *file, t_redirection type)
 	open_file = open(file, get_flags(type), 0664);
 	if (open_file < 0)
 	{
-		ft_putstr_fd("Error while opening a file\n", 2);
+		ft_putstr_fd("Error while opening a file", 2);
 		return (-1);
 	}
 	return (open_file);

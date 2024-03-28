@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 21:27:23 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/20 17:59:26 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/27 22:29:17 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	dup_error(int fds[2])
 
 int	redir_exist(char *line)
 {
-	int	i;
+	int		i;
 
 	i = 0;
 	while (line[i] != '\0')

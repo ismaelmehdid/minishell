@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 23:25:04 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/26 19:14:40 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/28 17:08:01 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,25 +66,29 @@ int	get_command(char *input, char *checking)
 
 static int	trim_quotes_utils(char **args, int j, char *new)
 {
-	if (args[j][0] == '"')
+	char	quote;
+	int		i;
+	int		e;
+
+	i = 0;
+	e = 0;
+	if (args[j][i] == '"' || args[j][i] == '"')
 	{
-		new = ft_strtrim(args[j], "\"");
+		new = malloc(ft_strlen(args[j]) - 2 + sizeof(char));
 		if (!new)
 			return (1);
-		free(args[j]);
-		args[j] = ft_strdup(new);
-		if (!new)
-			return (1);
-	}
-	else if (args[j][0] == '\'')
-	{
-		new = ft_strtrim(args[j], "'");
-		if (!new)
-			return (1);
-		free(args[j]);
-		args[j] = ft_strdup(new);
-		if (!args[j])
-			return (1);
+		quote = args[j][i++];
+		while (args[j][i] && args[j][i] != quote)
+			new[e++] = args[j][i++];
+		if (args[j][i] == quote)
+		{
+			i++;
+			while (args[j][i] && !is_whitespace(args[j][i]))
+				new[e++] = args[j][i++];
+			new[e] = '\0';
+		}
+		free (args[j]);
+		args[j] = new;
 	}
 	return (0);
 }
