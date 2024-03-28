@@ -3,47 +3,54 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:37:32 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/27 17:56:10 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/28 17:34:22 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-static void	print_arg(char **args, int i, int j)
+static void	print_arg(char *arg)
 {
 	char	quote;
+	int		i;
 
-	while (args[j][i])
+	i = 0;
+	while (arg[i])
 	{
-		if (args[j][i] == '\'' || args[j][i] == '"')
+		if (arg[i] == '\'' || arg[i] == '"')
 		{
-			quote = args[j][i++];
-			while (args[j][i] && args[j][i] != quote)
-				ft_putchar_fd(args[j][i++], STDOUT_FILENO);
-			break;
+			quote = arg[i];
+			i++;
+			while (arg[i] && arg[i] != quote)
+				ft_putchar_fd(arg[i++], STDOUT_FILENO);
+			if (arg[i] == quote)
+			{
+				i++;
+				while (arg[i] && !is_whitespace(arg[i]))
+					ft_putchar_fd(arg[i++], STDOUT_FILENO);
+			}
+			break ;
 		}
-		ft_putchar_fd(args[j][i++], STDOUT_FILENO);
+		ft_putchar_fd(arg[i], STDOUT_FILENO);
+		i++;
 	}
-	if (args[j + 1] != NULL)
-		ft_putchar_fd(' ', STDOUT_FILENO);
 }
 
 static int	print_args(char **args, int option)
 {
-	int		i;
 	int		j;
 
-	i = 0;
 	j = 0;
 	if (option == true)
 		j++;
 	while (args[j])
 	{
-		print_arg(args, i, j);
-		i = 0;
+		print_arg(args[j]);
+		if (args[j + 1] != NULL)
+			ft_putchar_fd(' ', STDOUT_FILENO);
 		j++;
 	}
 	if (option)
