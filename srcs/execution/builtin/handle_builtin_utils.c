@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 23:25:04 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/28 17:08:01 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/29 00:58:45 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static int	trim_quotes_utils(char **args, int j, char *new)
 
 	i = 0;
 	e = 0;
-	if (args[j][i] == '"' || args[j][i] == '"')
+	if (args[j][i] == '\'' || args[j][i] == '"')
 	{
 		new = malloc(ft_strlen(args[j]) - 2 + sizeof(char));
 		if (!new)
@@ -100,6 +100,8 @@ int	trim_quotes(char **args)
 
 	j = 0;
 	new = NULL;
+	if (!args)
+		return (1);
 	while (args[j])
 	{
 		if (trim_quotes_utils(args, j, new))

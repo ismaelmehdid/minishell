@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 17:56:03 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/27 22:52:27 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/28 18:00:11 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	add_env_value(char *result, char *input, int *i, int *k, t_list *env)
 	char	env_var_name[NAME_MAX];
 	t_list	*temp;
 	char	*code;
-	
+
 	code = NULL;
 	get_variable_name(input, *i, env_var_name);
 	if (ft_strncmp(env_var_name, "?", ft_strlen(env_var_name)) == 0)

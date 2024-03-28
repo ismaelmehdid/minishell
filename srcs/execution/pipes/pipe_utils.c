@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:55:34 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/27 18:29:41 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/29 00:56:44 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,13 @@ void	launch_cmd(char *cmd, char **envp, char *cmd_path)
 {
 	char	**cmds;
 
-	if (get_indx(envp) == -1 || \
-		envp[get_indx(envp)] == NULL)
+	if (get_indx(envp) == -1 || envp[get_indx(envp)] == NULL)
 	{
 		ft_putstr_fd("PATH not set\n", 2);
 		return ;
 	}
 	cmds = split_quotes(cmd, " \t\n\v\f\r", NULL);
-	remove_quotes(cmds[0]);
+	trim_quotes(cmds);
 	cmd_path = get_path(cmds[0], envp[get_indx(envp)] + 5);
 	if (cmd_path == NULL)
 	{
