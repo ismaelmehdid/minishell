@@ -3,7 +3,7 @@ NAME = minishell
 SRCS = $(wildcard srcs/*.c srcs/parsing/*.c srcs/execution/*.c \
 		srcs/errors_handling/*.c srcs/execution/builtin/*.c \
 		srcs/parsing/spliting_elements/*.c srcs/parsing/pipes_validation/*.c \
-		srcs/parsing/quotes_validation/*.c \
+		srcs/parsing/quotes_validation/*.c srcs/parsing/pre_parsing_for_redirs/*.c\
 		srcs/execution/redirection/*.c srcs/execution/pipes/*.c)
 
 OBJS_DIR = objs/

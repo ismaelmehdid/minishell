@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 00:15:22 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/27 00:14:18 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/28 18:07:23 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@ int	count_out(char *input)
 	count = 0;
 	while (input[i] != '\0')
 	{
-		if (i > 0 && is_whitespace(input[i]) && \
+		if (input[i] == '\'' || input[i] == '"')
+			skip_quotes(input, &i);
+		if (i > 0 && input[i] && \
+			is_whitespace(input[i - 1]) && \
 			input[i] == '>' && \
 			input[i + 1] != '\0' && \
 			is_whitespace(input[i + 1]))
@@ -45,7 +48,9 @@ int	count_append(char *input)
 	count = 0;
 	while (input[i] != '\0')
 	{
-		if (input[i + 1] && input[i] == '>' && \
+		if (input[i] == '\'' || input[i] == '"')
+			skip_quotes(input, &i);
+		if (input[i] && input[i + 1] && input[i] == '>' && \
 			input[i + 1] == '>')
 		{
 			count++;
@@ -65,8 +70,10 @@ int	get_next_index(char *line, int last)
 
 	if (!i)
 		i = 0;
-	while (i != last)
+	while (i <= last)
 	{
+		if (line[i] == '\'' || line[i] == '"')
+				skip_quotes(line, &i);
 		if (line[i] == '>')
 		{
 			return_value = i;
@@ -86,10 +93,19 @@ int	get_next_index(char *line, int last)
 int	get_last_index(char *input)
 {
 	int	i;
+	char quote;
 
 	i = ft_strlen(input) - 1;
 	while (i >= 0 && input[i] != '>')
+	{
+		if (input[i] == '\'' || input[i] == '"')
+		{
+			quote = input[i];
+			while (i >= 0 && input[i] != quote)
+				i--;
+		}
 		i--;
+	}
 	while (input[i] == '>')
 		i--;
 	return (i);
@@ -97,11 +113,21 @@ int	get_last_index(char *input)
 
 int	get_prelast_file(char *input, int i)
 {
+	char	quote;
+	
 	while (input[i] == '>' || input[i] == '<')
 		i--;
 	while (is_whitespace(input[i]))
 		i--;
 	while (input[i] != '>')
+	{
+		if (input[i] == '\'' || input[i] == '"')
+		{
+			quote = input[i];
+			while (i >= 0 && input[i] != quote)
+				i--;
+		}
 		i--;
+	}
 	return (i + 1);
 }

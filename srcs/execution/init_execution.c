@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/27 18:19:25 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/28 16:24:29 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ void	init_executor(t_astnode *root, t_list **env)
 	int			fds[2];
 
 	g_last_command_status = 0;
-	redirections = create_redirs(root);
+	redirections = create_list(root);
 	if (redirections)
 	{
 		init_redirs(root, redirections, fds);
@@ -133,7 +133,7 @@ void	init_executor(t_astnode *root, t_list **env)
 		return ;
 	}
 	if (root->type == PIPE_NODE)
-		init_pipe(root, env, 0); // work on this
+		init_pipe(root, env, 0);
 	else if (root->type == COMMAND_NODE)
 		execute_command(root, create_envp(*env), env);
 	restore_std(fds);

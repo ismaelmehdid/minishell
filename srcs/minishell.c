@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:05 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/27 18:18:12 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/28 17:35:21 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static void	minishell_loop(t_astnode *ast_root, t_list **env, char *input)
 		if (only_spaces(input) == 1)
 		{
 			add_history(input);
-			input = check_and_modify(input, 0, 0);
+			input = check_and_modify(input, NULL, 0, 0);
 			ast_root = parsing(&input, *env);
 			if (ast_root)
 			{

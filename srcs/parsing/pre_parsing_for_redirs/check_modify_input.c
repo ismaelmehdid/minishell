@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 00:19:05 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/26 23:56:31 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/28 18:07:50 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,10 @@ static char	*ft_strnjoin(char *s1, char const *s2, int n)
 
 static char	*check_redirs(char *inp, int i)
 {
-	while (inp[i] != '\0')
+	while (i < ft_strlen(inp))
 	{
+		if (inp[i] == '\'' || inp[i] == '"')
+			skip_quotes(inp, &i);
 		if (inp[i] == '>' || inp[i] == '<')
 		{
 			if (inp[i] == '>' && inp[i + 1] == '>')
@@ -118,10 +120,10 @@ static char	*modyfing(char *inp, char *new, int last, int i)
 	return (new);
 }
 
-char	*check_and_modify(char *input, int append, int out)
+char	*check_and_modify(char *input, char *new, int append, int out)
 {
-	char	*new;
-
+	if (quotes_validation(input))
+		return (NULL);
 	input = check_redirs(input, 0);
 	if (input == NULL)
 	{

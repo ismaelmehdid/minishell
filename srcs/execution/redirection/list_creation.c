@@ -1,27 +1,50 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirection_utils2.c                               :+:      :+:    :+:   */
+/*   list_creation.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 00:01:48 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/26 23:12:45 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/28 16:26:18 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-char	*get_redir(char *line)
+int	get_index_after_quotes(char *line)
 {
 	int		i;
-	int		j;
-	int		k;
+	char	quote;
+	
+	i = 0;
+	while (line[i] != '\0')
+	{
+		if (line[i] == '\'' || line[i] == '"')
+		{
+			quote = line[i];
+			i++;
+			while(line[i] && line[i] != quote)
+			    i++;
+            if (line[i] == quote)
+                i++;
+            continue ;
+        }
+		if (line[i] == '>' || line[i] == '<')
+			return (i);
+		i++;
+	}
+	return (0);
+}
+
+char	*get_redir(char *line)
+{
+	int			i;
+	int			j;
+	int			k;
 	char	*redir;
 
-	i = 0;
-	while (line[i] != '<' && line[i] != '>')
-		i++;
+	i = get_index_after_quotes(line);
 	j = i;
 	while (line[j] == '>' || line[j] == '<' || line[j] == ' ')
 		j++;
@@ -40,35 +63,35 @@ char	*get_redir(char *line)
 	return (redir);
 }
 
-static char	**fill_last_redir(t_astnode *node, char ***redirs, int i, int j)
+static char	**fill_last_line(char *content, char ***redirs, int i, int j)
 {
-	if (node->value && redir_exist(node->value) == 0)
+	if (content && redir_exist(content) == 0)
 	{
-		(*redirs)[++i] = get_redir(node->value);
+		(*redirs)[++i] = get_redir(content);
 		if ((*redirs)[i] == NULL)
 		{
-			ft_putstr_fd("Malloc allocation error\n", 2);
+			ft_putstr_fd("Allocation error\n", 2);
 			free_double_array((*redirs));
 			return (NULL);
 		}
 		while (1)
 		{
-			j = still_exist(node->value);
+			j = still_exist(content);
 			if (j == -1)
 				break ;
-			(*redirs)[++i] = get_redir(node->value + j);
+			(*redirs)[++i] = get_redir(content + j);
 			if ((*redirs)[i] == NULL)
 			{
-				ft_putstr_fd("Malloc allocation error\n", 2);
+				ft_putstr_fd("Allocation error\n", 2);
 				free_double_array((*redirs));
 				return (NULL);
 			}
 		}
 	}
-	return (*(redirs));
+	return ((*redirs));
 }
 
-static char	**fill_redirs(t_astnode *node, char ***redirs, int i, int j)
+static char	**fill_list(t_astnode *node, char ***redirs, int i, int j)
 {
 	while (node->right)
 	{
@@ -93,38 +116,10 @@ static char	**fill_redirs(t_astnode *node, char ***redirs, int i, int j)
 			break ;
 		node = node->right;
 	}
-	return (fill_last_redir(node, redirs, i, 0));
+	return (fill_last_line(node->value, redirs, i, 0));
 }
 
-static char	**fill_root_simple(t_astnode *root, char ***redirs, int i, int j)
-{
-	if (root->value && redir_exist(root->value) == 0)
-	{
-		(*redirs)[++i] = get_redir(root->value);
-		if ((*redirs)[i] == NULL)
-		{
-			ft_putstr_fd("Allocation error\n", 2);
-			free_double_array((*redirs));
-			return (NULL);
-		}
-		while (1)
-		{
-			j = still_exist(root->value);
-			if (j == -1)
-				break ;
-			(*redirs)[++i] = get_redir(root->value + j);
-			if ((*redirs)[i] == NULL)
-			{
-				ft_putstr_fd("Allocation error\n", 2);
-				free_double_array((*redirs));
-				return (NULL);
-			}
-		}
-	}
-	return ((*redirs));
-}
-
-char	**create_redirs(t_astnode *root)
+char	**create_list(t_astnode *root)
 {
 	int		size;
 	char	**redirs;
@@ -140,6 +135,6 @@ char	**create_redirs(t_astnode *root)
 		return (NULL);
 	}
 	if (!root->left && !root->right)
-		return (fill_root_simple(root, &redirs, -1, 0));
-	return (fill_redirs(root, &redirs, -1, 0));
+		return (fill_last_line(root->value, &redirs, -1, 0));
+	return (fill_list(root, &redirs, -1, 0));
 }
