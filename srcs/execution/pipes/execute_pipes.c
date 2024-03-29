@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/28 16:52:16 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/29 19:01:24 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	wait_pipes(int num_processes)
 {
 	int	i;
-	int status;
+	int	status;
 
 	i = 0;
 	while (i < num_processes)
@@ -27,7 +27,11 @@ static void	wait_pipes(int num_processes)
 	}
 }
 
-static int	pipe_child(char **cmds, t_pipeline *utl, t_list **env, t_astnode *root)
+static int	pipe_child(
+	char **cmds,
+	t_pipeline *utl,
+	t_list **env,
+	t_astnode *root)
 {
 	if (cmds[utl->k + 1] != NULL)
 	{
@@ -84,7 +88,8 @@ int	execute_pipeline(char **cmds, t_list **env, t_astnode *root)
 		return (1);
 	while (utl.k++, cmds[utl.k] != NULL)
 	{
-		if ((utl.pid = fork()) == -1)
+		utl.pid = fork();
+		if (utl.pid == -1)
 		{
 			ft_putstr_fd("Fork failted\n", 2);
 			return (1);

@@ -6,13 +6,13 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 23:25:04 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/29 16:47:41 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/29 18:21:23 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-int	get_command_args_indexes(char *input)
+int	get_cmd_args_index(char *input)
 {
 	int		i;
 	char	quote;

@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 17:56:03 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/29 17:25:26 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/29 18:53:06 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,40 +21,51 @@ static char	*get_env_var_value(char *env)
 	return (env);
 }
 
-static void	handle_special_unix_variable()
+static int	handle_special_unix_variable(
+	char *result,
+	t_cpy_word_indexes *indexes,
+	char *env_var_name)
 {
-	
-}
-
-void	add_env_value(char *result, char *input, t_cpy_word_indexes *indexes, t_list *env)
-{
-	char	env_var_name[NAME_MAX];
-	t_list	*temp;
 	char	*code;
 
 	code = NULL;
-	get_variable_name(input, indexes->i, env_var_name);
 	if (ft_strncmp(env_var_name, "?", ft_strlen(env_var_name)) == 0)
 	{
 		code = ft_itoa(g_last_command_status);
 		ft_strlcpy(result + indexes->k, code, ft_strlen(code) + sizeof(char));
 		indexes->i += (ft_strlen(env_var_name) + sizeof(char));
-		indexes->k +=  (ft_strlen(code) + sizeof(char));
+		indexes->k += (ft_strlen(code) + sizeof(char));
 		free(code);
-		return ;
+		return (0);
 	}
+	return (1);
+}
+
+void	add_env_value(
+	char *result,
+	char *input,
+	t_cpy_word_indexes *indexes,
+	t_list *env)
+{
+	char	env_var_name[NAME_MAX];
+	t_list	*temp;
+
+	get_variable_name(input, indexes->i, env_var_name);
+	if (handle_special_unix_variable(result, indexes, env_var_name) == 0)
+		return ;
 	temp = env;
 	while (temp)
 	{
-		if (env_var_name_size(temp->content) == ft_strlen(env_var_name))
+		if (env_var_name_size(temp->content) == ft_strlen(env_var_name)
+			&& !ft_strncmp(temp->content, env_var_name,
+				env_var_name_size(temp->content)))
 		{
-			if (ft_strncmp(temp->content, env_var_name, env_var_name_size(temp->content)) == 0)
-			{
-				ft_strlcpy(result + indexes->k, get_env_var_value(temp->content), ft_strlen(get_env_var_value(temp->content)) + sizeof(char));
-				indexes->i += (ft_strlen(env_var_name) + sizeof(char));
-				indexes->k +=  (ft_strlen(get_env_var_value(temp->content)));
-				return ;
-			}
+			ft_strlcpy(result + indexes->k,
+				get_env_var_value(temp->content),
+				ft_strlen(get_env_var_value(temp->content)) + sizeof(char));
+			indexes->i += (ft_strlen(env_var_name) + sizeof(char));
+			indexes->k += (ft_strlen(get_env_var_value(temp->content)));
+			return ;
 		}
 		temp = temp->next;
 	}

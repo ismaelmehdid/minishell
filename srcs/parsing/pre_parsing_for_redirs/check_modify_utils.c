@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_modify_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 00:15:22 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/28 18:07:23 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/29 18:52:51 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	get_next_index(char *line, int last)
 	while (i <= last)
 	{
 		if (line[i] == '\'' || line[i] == '"')
-				skip_quotes(line, &i);
+			skip_quotes(line, &i);
 		if (line[i] == '>')
 		{
 			return_value = i;
@@ -92,8 +92,8 @@ int	get_next_index(char *line, int last)
 
 int	get_last_index(char *input)
 {
-	int	i;
-	char quote;
+	int		i;
+	char	quote;
 
 	i = ft_strlen(input) - 1;
 	while (i >= 0 && input[i] != '>')
@@ -114,7 +114,7 @@ int	get_last_index(char *input)
 int	get_prelast_file(char *input, int i)
 {
 	char	quote;
-	
+
 	while (input[i] == '>' || input[i] == '<')
 		i--;
 	while (is_whitespace(input[i]))

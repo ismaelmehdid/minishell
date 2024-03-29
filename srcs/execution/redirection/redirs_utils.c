@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirection_utils.c                                :+:      :+:    :+:   */
+/*   redirs_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 21:27:23 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/28 15:23:33 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/29 18:58:34 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	dup_error(int fds[2])
 
 int	redir_exist(char *line)
 {
-	int	i;
+	int		i;
 	char	quote;
 
 	i = 0;
@@ -67,12 +67,12 @@ int	redir_exist(char *line)
 		{
 			quote = line[i];
 			i++;
-			while(line[i] && line[i] != quote)
-			    i++;
-            if (line[i] == quote)
-                i++;
-            continue ;
-        }
+			while (line[i] && line[i] != quote)
+				i++;
+			if (line[i] == quote)
+				i++;
+			continue ;
+		}
 		if (line[i] == '>' || line[i] == '<')
 			return (0);
 		i++;

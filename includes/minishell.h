@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:28 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/29 17:13:08 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/29 18:20:35 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,11 @@ char			*malloc_word(char *input, int *i, char *skip, t_list *env);
 int				copy_word(char *result, char *input, char *skip, t_list *env);
 int				size_double_array(char **array);
 int				search_env_size(char *input, int *i, t_list *env);
-void			add_env_value(char *result, char *input, t_cpy_word_indexes *indexes, t_list *env);
+void			add_env_value(
+					char *result,
+					char *input,
+					t_cpy_word_indexes *indexes,
+					t_list *env);
 int				get_variable_name(char *input, int i, char *dest);
 int				env_var_name_size(char *env_var);
 //-------Signals-------========================
@@ -135,15 +139,23 @@ int				get_pipe_size(t_astnode *node);
 void			launch_cmd(char *cmd, char **envp, char *cmd_path);
 void			print_error_not_found(char *cmd);
 int				get_command(char *input, char *checking);
-int				get_command_args_indexes(char *input);
+int				get_cmd_args_index(char *input);
 void			remove_quotes(char *cmd);
 //-------Built-ins----------========================
-int				handle_builtin(char *input, char **envp, t_list **env, t_astnode *root);
+int				handle_builtin(
+					char *input,
+					char **envp,
+					t_list **env,
+					t_astnode *root);
 int				execute_echo(char *arg);
 int				execute_pwd(void);
 int				execute_export(char *arg, t_list *env, char **envp);
 int				execute_env(char **envp);
-void			execute_exit(char *input, t_list **env, t_astnode *root, char **envp);
+void			execute_exit(
+					char *input,
+					t_list **env,
+					t_astnode *root,
+					char **envp);
 int				execute_cd(char *path, t_list **env);
 int				prepare_cd(char *path, char *thepath);
 int				execute_unset(t_list **head, char *key);
@@ -156,7 +168,11 @@ int				export_print_error(char *arg);
 int				search_replace_existing_cmp(t_list *lst, char *arg);
 int				trim_quotes(char **args);
 //-------Redirection--------=======================
-int				make_redirection(char **redirections, int fds[2], int status, int i);
+int				make_redirection(
+					char **redirections,
+					int fds[2],
+					int status,
+					int i);
 int				dup_error(int fds[2]);
 void			restore_std(int fds[2]);
 int				get_flags(t_redirection type);
@@ -165,7 +181,10 @@ int				here_doc(char *delimeter, int fd, int dup_return, int in_flag);
 char			*ft_strjoin_free(char *s1, char const *s2, int s2_len);
 int				write_to_tmp_file(int fd, char *input);
 void			unlink_file(char *msg);
-int				write_from_stdin_to_fd(int *fd, int	bytes_read, int bytes_written);
+int				write_from_stdin_to_fd(
+					int *fd,
+					int bytes_read,
+					int bytes_written);
 //-------Redirection-List-of-Char-Creation--=======
 char			**create_list(t_astnode *root);
 void			del_redirs_from_root(t_astnode **root);

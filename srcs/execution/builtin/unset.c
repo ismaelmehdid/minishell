@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:37:54 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/27 18:46:12 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/29 18:26:00 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,26 @@ static int	invalid_parameter(char *param)
 	return (0);
 }
 
+static int	create_all_keys(char *old_str, char **temp, char **new_key)
+{
+	temp = new_key;
+	while (*temp)
+	{
+		old_str = *temp;
+		*temp = ft_strjoin(old_str, "=");
+		if (!*temp)
+		{
+			ft_putstr_fd("Malloc allocation error\n", 2);
+			free_double_array(new_key);
+			return (1);
+		}
+		free(old_str);
+		temp++;
+	}
+	*temp = NULL;
+	return (0);
+}
+
 static char	**create_key(char *key)
 {
 	char	**new_key;
@@ -50,50 +70,36 @@ static char	**create_key(char *key)
 	}
 	if (trim_quotes(new_key) != 0)
 		return (NULL);
-	temp = new_key;
-	while (*temp)
-	{
-		old_str = *temp;
-		*temp = ft_strjoin(old_str, "=");
-		if (!*temp)
-		{
-			ft_putstr_fd("Malloc allocation error\n", 2);
-			free_double_array(new_key);
-			return (NULL);
-		}
-		free(old_str);
-		temp++;
-	}
-	*temp = NULL;
+	if (create_all_keys(old_str, temp, new_key) != 0)
+		return (NULL);
 	return (new_key);
 }
 
 static void	search_and_remove_env(t_list **head, char **args)
 {
-	t_list	*current;
+	t_list	*curr;
 	t_list	*previous;
 
-	current = *head;
+	curr = *head;
 	previous = NULL;
 	while (*args)
 	{
-		while (current
-			&& ft_strncmp(current->content, *args, ft_strlen(*args)) != 0)
+		while (curr && ft_strncmp(curr->content, *args, ft_strlen(*args)) != 0)
 		{
-			previous = current;
-			current = current->next;
+			previous = curr;
+			curr = curr->next;
 		}
-		if (current)
+		if (curr)
 		{
 			if (!previous)
-				(*head) = current->next;
+				(*head) = curr->next;
 			else
-				previous->next = current->next;
-			free(current->content);
-			free(current);
+				previous->next = curr->next;
+			free(curr->content);
+			free(curr);
 		}
 		previous = NULL;
-		current = *head;
+		curr = *head;
 		args++;
 	}
 }

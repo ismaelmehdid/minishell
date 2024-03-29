@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list_creation_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 21:04:15 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/28 16:17:59 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/29 18:58:16 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	del_redirs_from_root(t_astnode **root)
 {
-	int		i;
+	int	i;
 
 	if (*root == NULL)
 		return ;
@@ -101,10 +101,7 @@ int	still_exist(char *line)
 	while (line[i] != '\0')
 	{
 		if (line[i] == '>' || line[i] == '<')
-		{
 			return (i);
-			break ;
-		}
 		i++;
 	}
 	if (line[i] == '\0')
@@ -118,7 +115,7 @@ char	*ft_strjoin_free(char *s1, char const *s2, int s2_len)
 	int			j;
 	char		*res;
 
-	i = 0;
+	i = -1;
 	j = ft_strlen(s1);
 	res = malloc(j + s2_len + 1);
 	if (!res)
@@ -127,11 +124,8 @@ char	*ft_strjoin_free(char *s1, char const *s2, int s2_len)
 		return (NULL);
 	}
 	j = 0;
-	while (s1[i])
-	{
+	while (s1[++i])
 		res[i] = s1[i];
-		i++;
-	}
 	while (s2[j])
 	{
 		res[i + j] = s2[j];

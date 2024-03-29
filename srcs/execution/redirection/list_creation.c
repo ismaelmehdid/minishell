@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list_creation.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 00:01:48 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/28 16:26:18 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/29 18:59:35 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	get_index_after_quotes(char *line)
 {
 	int		i;
 	char	quote;
-	
+
 	i = 0;
 	while (line[i] != '\0')
 	{
@@ -24,12 +24,12 @@ int	get_index_after_quotes(char *line)
 		{
 			quote = line[i];
 			i++;
-			while(line[i] && line[i] != quote)
-			    i++;
-            if (line[i] == quote)
-                i++;
-            continue ;
-        }
+			while (line[i] && line[i] != quote)
+				i++;
+			if (line[i] == quote)
+				i++;
+			continue ;
+		}
 		if (line[i] == '>' || line[i] == '<')
 			return (i);
 		i++;
@@ -42,7 +42,7 @@ char	*get_redir(char *line)
 	int			i;
 	int			j;
 	int			k;
-	char	*redir;
+	char		*redir;
 
 	i = get_index_after_quotes(line);
 	j = i;

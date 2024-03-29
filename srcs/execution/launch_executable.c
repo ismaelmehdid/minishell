@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 23:56:59 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/27 23:34:42 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/29 18:54:11 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,12 @@ char	*get_path(char *cmd, char *path_full)
 	return (NULL);
 }
 
-static void	ft_execve(char *cmd_path, char **cmds, char **path_env, int status, pid_t pid)
+static void	ft_execve(
+	char *cmd_path,
+	char **cmds,
+	char **path_env,
+	int status,
+	pid_t pid)
 {
 	pid = fork();
 	if (pid == -1)

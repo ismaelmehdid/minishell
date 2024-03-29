@@ -3,16 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   init_execution.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/28 16:24:29 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/29 18:55:17 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static int	finish_init_pipe(t_astnode *node, int counter, char **cmds, t_list **env)
+static int	finish_init_pipe(
+	t_astnode *node,
+	int counter,
+	char **cmds,
+	t_list **env)
 {
 	if (node->left && node->right && node->right->type == COMMAND_NODE)
 	{
@@ -85,17 +89,17 @@ static int	execute_command(t_astnode *node, char **envp, t_list **env)
 	return (0);
 }
 
-void init_redirs(t_astnode *root, char **redirections, int fds[2])
+void	init_redirs(t_astnode *root, char **redirections, int fds[2])
 {
-	int status;
-	t_astnode *temp;
-	
+	int			status;
+	t_astnode	*temp;
+
 	del_redirs_from_root(&root);
 	temp = root;
 	while (temp)
 	{
-		if (only_spaces(temp->value) == 0 ||
-		(temp->left && only_spaces(temp->left->value) == 0))
+		if (only_spaces(temp->value) == 0
+			|| (temp->left && only_spaces(temp->left->value) == 0))
 			status = 0;
 		temp = temp->right;
 	}

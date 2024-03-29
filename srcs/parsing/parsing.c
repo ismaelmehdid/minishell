@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 22:49:26 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/26 18:54:47 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/29 18:52:08 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,26 @@ t_astnode	*create_node(char *element)
 	return (node);
 }
 
+static t_astnode	*create_pipe_node(t_astnode *root, char *element)
+{
+	t_astnode	*pipe_node;
+	t_astnode	*command_node;
+
+	pipe_node = create_node("|");
+	command_node = create_node(element);
+	if (!command_node)
+	{
+		free_all_nodes(root);
+		return (NULL);
+	}
+	pipe_node->right = root;
+	pipe_node->left = command_node;
+	return (pipe_node);
+}
+
 t_astnode	*init_ast(char **elements)
 {
 	t_astnode	*root;
-	t_astnode	*pipe_node;
-	t_astnode	*command_node;
 	int			elements_size;
 
 	root = NULL;
@@ -52,16 +67,9 @@ t_astnode	*init_ast(char **elements)
 			root = create_node(elements[elements_size]);
 		else
 		{
-			pipe_node = create_node("|");
-			command_node = create_node(elements[elements_size]);
-			if (!command_node)
-			{
-				free_all_nodes(root);
+			root = create_pipe_node(root, elements[elements_size]);
+			if (!root)
 				return (NULL);
-			}
-			pipe_node->right = root;
-			pipe_node->left = command_node;
-			root = pipe_node;
 		}
 		elements_size--;
 	}

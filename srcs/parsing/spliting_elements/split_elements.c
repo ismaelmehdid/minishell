@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 16:17:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/26 15:35:10 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/29 17:52:31 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,11 @@ void	skip_quotes(char *input, int *i)
 		(*i)++;
 }
 
-static char	**malloc_each_arrays(char **result, char *input, char *skip, t_list *env)
+static char	**malloc_each_arrays(
+	char **result,
+	char *input,
+	char *skip,
+	t_list *env)
 {
 	int	i;
 	int	j;
@@ -53,7 +57,11 @@ static char	**malloc_each_arrays(char **result, char *input, char *skip, t_list 
 	return (result);
 }
 
-static void	copy_each_elements(char **result, char *input, char *skip, t_list *env)
+static void	copy_each_elements(
+	char **result,
+	char *input,
+	char *skip,
+	t_list *env)
 {
 	int	i;
 	int	j;

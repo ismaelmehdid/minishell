@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 23:54:18 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/21 00:54:07 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/29 18:52:03 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ char	**create_envp(t_list *env)
 	return (envp);
 }
 
-int		create_env(t_list **env, char **envp)
+int	create_env(t_list **env, char **envp)
 {
 	t_list	*new_node;
 	int		i;

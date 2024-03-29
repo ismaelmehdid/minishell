@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 17:56:06 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/27 22:36:32 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/29 17:51:47 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,11 @@ int	get_variable_name(char *input, int i, char *dest)
 	return (j);
 }
 
-static int	compare_env_name(char *content, int *i, int var_size, char *var_name)
+static int	compare_env_name(
+	char *content,
+	int *i,
+	int var_size,
+	char *var_name)
 {
 	if (env_var_name_size(content) == var_size)
 	{

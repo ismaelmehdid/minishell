@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 23:18:03 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/23 23:19:03 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/29 18:55:49 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ void	unlink_file(char *msg)
 		ft_putstr_fd(msg, 2);
 }
 
-int	write_from_stdin_to_fd(int *fd, int	bytes_read, int bytes_written)
+int	write_from_stdin_to_fd(int *fd, int bytes_read, int bytes_written)
 {
-	char buffer[100];
+	char	buffer[100];
 
 	while (bytes_read != 0)
 	{

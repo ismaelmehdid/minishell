@@ -6,13 +6,17 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 15:33:27 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/29 17:23:18 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/29 17:52:10 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-static void	handle_quotes(char *input, char *result, t_cpy_word_indexes *indexes, t_list *env)
+static void	handle_quotes(
+	char *input,
+	char *result,
+	t_cpy_word_indexes *indexes,
+	t_list *env)
 {
 	char	quote;
 
