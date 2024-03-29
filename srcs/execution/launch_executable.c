@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 23:56:59 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/29 18:54:11 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/30 00:11:14 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,12 @@ void	remove_quotes(char *cmd)
 	cmd = malloc(sizeof(char) * j + sizeof(char));
 	if (!cmd)
 		return ;
-	i = 0;
+	i = -1;
 	j = 0;
-	while (temp[i])
+	while (temp[++i])
 	{
 		if (temp[i] != '\'' && temp[i] != '"')
 			cmd[j++] = temp[i];
-		i++;
 	}
 	cmd[j] = '\0';
 }
@@ -104,9 +103,10 @@ static void	ft_execve(
 	char *cmd_path,
 	char **cmds,
 	char **path_env,
-	int status,
-	pid_t pid)
+	int status)
 {
+	pid_t	pid;
+
 	pid = fork();
 	if (pid == -1)
 	{
@@ -116,16 +116,13 @@ static void	ft_execve(
 	}
 	else if (pid == 0)
 	{
-		g_last_command_status = execve(cmd_path, cmds, path_env);
-		if (g_last_command_status == -1)
+		if (execve(cmd_path, cmds, path_env) == -1)
 		{
-			free_double_array(cmds);
 			free(cmd_path);
 			free_double_array(path_env);
 			perror("Execve");
 			exit (1);
 		}
-		exit(g_last_command_status);
 	}
 	else
 	{
@@ -159,5 +156,5 @@ void	launch_executable(char *cmd, char **envp, int i)
 		g_last_command_status = 127;
 		return ;
 	}
-	ft_execve(cmd_path, cmds, envp, 0, 0);
+	ft_execve(cmd_path, cmds, envp, 0);
 }
