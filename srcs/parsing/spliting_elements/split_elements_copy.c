@@ -6,46 +6,50 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 15:33:27 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/28 17:44:05 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/29 17:23:18 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-int	copy_word(char *result, char *input, char *skip, t_list *env)
+static void	handle_quotes(char *input, char *result, t_cpy_word_indexes *indexes, t_list *env)
 {
-	int		k;
-	int		i;
 	char	quote;
 
-	i = 0;
-	k = 0;
-	while (input[i] && !ft_strchr(skip, input[i]))
+	quote = input[indexes->i];
+	result[indexes->k++] = input[indexes->i++];
+	while (input[indexes->i] && input[indexes->i] != quote)
 	{
-		if (input[i] == '\'' || input[i] == '"')
-		{
-			quote = input[i];
-			result[k++] = input[i++];
-			while (input[i] && input[i] != quote)
-			{
-				if (quote == '"' && input[i] == '$')
-					add_env_value(result, input, &i, &k, env);
-				else
-				{
-					result[k++] = input[i];
-					i++;
-				}
-			}
-			if (input[i] && input[i] == quote)
-				result[k++] = input[i];
-			if (input[i])
-				i++;
-		}
-		else if (input[i] == '$')
-			add_env_value(result, input, &i, &k, env);
+		if (quote == '"' && input[indexes->i] == '$')
+			add_env_value(result, input, indexes, env);
 		else
-			result[k++] = input[i++];
+		{
+			result[indexes->k] = input[indexes->i];
+			indexes->i++;
+			indexes->k++;
+		}
 	}
-	result[k] = '\0';
-	return (i);
+	if (input[indexes->i] && input[indexes->i] == quote)
+		result[indexes->k++] = input[indexes->i];
+	if (input[indexes->i])
+		indexes->i++;
+}
+
+int	copy_word(char *result, char *input, char *skip, t_list *env)
+{
+	t_cpy_word_indexes	indexes;
+
+	indexes.i = 0;
+	indexes.k = 0;
+	while (input[indexes.i] && !ft_strchr(skip, input[indexes.i]))
+	{
+		if (input[indexes.i] == '\'' || input[indexes.i] == '"')
+			handle_quotes(input, result, &indexes, env);
+		else if (input[indexes.i] == '$')
+			add_env_value(result, input, &indexes, env);
+		else
+			result[indexes.k++] = input[indexes.i++];
+	}
+	result[indexes.k] = '\0';
+	return (indexes.i);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:28 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/28 17:34:41 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/29 17:13:08 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,11 @@ typedef struct s_pipeline
 	int			*fd;
 }t_pipeline;
 
+typedef struct s_cpy_word_indexes{
+	int	i;
+	int	k;
+}t_cpy_word_indexes;
+
 //-------Env-Utils-------=========================
 void			free_list(t_list **env);
 char			**create_envp(t_list *env);
@@ -109,7 +114,7 @@ char			*malloc_word(char *input, int *i, char *skip, t_list *env);
 int				copy_word(char *result, char *input, char *skip, t_list *env);
 int				size_double_array(char **array);
 int				search_env_size(char *input, int *i, t_list *env);
-void			add_env_value(char *result, char *input, int *i, int *k, t_list *env);
+void			add_env_value(char *result, char *input, t_cpy_word_indexes *indexes, t_list *env);
 int				get_variable_name(char *input, int i, char *dest);
 int				env_var_name_size(char *env_var);
 //-------Signals-------========================
