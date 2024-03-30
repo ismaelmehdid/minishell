@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 15:33:27 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/29 17:52:10 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/30 17:38:37 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,9 @@ static void	handle_quotes(
 	result[indexes->k++] = input[indexes->i++];
 	while (input[indexes->i] && input[indexes->i] != quote)
 	{
-		if (quote == '"' && input[indexes->i] == '$')
+		if (quote == '"' && input[indexes->i] == '$' && input[indexes->i + 1]
+			&& !is_whitespace(input[indexes->i + 1])
+			&& input[indexes->i + 1] != '"' && input[indexes->i + 1] != '\'')
 			add_env_value(result, input, indexes, env);
 		else
 		{
@@ -49,7 +51,9 @@ int	copy_word(char *result, char *input, char *skip, t_list *env)
 	{
 		if (input[indexes.i] == '\'' || input[indexes.i] == '"')
 			handle_quotes(input, result, &indexes, env);
-		else if (input[indexes.i] == '$')
+		else if (input[indexes.i] == '$' && input[indexes.i + 1]
+			&& !is_whitespace(input[indexes.i + 1])
+			&& input[indexes.i + 1] != '"' && input[indexes.i + 1] != '\'')
 			add_env_value(result, input, &indexes, env);
 		else
 			result[indexes.k++] = input[indexes.i++];

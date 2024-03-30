@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_validation.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 20:08:47 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/27 00:56:15 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/30 18:09:02 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,18 +47,18 @@ static char	*pipes_format_checker(char *inp)
 	while (inp[i] && (inp[i] == ' ' || (inp[i] >= 9 && inp[i] <= 13)))
 		i++;
 	if (inp[i] == '|')
-	{
-		if (inp[i + 1] && inp[i + 1] == '|')
-			ft_putstr_fd("parse error near `||'\n", 2);
-		else
-			ft_putstr_fd("parse error near `|'\n", 2);
-		free(inp);
-		return (NULL);
-	}
+		return (print_parse_error(inp, i));
 	while (inp[i])
 	{
 		while (inp[i] && inp[i] != '|')
+		{
+			if (inp[i] == '\'' || inp[i] == '"')
+			{
+				skip_quotes(inp, &i);
+				continue ;
+			}
 			i++;
+		}
 		if (inp[i] && !pipes_checker(inp, i))
 			return (NULL);
 		if (inp[i])

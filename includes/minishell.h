@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:28 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/29 18:20:35 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/30 18:08:25 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ int				ft_strcmp(char *one, char *two);
 int				contain_str(char **array, char *element);
 void			skip_quotes(char *input, int *i);
 int				only_spaces(char *line);
+char			*print_parse_error(char *input, int i);
 //-------Split-elements---========================
 char			**split_quotes(char *input, char *skip, t_list *env);
 void			skip_quotes(char *input, int *i);

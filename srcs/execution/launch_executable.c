@@ -6,40 +6,11 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 23:56:59 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/30 00:11:14 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/30 17:34:14 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-void	remove_quotes(char *cmd)
-{
-	int		i;
-	int		j;
-	char	temp[NAME_MAX];
-
-	i = 0;
-	j = 0;
-	ft_strlcpy(temp, cmd, ft_strlen(cmd) + 1);
-	free(cmd);
-	while (temp[i])
-	{
-		if (temp[i] != '\'' && temp[i] != '"')
-			j++;
-		i++;
-	}
-	cmd = malloc(sizeof(char) * j + sizeof(char));
-	if (!cmd)
-		return ;
-	i = -1;
-	j = 0;
-	while (temp[++i])
-	{
-		if (temp[i] != '\'' && temp[i] != '"')
-			cmd[j++] = temp[i];
-	}
-	cmd[j] = '\0';
-}
 
 void	print_error_not_found(char *cmd)
 {
@@ -48,16 +19,16 @@ void	print_error_not_found(char *cmd)
 
 	i = 0;
 	ft_putstr_fd("Command not found: ", 2);
-	while (cmd[i] && is_whitespace(cmd[i]))
+	while (cmd && cmd[i] && is_whitespace(cmd[i]))
 		i++;
-	while (cmd[i])
+	while (cmd && cmd[i])
 	{
 		if (cmd[i] == '\'' || cmd[i] == '"')
 		{
 			quote = cmd[i++];
 			while (cmd[i] && cmd[i] != quote)
 			{
-				ft_putchar_fd(cmd[i], 2);
+				ft_putchar_fd(cmd[i++], 2);
 				i++;
 			}
 			if (cmd[i] == quote)
@@ -146,7 +117,7 @@ void	launch_executable(char *cmd, char **envp, int i)
 		return ;
 	}
 	cmds = split_quotes(cmd, " \t\n\v\f\r", NULL);
-	remove_quotes(cmds[0]);
+	trim_quotes(cmds);
 	cmd_path = get_path(cmds[0], envp[i] + 5);
 	if (cmd_path == NULL)
 	{

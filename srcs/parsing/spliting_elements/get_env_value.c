@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 17:56:03 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/29 18:53:06 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/30 17:40:11 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int	handle_special_unix_variable(
 		code = ft_itoa(g_last_command_status);
 		ft_strlcpy(result + indexes->k, code, ft_strlen(code) + sizeof(char));
 		indexes->i += (ft_strlen(env_var_name) + sizeof(char));
-		indexes->k += (ft_strlen(code) + sizeof(char));
+		indexes->k += (ft_strlen(code));
 		free(code);
 		return (0);
 	}

@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 00:04:18 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/20 17:42:11 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/30 18:09:44 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,14 @@ int	check_last_pipe_command(char *inp)
 	if (i >= 0 && inp[i] == '|')
 		return (1);
 	return (0);
+}
+
+char	*print_parse_error(char *input, int i)
+{
+	if (input[i + 1] && input[i + 1] == '|')
+		ft_putstr_fd("parse error near `||'\n", 2);
+	else
+		ft_putstr_fd("parse error near `|'\n", 2);
+	free(input);
+	return (NULL);
 }

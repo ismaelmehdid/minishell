@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:37:45 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/26 18:34:00 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/30 18:16:24 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ int	execute_export(char *arg, t_list *env, char **envp)
 	if (checking_errors(exports))
 	{
 		free_double_array(exports);
-		return (128);
+		return (1);
 	}
 	if (execute_export_utils(exports, env))
 		return (126);

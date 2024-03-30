@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 15:33:38 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/29 17:48:22 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/30 18:09:55 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,9 @@ static int	handle_quote(char *input, int *i, char quote, t_list *env)
 	(*i)++;
 	while (input[*i] && input[*i] != quote)
 	{
-		if (input[*i] == '$' && quote == '"')
+		if (input[*i] == '$' && quote == '"' && input[*i + 1]
+			&& !is_whitespace(input[*i + 1])
+			&& input[*i + 1] != '"' && input[*i + 1] != '\'')
 			nb_letters += search_env_size(input, i, env);
 		else
 		{
@@ -65,7 +67,8 @@ static int	handle_quote(char *input, int *i, char quote, t_list *env)
 
 static void	handle_no_quote(char *input, int *i, int *nb_letters, t_list *env)
 {
-	if (input[*i] == '$')
+	if (input[*i] == '$' && input[*i + 1] && !is_whitespace(input[*i + 1]
+			&& input[*i + 1] != '"' && input[*i + 1] != '\''))
 		*nb_letters += search_env_size(input, i, env);
 	else
 	{
