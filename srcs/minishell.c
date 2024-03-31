@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:05 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/31 21:03:31 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/31 21:13:55 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	restore_stdin(int check_num)
 		if (dup2(g_stdin_copy_fd, STDIN_FILENO) < 0)
 		{
 			ft_putstr_fd("dup2 error\n", 2);
-			return (1);
+			return (-1);
 		}
 		return (0);
 	}
