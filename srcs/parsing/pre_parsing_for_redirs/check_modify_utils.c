@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_modify_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 00:15:22 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/29 18:52:51 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/30 22:25:59 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	get_next_index(char *line, int last)
 		}
 		i++;
 	}
-	if (i == last)
+	if (i >= last)
 		i = 0;
 	return (-1);
 }

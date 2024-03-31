@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_execution.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/30 17:27:15 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/30 22:27:44 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ void	init_redirs(t_astnode *root, char **redirections, int fds[2])
 		temp = temp->right;
 	}
 	if (status != 0)
-		status = make_redirection(redirections, fds, 0, 0);
+		status = make_redirection(redirections, fds, 0, -1);
 	if (status == -500 || status == 0)
 	{
 		restore_std(fds);
