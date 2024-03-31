@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 21:27:27 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/31 16:02:20 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/31 16:09:09 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int	make_redirection(char **redirs, int fds[2], int status, int i)
 	if (!backup_std(fds))
 		return (1);
 	std_out = dup(STDOUT_FILENO);
-	while (i++, redirs[i] != NULL && g_last_command_status != 1)
+	while (i++, redirs[i] != NULL)
 	{
 		file = get_file_redir(redirs[i]);
 		if (file == NULL)
