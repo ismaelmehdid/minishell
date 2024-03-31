@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:28 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/31 15:59:05 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/31 20:58:45 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,12 @@ typedef struct s_cpy_word_indexes{
 	int	k;
 }t_cpy_word_indexes;
 
-//-------Env-Utils-------=========================
+//-------Utils-------=========================
 void			free_list(t_list **env);
 char			**create_envp(t_list *env);
 int				ft_lstsize(t_list *lst);
 int				create_env(t_list **env, char **envp);
+int				restore_stdin(int check_num);
 //-------Parsing-----------=======================
 t_astnode		*parsing(char **input, t_list *env);
 t_astnode		*init_ast(char **elements);
@@ -127,7 +128,6 @@ int				toggle_echoctl_status(int status);
 void			ctrl_c(int signum);
 void			new_ctrl_c(int signum);
 void			new_ctrl_c_pipe(int signum);
-int				check_num(int num1, int num2);
 //-------Execution-------========================
 void			init_executor(t_astnode *root, t_list **env);
 int				execute_pipeline(char **cmds, t_list **env, t_astnode *root);
@@ -201,6 +201,5 @@ int				still_exist(char *line);
 //-------Global-Variables------====================
 extern int						g_last_command_status;
 extern int						g_stdin_copy_fd;
-extern volatile sig_atomic_t	g_sig_pressed;
 
 #endif

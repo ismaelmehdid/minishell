@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_validation.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 20:08:47 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/30 18:09:02 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/31 20:59:38 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ static char	*set_new_command(char *input, int i)
 	if (!cmd)
 	{
 		free(input);
-		g_sig_pressed++;
 		return (NULL);
 	}
 	while (cmd[i] && (cmd[i] == ' ' || (cmd[i] >= 9 && cmd[i] <= 13)))
@@ -92,23 +91,19 @@ static char	*set_new_command(char *input, int i)
 	return (new_inp);
 }
 
-static char	*validation_loop(char *input, char *backup, int num)
+static char	*validation_loop(char *input, char *backup)
 {
 	while (input && check_last_pipe_command(input))
 	{
 		backup = get_backup(backup, input);
 		if (!backup)
 			return (NULL);
-		num = g_sig_pressed;
 		input = set_new_command(input, 0);
-		if (!input && num >= g_sig_pressed)
-		{
-			dup2(g_stdin_copy_fd, STDIN_FILENO);
+		if (!input && restore_stdin(0) == 0)
 			return (NULL);
-		}
 		else if (input && !pipes_format_checker(input))
 			return (NULL);
-		else if (!input && check_num(num + 1, g_sig_pressed) == 0)
+		else if (!input && restore_stdin(1) == 2)
 		{
 			input = ft_strdup(backup);
 			if (!input)
@@ -133,7 +128,7 @@ char	*pipes_validation(char *input)
 		return (NULL);
 	}
 	signal(SIGINT, new_ctrl_c_pipe);
-	input = validation_loop(input, backup, 0);
+	input = validation_loop(input, backup);
 	if (backup)
 		free(backup);
 	if (!input || input == NULL)

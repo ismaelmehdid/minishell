@@ -6,25 +6,25 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 21:04:09 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/31 15:59:21 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/03/31 20:48:16 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-static int	here_doc_loop(char *delimiter, int fd, int check_val)
+static int	here_doc_loop(char *delimiter, int fd)
 {
 	char	*input;
 
 	while (1)
 	{
-		check_val = g_sig_pressed;
 		signal(SIGINT, new_ctrl_c);
 		input = readline("heredoc> ");
 		if (!input)
 		{
-			if (check_num(check_val, g_sig_pressed) == 0)
+			if (restore_stdin(1) == 2)
 				continue ;
+			ft_putchar_fd('\n', 2);
 			free(delimiter);
 			return (-500);
 		}
@@ -61,7 +61,7 @@ static int	create_tmp_file(char *delimiter, int fd, int in_flag)
 			return (-1);
 		}
 	}
-	fd = here_doc_loop(delimiter, fd, 0);
+	fd = here_doc_loop(delimiter, fd);
 	if (fd == -500)
 		unlink_file("without");
 	return (fd);
