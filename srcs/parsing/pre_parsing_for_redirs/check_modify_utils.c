@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 00:15:22 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/29 18:52:51 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/01 20:07:43 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ int	count_out(char *input)
 			while (is_whitespace(input[i]))
 				i++;
 		}
-		i++;
+		if (input[i])
+			i++;
 	}
 	return (count);
 }
@@ -58,7 +59,8 @@ int	count_append(char *input)
 			while (is_whitespace(input[i]))
 				i++;
 		}
-		i++;
+		if (input[i])
+			i++;
 	}
 	return (count);
 }
@@ -85,7 +87,7 @@ int	get_next_index(char *line, int last)
 		}
 		i++;
 	}
-	if (i == last)
+	if (i >= last)
 		i = 0;
 	return (-1);
 }

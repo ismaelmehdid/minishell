@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 23:25:04 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/30 19:17:00 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/01 20:11:45 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,45 +64,45 @@ int	get_command(char *input, char *checking)
 	return (0);
 }
 
-static char	*initialize_new_string(char **args, int j, int *i, int *e)
+static char	*initialize_new_string(char *args, int *i, int *e)
 {
 	char	*new;
 
 	*i = 0;
 	*e = 0;
-	new = malloc(ft_strlen(args[j]) - 2 + sizeof(char));
+	new = malloc(ft_strlen(args) - 2 + sizeof(char));
 	if (!new)
 		return (NULL);
-	while (args[j][*i] && args[j][*i] != '\'' && args[j][*i] != '"')
-		new[(*e)++] = args[j][(*i)++];
+	while (args[*i] && args[*i] != '\'' && args[*i] != '"')
+		new[(*e)++] = args[(*i)++];
 	return (new);
 }
 
-static int	trim_quotes_utils(char **args, int j, char *new)
+static int	trim_quotes_utils(char *args, char *new)
 {
 	char	quote;
 	int		i;
 	int		e;
 
-	new = initialize_new_string(args, j, &i, &e);
+	new = initialize_new_string(args, &i, &e);
 	if (!new)
 		return (1);
-	if (args[j][i] == '\0')
+	if (args[i] == '\0')
 	{
 		free (new);
 		return (0);
 	}
-	quote = args[j][i++];
-	while (args[j][i] && args[j][i] != quote)
-		new[e++] = args[j][i++];
-	if (args[j][i++] == quote)
+	quote = args[i++];
+	while (args[i] && args[i] != quote)
+		new[e++] = args[i++];
+	if (args[i++] == quote)
 	{
-		while (args[j][i] && !is_whitespace(args[j][i]))
-			new[e++] = args[j][i++];
+		while (args[i] && !is_whitespace(args[i]))
+			new[e++] = args[i++];
 		new[e] = '\0';
 	}
-	free (args[j]);
-	args[j] = new;
+	free (args);
+	args = new;
 	return (0);
 }
 
@@ -110,20 +110,25 @@ int	trim_quotes(char **args)
 {
 	int		j;
 	char	*new;
+	int		i;
 
+	i = 0;
 	j = 0;
 	new = NULL;
 	if (!args)
 		return (1);
 	while (args[j])
 	{
-		if (trim_quotes_utils(args, j, new))
+		while (args[j][i] && args[j][i] != '\'' && args[j][i] != '"')
+			i++;
+		if (args[j][i] && trim_quotes_utils(args[j], new))
 			return (1);
 		if (new)
 		{
 			free(new);
 			new = NULL;
 		}
+		i = 0;
 		j++;
 	}
 	return (0);

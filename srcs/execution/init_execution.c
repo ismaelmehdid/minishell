@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/30 17:27:15 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/01 20:22:48 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,13 +79,13 @@ static int	execute_command(t_astnode *node, char **envp, t_list **env)
 	handle_builtin(node->value, envp, env, node);
 	if (g_last_command_status != 300)
 	{
-		free(envp);
+		free_double_array(envp);
 		return (0);
 	}
 	if (g_last_command_status == 300)
 		g_last_command_status = 0;
 	launch_executable(node->value, envp, -1);
-	free(envp);
+	free_double_array(envp);
 	return (0);
 }
 
@@ -94,6 +94,7 @@ void	init_redirs(t_astnode *root, char **redirections, int fds[2])
 	int			status;
 	t_astnode	*temp;
 
+	status = 1;
 	del_redirs_from_root(&root);
 	temp = root;
 	while (temp)
@@ -104,7 +105,7 @@ void	init_redirs(t_astnode *root, char **redirections, int fds[2])
 		temp = temp->right;
 	}
 	if (status != 0)
-		status = make_redirection(redirections, fds, 0, 0);
+		status = make_redirection(redirections, fds, 0, -1);
 	if (status == -500 || status == 0)
 	{
 		restore_std(fds);
@@ -122,13 +123,13 @@ void	init_executor(t_astnode *root, t_list **env)
 	char		**redirections;
 	int			fds[2];
 
+	ft_memset(fds, -1, sizeof(fds));
 	g_last_command_status = 0;
 	redirections = create_list(root);
 	if (redirections)
 	{
 		init_redirs(root, redirections, fds);
-		if (g_last_command_status == 130 || \
-			g_last_command_status == 1)
+		if (g_last_command_status == 130 || g_last_command_status == 1)
 			return ;
 	}
 	if (g_last_command_status == 350)

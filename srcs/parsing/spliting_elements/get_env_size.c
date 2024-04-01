@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 17:56:06 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/30 17:47:40 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/01 19:21:41 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,15 @@ int	get_variable_name(char *input, int i, char *dest)
 	j = 0;
 	if (input[i] == '$')
 		i++;
+	if (input[i] == '?')
+	{
+		dest[j] = input[i];
+		j++;
+		dest[j] = '\0';
+		return (j);
+	}
 	while (input[i] && !is_whitespace(input[i]) && input[i]
-		!= '"' && input[i] != '\'')
+		!= '"' && input[i] != '\'' && input[i] != '?')
 	{
 		dest[j] = input[i];
 		i++;
@@ -82,13 +89,16 @@ int	search_env_size(char *input, int *i, t_list *env)
 	t_list	*temp;
 	int		input_var_size;
 	int		res;
+	char	*code;
 
-	res = 0;
 	input_var_size = get_variable_name(input, *i, env_var_name);
 	if (ft_strncmp(env_var_name, "?", input_var_size) == 0)
 	{
+		code = ft_itoa(g_last_command_status);
+		res = ft_strlen(code);
+		free (code);
 		*i += (input_var_size + sizeof(char));
-		return (ft_strlen(ft_itoa(g_last_command_status)));
+		return (res);
 	}
 	temp = env;
 	while (temp)

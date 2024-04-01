@@ -6,13 +6,13 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 21:27:23 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/29 18:58:34 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/01 19:33:06 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-t_redirection	get_redir_type(char *redirection)
+t_redirection	redir_type(char *redirection)
 {
 	if (redirection[0] == '>' && redirection[1] == '>')
 		return (APPEND);

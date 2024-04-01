@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:28 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/30 18:08:25 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/03/31 15:59:05 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,8 +177,12 @@ int				make_redirection(
 int				dup_error(int fds[2]);
 void			restore_std(int fds[2]);
 int				get_flags(t_redirection type);
-t_redirection	get_redir_type(char *redirection);
-int				here_doc(char *delimeter, int fd, int dup_return, int in_flag);
+t_redirection	redir_type(char *redirection);
+int				pre_here_doc(char **redirs, int i, int stdout_copy_fd, int orig_stdout);
+int				here_doc(char *delimiter, int fd, int dup_return, int in_flag);
+char			*get_file_redir(char *rediction);
+int				get_quantity(char **redirs);
+int				if_there_was_out_append(char **redirs, int i);
 char			*ft_strjoin_free(char *s1, char const *s2, int s2_len);
 int				write_to_tmp_file(int fd, char *input);
 void			unlink_file(char *msg);
