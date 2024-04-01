@@ -1,10 +1,42 @@
 NAME = minishell
 
-SRCS = $(wildcard srcs/*.c srcs/parsing/*.c srcs/execution/*.c \
-		srcs/errors_handling/*.c srcs/execution/builtin/*.c \
-		srcs/parsing/spliting_elements/*.c srcs/parsing/pipes_validation/*.c \
-		srcs/parsing/quotes_validation/*.c srcs/parsing/pre_parsing_for_redirs/*.c\
-		srcs/execution/redirection/*.c srcs/execution/pipes/*.c)
+SRCS =	srcs/env_utils.c \
+        srcs/minishell.c \
+        srcs/parsing/parsing.c \
+        srcs/parsing/parsing_utils.c \
+        srcs/parsing/pipes_validation/pipe_validation.c \
+        srcs/parsing/pipes_validation/pipes_validation_utils.c \
+        srcs/parsing/pre_parsing_for_redirs/check_modify_input.c \
+        srcs/parsing/pre_parsing_for_redirs/check_modify_utils.c \
+        srcs/parsing/quotes_validation/quotes_validation.c \
+        srcs/parsing/spliting_elements/get_env_size.c \
+        srcs/parsing/spliting_elements/get_env_value.c \
+        srcs/parsing/spliting_elements/split_elements.c \
+        srcs/parsing/spliting_elements/split_elements_copy.c \
+        srcs/parsing/spliting_elements/split_elements_malloc.c \
+        srcs/execution/handle_signals.c \
+        srcs/execution/init_execution.c \
+        srcs/execution/launch_executable.c \
+        srcs/execution/builtin/cd.c \
+        srcs/execution/builtin/cd_utils.c \
+        srcs/execution/builtin/cd_utils_two.c \
+        srcs/execution/builtin/echo.c \
+        srcs/execution/builtin/env.c \
+        srcs/execution/builtin/export.c \
+        srcs/execution/builtin/export_utils.c \
+        srcs/execution/builtin/handle_builtin.c \
+        srcs/execution/builtin/handle_builtin_utils.c \
+        srcs/execution/builtin/pwd.c \
+        srcs/execution/builtin/exit.c \
+        srcs/execution/builtin/unset.c \
+        srcs/execution/pipes/execute_pipes.c \
+        srcs/execution/pipes/pipe_utils.c \
+        srcs/execution/redirection/here_doc.c \
+        srcs/execution/redirection/here_doc_utils.c \
+        srcs/execution/redirection/list_creation.c \
+        srcs/execution/redirection/list_creation_utils.c \
+        srcs/execution/redirection/redirs.c \
+        srcs/execution/redirection/redirs_utils.c
 
 OBJS_DIR = objs/
 OBJS = $(patsubst srcs/%.c,$(OBJS_DIR)%.o,$(SRCS))
@@ -39,3 +71,4 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re
+

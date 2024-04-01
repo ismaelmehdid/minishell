@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:05 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/31 17:08:14 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/01 22:03:43 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,6 @@
 
 int						g_stdin_copy_fd = 0;
 int						g_last_command_status = 0;
-volatile sig_atomic_t	g_sig_pressed = 0;
-
-int	is_whitespace(char c)
-{
-	return (c == ' ' || (c >= 9 && c <= 13));
-}
 
 int	only_spaces(char *line)
 {
@@ -36,14 +30,48 @@ int	only_spaces(char *line)
 	return (0);
 }
 
+int	is_whitespace(char c)
+{
+	return (c == ' ' || (c >= 9 && c <= 13));
+}
+
+int	restore_stdin(int check_num)
+{
+	if (check_num == 1)
+		printf("\033[F\033[K");
+	if (!isatty(STDIN_FILENO))
+	{
+		if (check_num == 0)
+		{
+			ft_putchar_fd('\n', 2);
+			printf("\033[F\033[K");
+		}
+		if (check_num == 3)
+		{
+			g_last_command_status = 130;
+			ft_putchar_fd('\n', 2);
+			printf("\033[F\033[K");
+		}
+		if (dup2(g_stdin_copy_fd, STDIN_FILENO) < 0)
+		{
+			ft_putstr_fd("dup2 error\n", 2);
+			return (-1);
+		}
+		return (0);
+	}
+	return (2);
+}
+
 static void	minishell_loop(t_astnode *ast_root, t_list **env, char *input)
 {
 	while (1)
 	{
 		signal(SIGINT, ctrl_c);
-		printf("(%d) ", g_last_command_status);
+		printf("(%d) ", g_last_command_status); // delete when finish return codes
 		input = readline("BestShell😎$> ");
-		if (!input)
+		if (!input && restore_stdin(3) == 0)
+			continue ;
+		else if (!input)
 			break ;
 		if (only_spaces(input) == 1)
 		{
@@ -62,7 +90,6 @@ static void	minishell_loop(t_astnode *ast_root, t_list **env, char *input)
 		if (input)
 			free(input);
 	}
-	rl_clear_history();
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -81,8 +108,11 @@ int	main(int argc, char **argv, char **envp)
 	}
 	signal(SIGQUIT, SIG_IGN);
 	g_stdin_copy_fd = dup(STDIN_FILENO);
+	if (g_stdin_copy_fd < 0)
+		return (1);
 	toggle_echoctl_status(-1);
 	minishell_loop(ast_root, &env, NULL);
+	rl_clear_history();
 	toggle_echoctl_status(0);
 	free_list(&env);
 	close(g_stdin_copy_fd);
