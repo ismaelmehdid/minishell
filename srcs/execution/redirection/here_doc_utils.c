@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 23:18:03 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/31 15:58:43 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/02 01:10:08 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,12 @@ int	write_to_tmp_file(int fd, char *input)
 	bytes_read = write(fd, input, ft_strlen(input));
 	if (bytes_read < 0)
 	{
+		if (input)
+			free (input);
 		close(fd);
 		return (-1);
 	}
+	free(input);
 	return (0);
 }
 

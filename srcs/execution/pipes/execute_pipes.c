@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/29 19:01:24 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/02 01:50:37 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,9 @@ static int	pipe_child(
 	t_list **env,
 	t_astnode *root)
 {
+	char	**envp;
+
+	envp = create_envp(*env);
 	if (cmds[utl->k + 1] != NULL)
 	{
 		if (dup2(utl->fd[utl->j + 1], 1) < 0)
@@ -54,9 +57,13 @@ static int	pipe_child(
 		close(utl->fd[utl->m]);
 		utl->m++;
 	}
-	if (handle_builtin(cmds[utl->k], create_envp(*env), env, root) == 0)
+	if (handle_builtin(cmds[utl->k], envp, env, root) == 0)
+	{
+		free_double_array(envp);
 		exit(0);
-	launch_cmd(cmds[utl->k], create_envp(*env), NULL);
+	}
+	launch_cmd(cmds[utl->k], envp, NULL);
+	free_double_array(envp);
 	return (0);
 }
 

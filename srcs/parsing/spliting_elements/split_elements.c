@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 16:17:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/30 17:20:45 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/02 00:57:25 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ static void	copy_each_elements(
 			j++;
 		}
 	}
+	result[j] = NULL;
 }
 
 char	**split_quotes(char *input, char *skip, t_list *env)

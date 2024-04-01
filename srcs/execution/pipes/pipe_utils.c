@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:55:34 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/29 18:59:59 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/02 01:51:48 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	close_pipe_fds(int *fd, int size)
 		close(fd[i]);
 		i++;
 	}
+	free(fd);
 }
 
 t_pipeline	get_pipe_utils(char **cmds)
@@ -69,16 +70,17 @@ void	launch_cmd(char *cmd, char **envp, char *cmd_path)
 		print_error_not_found(cmds[0]);
 		free_double_array(cmds);
 		free(cmd_path);
-		free(envp);
+		free_double_array(envp);
 		exit (127);
 	}
 	if (execve(cmd_path, cmds, envp) < 0)
 	{
 		perror("Execve");
 		free_double_array(cmds);
-		free(envp);
+		free_double_array(envp);
 		exit (126);
 	}
+	free_double_array(envp);
 }
 
 int	get_pipe_size(t_astnode *node)

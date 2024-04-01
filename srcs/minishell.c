@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:05 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/01 22:03:43 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/02 00:47:55 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static void	minishell_loop(t_astnode *ast_root, t_list **env, char *input)
 	while (1)
 	{
 		signal(SIGINT, ctrl_c);
-		printf("(%d) ", g_last_command_status); // delete when finish return codes
+		printf("(%d) ", g_last_command_status); // TODO: delete when finish return codes
 		input = readline("BestShell😎$> ");
 		if (!input && restore_stdin(3) == 0)
 			continue ;
