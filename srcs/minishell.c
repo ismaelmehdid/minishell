@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:05 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/31 21:13:55 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/01 21:48:57 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,8 @@ int	main(int argc, char **argv, char **envp)
 	}
 	signal(SIGQUIT, SIG_IGN);
 	g_stdin_copy_fd = dup(STDIN_FILENO);
+	if (g_stdin_copy_fd < 0)
+		return (1);
 	toggle_echoctl_status(-1);
 	minishell_loop(ast_root, &env, NULL);
 	rl_clear_history();
