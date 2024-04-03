@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:28 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/31 20:58:45 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/03 12:20:26 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,6 +183,7 @@ int				here_doc(char *delimiter, int fd, int dup_return, int in_flag);
 char			*get_file_redir(char *rediction);
 int				get_quantity(char **redirs);
 int				if_there_was_out_append(char **redirs, int i);
+int				if_there_was_in(char **redirs, int i);
 char			*ft_strjoin_free(char *s1, char const *s2, int s2_len);
 int				write_to_tmp_file(int fd, char *input);
 void			unlink_file(char *msg);

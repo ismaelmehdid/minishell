@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 21:04:09 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/31 20:48:16 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/03 12:24:01 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ int pre_here_doc(char **redirs, int i, int stdout_copy_fd, int orig_stdout)
 		stdout_copy_fd = dup(STDOUT_FILENO);
 		if (dup2(orig_stdout, STDOUT_FILENO) < 0)
 			return (-1);
-		if (quantity == 0)
+		if (quantity == 0 && if_there_was_in(redirs, i) == 1)
 			i = here_doc(get_file_redir(redirs[i]), 0, 0, -1);
 		else
 			i = here_doc(get_file_redir(redirs[i]), 0, 0, 1);
