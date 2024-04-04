@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 23:25:04 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/01 20:11:45 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/04 00:08:55 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,31 +78,31 @@ static char	*initialize_new_string(char *args, int *i, int *e)
 	return (new);
 }
 
-static int	trim_quotes_utils(char *args, char *new)
+static int	trim_quotes_utils(char **args, char *new)
 {
 	char	quote;
 	int		i;
 	int		e;
 
-	new = initialize_new_string(args, &i, &e);
+	new = initialize_new_string(*args, &i, &e);
 	if (!new)
 		return (1);
-	if (args[i] == '\0')
+	if (args[0][i] == '\0')
 	{
 		free (new);
 		return (0);
 	}
-	quote = args[i++];
-	while (args[i] && args[i] != quote)
-		new[e++] = args[i++];
-	if (args[i++] == quote)
+	quote = args[0][i++];
+	while (args[0][i] && args[0][i] != quote)
+		new[e++] = args[0][i++];
+	if (args[0][i++] == quote)
 	{
-		while (args[i] && !is_whitespace(args[i]))
-			new[e++] = args[i++];
+		while (args[0][i] && !is_whitespace(args[0][i]))
+			new[e++] = args[0][i++];
 		new[e] = '\0';
 	}
-	free (args);
-	args = new;
+	free (args[0]);
+	*args = new;
 	return (0);
 }
 
@@ -121,7 +121,7 @@ int	trim_quotes(char **args)
 	{
 		while (args[j][i] && args[j][i] != '\'' && args[j][i] != '"')
 			i++;
-		if (args[j][i] && trim_quotes_utils(args[j], new))
+		if (args[j][i] && trim_quotes_utils(&args[j], new))
 			return (1);
 		if (new)
 		{

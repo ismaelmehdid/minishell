@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_modify_input.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 00:19:05 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/28 18:07:50 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/03 11:20:36 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,20 @@ static char	*ft_strnjoin(char *s1, char const *s2, int n)
 	char		*res;
 
 	i = -1;
+	j = 0;
 	res = malloc(ft_strlen(s1) + n + 1);
 	if (!res)
 	{
 		free(s1);
 		return (NULL);
 	}
-	j = -1;
-	while (i++, s1[i])
+	while (s1[++i])
 		res[i] = s1[i];
-	while (j++, j < n)
+	while (j < n && s2[j])
+	{
 		res[i + j] = s2[j];
+		j++;
+	}
 	res[i + j] = '\0';
 	if (s1)
 		free(s1);

@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:37:45 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/30 18:16:24 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/04 00:23:16 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ static int	search_replace_existing(t_list **lst, char *arg)
 	if (arg[i] == '\0')
 		return (1);
 	current = *lst;
+	if (current == NULL)
+		return (0);
 	while (current->next)
 	{
 		if (search_replace_existing_cmp(current, arg))
@@ -78,7 +80,10 @@ static int	add_to_env(char *arg, t_list **env)
 		return (126);
 	}
 	if (*env)
+	{
 		get_last_node(*env)->next = new;
+		new->next = NULL;
+	}
 	else
 		*env = new;
 	return (0);
@@ -117,13 +122,20 @@ int	execute_export(char *arg, t_list *env, char **envp)
 		return (0);
 	}
 	if (trim_quotes(exports) != 0)
+	{
+		free_double_array(exports);
 		return (126);
+	}
 	if (checking_errors(exports))
 	{
 		free_double_array(exports);
 		return (1);
 	}
 	if (execute_export_utils(exports, env))
+	{
+		free_double_array(exports);
 		return (126);
+	}
+	free_double_array(exports);
 	return (0);
 }

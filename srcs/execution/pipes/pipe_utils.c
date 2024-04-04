@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:55:34 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/02 01:51:48 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/04 01:44:52 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,8 @@ static int	get_indx(char **envp)
 	return (i);
 }
 
-void	launch_cmd(char *cmd, char **envp, char *cmd_path)
+void	launch_cmd(char *cmd, char **envp, char *cmd_path, char **cmds)
 {
-	char	**cmds;
-
 	if (get_indx(envp) == -1 || envp[get_indx(envp)] == NULL)
 	{
 		ft_putstr_fd("PATH not set\n", 2);

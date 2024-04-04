@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/02 01:50:37 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/04 02:00:01 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,8 @@ static void	wait_pipes(int num_processes)
 	}
 }
 
-static int	pipe_child(
-	char **cmds,
-	t_pipeline *utl,
-	t_list **env,
-	t_astnode *root)
+static int	handle_fds_dup(char **cmds, t_pipeline *utl)
 {
-	char	**envp;
-
-	envp = create_envp(*env);
 	if (cmds[utl->k + 1] != NULL)
 	{
 		if (dup2(utl->fd[utl->j + 1], 1) < 0)
@@ -52,6 +45,20 @@ static int	pipe_child(
 			return (1);
 		}
 	}
+	return (0);
+}
+
+static int	pipe_child(
+	char **cmds,
+	t_pipeline *utl,
+	t_list **env,
+	t_astnode *root)
+{
+	char	**envp;
+
+	envp = create_envp(*env);
+	if (handle_fds_dup(cmds, utl) != 0)
+		return (1);
 	while (utl->m < 2 * utl->i)
 	{
 		close(utl->fd[utl->m]);
@@ -62,7 +69,7 @@ static int	pipe_child(
 		free_double_array(envp);
 		exit(0);
 	}
-	launch_cmd(cmds[utl->k], envp, NULL);
+	launch_cmd(cmds[utl->k], envp, NULL, NULL);
 	free_double_array(envp);
 	return (0);
 }

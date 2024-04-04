@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:28 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/03 12:20:26 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/04 01:45:35 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ char			*get_path(char *cmd, char *path_full);
 void			close_pipe_fds(int *fd, int size);
 t_pipeline		get_pipe_utils(char **cmds);
 int				get_pipe_size(t_astnode *node);
-void			launch_cmd(char *cmd, char **envp, char *cmd_path);
+void			launch_cmd(char *cmd, char **envp, char *cmd_path, char **cmds);
 void			print_error_not_found(char *cmd);
 int				get_command(char *input, char *checking);
 int				get_cmd_args_index(char *input);
@@ -178,7 +178,11 @@ int				dup_error(int fds[2]);
 void			restore_std(int fds[2]);
 int				get_flags(t_redirection type);
 t_redirection	redir_type(char *redirection);
-int				pre_here_doc(char **redirs, int i, int stdout_copy_fd, int orig_stdout);
+int				pre_here_doc(
+					char **redirs,
+					int i,
+					int stdout_copy_fd,
+					int orig_stdout);
 int				here_doc(char *delimiter, int fd, int dup_return, int in_flag);
 char			*get_file_redir(char *rediction);
 int				get_quantity(char **redirs);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 21:04:09 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/03 12:24:01 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/04 01:41:56 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,12 +96,12 @@ int	here_doc(char *delimiter, int fd, int dup_return, int in_flag)
 	return (dup_return);
 }
 
-static int pre_here_doc_2(char **redirs, int i, int quantity, int orig_stdout)
+static int	pre_here_doc_2(char **redirs, int i, int quantity, int orig_stdout)
 {
-	int status;
-	int check_val;
-	int stdout_copy_fd;
-	
+	int	status;
+	int	check_val;
+	int	stdout_copy_fd;
+
 	check_val = if_there_was_out_append(redirs, i);
 	if (i - 1 >= 0 && check_val == 0)
 	{
@@ -119,10 +119,10 @@ static int pre_here_doc_2(char **redirs, int i, int quantity, int orig_stdout)
 	return (status);
 }
 
-int pre_here_doc(char **redirs, int i, int stdout_copy_fd, int orig_stdout)
+int	pre_here_doc(char **redirs, int i, int stdout_copy_fd, int orig_stdout)
 {
-	static int quantity;
-	
+	static int	quantity;
+
 	if (!quantity)
 		quantity = 0;
 	if (i - 1 >= 0 && redir_type(redirs[i - 1]) == IN)

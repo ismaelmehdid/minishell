@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 21:04:15 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/29 18:58:16 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/04 01:40:50 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,14 @@ void	del_redirs_from_root(t_astnode **root)
 		while ((*root)->value[i] != '<' && (*root)->value[i] != '>')
 			i++;
 		while ((*root)->value[i] == '<' || (*root)->value[i] == '>' \
-				|| (*root)->value[i] == ' ')
+				|| is_whitespace((*root)->value[i]))
 		{
 			(*root)->value[i] = ' ';
 			i++;
 		}
-		while ((*root)->value[i] != ' ' && (*root)->value[i] != '\0')
-		{
-			(*root)->value[i] = ' ';
-			i++;
-		}
+		while ((*root)->value[i] != ' ' && (*root)->value[i] != '\0'
+			&& !ft_isalnum((*root)->value[i]))
+			(*root)->value[i++] = ' ';
 	}
 	if (redir_exist((*root)->value) == 0)
 		del_redirs_from_root(&((*root)));

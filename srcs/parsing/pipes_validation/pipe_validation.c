@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_validation.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 20:08:47 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/31 20:59:38 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/04 00:40:10 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,11 +91,11 @@ static char	*set_new_command(char *input, int i)
 	return (new_inp);
 }
 
-static char	*validation_loop(char *input, char *backup)
+static char	*validation_loop(char *input, char **backup)
 {
 	while (input && check_last_pipe_command(input))
 	{
-		backup = get_backup(backup, input);
+		*backup = get_backup(*backup, input); //TODO: leak on backup when cat makefile | <- check as well with parse error
 		if (!backup)
 			return (NULL);
 		input = set_new_command(input, 0);
@@ -105,7 +105,7 @@ static char	*validation_loop(char *input, char *backup)
 			return (NULL);
 		else if (!input && restore_stdin(1) == 2)
 		{
-			input = ft_strdup(backup);
+			input = ft_strdup(*backup);
 			if (!input)
 				return (NULL);
 			continue ;
@@ -128,7 +128,7 @@ char	*pipes_validation(char *input)
 		return (NULL);
 	}
 	signal(SIGINT, new_ctrl_c_pipe);
-	input = validation_loop(input, backup);
+	input = validation_loop(input, &backup);
 	if (backup)
 		free(backup);
 	if (!input || input == NULL)

@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 23:56:59 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/02 01:32:49 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/03 23:28:06 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	*get_path(char *cmd, char *path_full)
 	if (!cmd)
 		return (NULL);
 	if (access(cmd, F_OK) == 0)
-		return (cmd);
+		return (ft_strdup(cmd));
 	paths = ft_split(path_full, ':');
 	i = -1;
 	while (paths[++i] != NULL)
@@ -127,6 +127,6 @@ void	launch_executable(char *cmd, char **envp, int i)
 		return ;
 	}
 	ft_execve(cmd_path, cmds, envp, 0);
-	free(cmd_path);
 	free_double_array(cmds);
+	free(cmd_path);
 }
