@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/02 00:39:31 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/05 01:34:38 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ int	handle_builtin(
 	if (get_command(input, "exit") == 0)
 	{
 		execute_exit(input + get_cmd_args_index(input), env, root, envp);
+		return (g_last_command_status);
 	}
 	g_last_command_status = find_builtin(input + i, envp, env, root);
 	return (g_last_command_status);

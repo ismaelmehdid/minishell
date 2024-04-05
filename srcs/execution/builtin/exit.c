@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:37:41 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/30 19:18:49 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/05 01:34:50 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ void	execute_exit(char *input, t_list **env, t_astnode *root, char **envp)
 		g_last_command_status = 126;
 	if (size_double_array(args) > 1)
 	{
-		ft_putstr_fd("minishell: exit: too many arguments", 2);
+		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
+		free_double_array(args);
 		g_last_command_status = 1;
 		return ;
 	}

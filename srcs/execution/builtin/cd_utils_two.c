@@ -6,11 +6,34 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:56:44 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/26 19:09:32 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/05 02:25:03 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
+
+static int	prepare_cd_utils(char **args, char *thepath)
+{
+	if (size_double_array(args) > 0)
+	{
+		if (size_double_array(args) > 1)
+		{
+			ft_putstr_fd("Minishell: cd: too many arguments\n", 2);
+			free_double_array(args);
+			return (1);
+		}
+		if (ft_strlen(args[0]) > PATH_MAX)
+		{
+			ft_putstr_fd("Minishell: cd: ", 2);
+			ft_putstr_fd(args[0], 2);
+			ft_putstr_fd(" : File name too long\n", 2);
+			free_double_array(args);
+			return (1);
+		}
+		ft_strlcpy(thepath, args[0], ft_strlen(args[0]) + 1);
+	}
+	return (0);
+}
 
 int	prepare_cd(char *path, char *thepath)
 {
@@ -20,50 +43,13 @@ int	prepare_cd(char *path, char *thepath)
 	if (!args)
 		return (126);
 	if (trim_quotes(args) != 0)
+	{
+		free_double_array(args);
 		return (126);
-	if (size_double_array(args) > 0)
-	{
-		if (size_double_array(args) > 1)
-		{
-			ft_putstr_fd("Minishell: cd: too many arguments\n", 2);
-			return (1);
-		}
-		if (ft_strlen(args[0]) > PATH_MAX)
-		{
-			ft_putstr_fd("Minishell: cd: ", 2);
-			ft_putstr_fd(args[0], 2);
-			ft_putstr_fd(" : File name too long\n", 2);
-			return (1);
-		}
-		ft_strlcpy(thepath, args[0], ft_strlen(args[0]) + 1);
 	}
-	free_double_array(args);
-	return (0);
-}
-
-int	get_old_pwd(t_list **env, char **old_pwd)
-{
-	t_list	*current;
-	int		i;
-
-	current = *env;
-	i = 0;
-	*old_pwd = NULL;
-	while (current && ft_strncmp("OLDPWD", current->content, 6))
-		current = current->next;
-	if (current)
-	{
-		while (current->content[i] && current->content[i] != '=')
-			i++;
-		if (current->content[i] == '=')
-			i++;
-	}
-	else
-	{
-		ft_putstr_fd("minishell: cd: OLDPWD not set\n", 2);
+	if (prepare_cd_utils(args, thepath) != 0)
 		return (1);
-	}
-	*old_pwd = ft_strdup(current->content + i);
+	free_double_array(args);
 	return (0);
 }
 

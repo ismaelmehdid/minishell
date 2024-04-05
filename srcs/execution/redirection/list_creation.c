@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 00:01:48 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/29 18:59:35 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/05 00:03:10 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,9 @@ char	*get_redir(char *line)
 
 	i = get_index_after_quotes(line);
 	j = i;
-	while (line[j] == '>' || line[j] == '<' || line[j] == ' ')
+	while (line[j] == '>' || line[j] == '<' || is_whitespace(line[j]))
 		j++;
-	while (line[j] != ' ' && line[j] != '\0')
+	while (!is_whitespace(line[j]) && line[j] != '\0')
 		j++;
 	k = 0;
 	redir = ft_calloc(j - i + 1, sizeof(char));

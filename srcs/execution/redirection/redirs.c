@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirs.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 21:27:27 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/01 21:47:51 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/05 00:10:41 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char	*get_file_redir(char *rediction)
 
 	i = 0;
 	while (rediction[i] == '>' || rediction[i] == '<'
-		|| rediction[i] == ' ')
+		|| is_whitespace(rediction[i]))
 		i++;
 	file = malloc(ft_strlen(rediction) - i + 1);
 	if (!file)

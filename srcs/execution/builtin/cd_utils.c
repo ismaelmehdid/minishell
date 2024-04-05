@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 20:15:42 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/26 19:21:01 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/05 02:24:16 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,5 +93,31 @@ int	get_home_dir(char **home, t_list **env)
 		*home = ft_strdup(".");
 	else
 		*home = ft_strdup(current->content + i);
+	return (0);
+}
+
+int	get_old_pwd(t_list **env, char **old_pwd)
+{
+	t_list	*current;
+	int		i;
+
+	current = *env;
+	i = 0;
+	*old_pwd = NULL;
+	while (current && ft_strncmp("OLDPWD", current->content, 6))
+		current = current->next;
+	if (current)
+	{
+		while (current->content[i] && current->content[i] != '=')
+			i++;
+		if (current->content[i] == '=')
+			i++;
+	}
+	else
+	{
+		ft_putstr_fd("minishell: cd: OLDPWD not set\n", 2);
+		return (1);
+	}
+	*old_pwd = ft_strdup(current->content + i);
 	return (0);
 }
