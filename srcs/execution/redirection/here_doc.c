@@ -6,16 +6,14 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 21:04:09 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/05 00:16:53 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/06 23:29:00 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-static int	here_doc_loop(char *delimiter, int fd)
+static int	here_doc_loop(char *delimiter, int fd, char *input)
 {
-	char	*input;
-
 	while (1)
 	{
 		signal(SIGINT, new_ctrl_c);
@@ -26,6 +24,7 @@ static int	here_doc_loop(char *delimiter, int fd)
 				continue ;
 			ft_putchar_fd('\n', 2);
 			free(delimiter);
+			close (fd);
 			return (-500);
 		}
 		if (ft_strlen(input) == ft_strlen(delimiter) \
@@ -61,7 +60,7 @@ static int	create_tmp_file(char *delimiter, int fd, int in_flag)
 			return (-1);
 		}
 	}
-	fd = here_doc_loop(delimiter, fd);
+	fd = here_doc_loop(delimiter, fd, NULL);
 	if (fd == -500)
 		unlink_file("without");
 	return (fd);
@@ -111,6 +110,7 @@ static int	pre_here_doc_2(char **redirs, int i, int quantity, int orig_stdout)
 		status = here_doc(get_file_redir(redirs[i]), 0, 0, 1);
 		if (dup2(stdout_copy_fd, STDOUT_FILENO) < 0)
 			return (-1);
+		close (stdout_copy_fd);
 	}
 	else if (quantity == 0)
 		status = here_doc(get_file_redir(redirs[i]), 0, 0, -1);
@@ -139,11 +139,11 @@ int	pre_here_doc(char **redirs, int i, int stdout_copy_fd, int orig_stdout)
 			i = here_doc(get_file_redir(redirs[i]), 0, 0, 1);
 		if (dup2(stdout_copy_fd, STDOUT_FILENO) < 0)
 			return (-1);
+		close(stdout_copy_fd);
 	}
 	else
 		i = pre_here_doc_2(redirs, i, quantity, orig_stdout);
-	quantity++;
-	if (quantity == get_quantity(redirs))
+	if (++quantity == get_quantity(redirs))
 		quantity = 0;
 	return (i);
 }

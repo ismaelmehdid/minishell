@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/01 23:32:34 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/06 23:17:55 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ void	init_executor(t_astnode *root, t_list **env)
 		init_pipe(root, env, 0);
 	else if (root->type == COMMAND_NODE)
 		execute_command(root, create_envp(*env), env);
-	restore_std(fds);
 	if (redirections)
 		free_double_array(redirections);
+	restore_std(fds);
 }

@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 20:08:47 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/04 00:40:10 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/06 23:30:04 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ static char	*validation_loop(char *input, char **backup)
 {
 	while (input && check_last_pipe_command(input))
 	{
-		*backup = get_backup(*backup, input); //TODO: leak on backup when cat makefile | <- check as well with parse error
+		*backup = get_backup(*backup, input);
 		if (!backup)
 			return (NULL);
 		input = set_new_command(input, 0);

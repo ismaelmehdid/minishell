@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/05 01:34:38 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/06 22:06:22 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 
 static int	find_builtin_three(
 	char *cmd,
-	char **envp,
-	t_astnode *root)
+	char **envp)
 {
-	(void)root;
 	if (get_command(cmd, "env") == 0)
 	{
 		return (execute_env(envp));
@@ -32,8 +30,7 @@ static int	find_builtin_three(
 static int	find_builtin_two(
 	char *cmd,
 	char **envp,
-	t_list **env,
-	t_astnode *root)
+	t_list **env)
 {
 	if (get_command(cmd, "export") == 0)
 	{
@@ -43,16 +40,14 @@ static int	find_builtin_two(
 	{
 		return (execute_unset(env, cmd + get_cmd_args_index(cmd)));
 	}
-	return (find_builtin_three(cmd, envp, root));
+	return (find_builtin_three(cmd, envp));
 }
 
 static int	find_builtin(
 	char *cmd,
 	char **envp,
-	t_list **env,
-	t_astnode *root)
+	t_list **env)
 {
-	(void)root;
 	if (get_command(cmd, "echo") == 0)
 	{
 		return (execute_echo(cmd + get_cmd_args_index(cmd)));
@@ -61,7 +56,7 @@ static int	find_builtin(
 	{
 		return (execute_cd(cmd + get_cmd_args_index(cmd), env));
 	}
-	return (find_builtin_two(cmd, envp, env, root));
+	return (find_builtin_two(cmd, envp, env));
 }
 
 int	handle_builtin(
@@ -83,6 +78,6 @@ int	handle_builtin(
 		execute_exit(input + get_cmd_args_index(input), env, root, envp);
 		return (g_last_command_status);
 	}
-	g_last_command_status = find_builtin(input + i, envp, env, root);
+	g_last_command_status = find_builtin(input, envp, env);
 	return (g_last_command_status);
 }
