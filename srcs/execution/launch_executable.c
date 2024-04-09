@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   launch_executable.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 23:56:59 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/05 02:04:30 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/09 16:04:41 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ static void	ft_execve(
 			free(cmd_path);
 			free_double_array(path_env);
 			perror("Execve");
-			exit (1);
+			exit (126);
 		}
 	}
 	else
@@ -110,14 +110,14 @@ void	launch_executable(char *cmd, char **envp, int i)
 	while (envp[++i] != NULL)
 		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
 			break ;
-	if (envp[i] == NULL)
+	cmds = split_quotes(cmd, " \t\n\v\f\r", NULL);
+	trim_quotes(cmds);
+	if (!envp[i] && cmds && access(cmds[0], F_OK) != 0)
 	{
 		print_error_not_found(cmd);
 		g_last_command_status = 127;
 		return ;
 	}
-	cmds = split_quotes(cmd, " \t\n\v\f\r", NULL);
-	trim_quotes(cmds);
 	cmd_path = get_path(cmds[0], envp[i] + 5);
 	if (cmd_path == NULL)
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:05 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/06 23:29:39 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/09 17:18:06 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ static void	minishell_loop(t_astnode *ast_root, t_list **env, char *input)
 		if (only_spaces(input) == 1)
 		{
 			add_history(input);
-			input = check_and_modify(input, NULL, 0, 0);
 			ast_root = parsing(&input, *env);
 			if (ast_root)
 			{
@@ -109,10 +108,8 @@ int	main(int argc, char **argv, char **envp)
 	g_stdin_copy_fd = dup(STDIN_FILENO);
 	if (g_stdin_copy_fd < 0)
 		return (1);
-	toggle_echoctl_status(-1);
 	minishell_loop(ast_root, &env, NULL);
 	rl_clear_history();
-	toggle_echoctl_status(0);
 	free_list(&env);
 	close(g_stdin_copy_fd);
 	return (g_last_command_status);

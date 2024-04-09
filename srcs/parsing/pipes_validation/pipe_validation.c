@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_validation.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 20:08:47 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/06 23:30:04 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/09 17:06:59 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,13 +103,6 @@ static char	*validation_loop(char *input, char **backup)
 			return (NULL);
 		else if (input && !pipes_format_checker(input))
 			return (NULL);
-		else if (!input && restore_stdin(1) == 2)
-		{
-			input = ft_strdup(*backup);
-			if (!input)
-				return (NULL);
-			continue ;
-		}
 		if (input)
 			input = pipes_format_checker(input);
 	}
@@ -127,7 +120,7 @@ char	*pipes_validation(char *input)
 		g_last_command_status = 2;
 		return (NULL);
 	}
-	signal(SIGINT, new_ctrl_c_pipe);
+	signal(SIGINT, new_ctrl_c);
 	input = validation_loop(input, &backup);
 	if (backup)
 		free(backup);

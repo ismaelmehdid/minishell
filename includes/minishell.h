@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:28 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/04 01:45:35 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/09 17:00:26 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,13 +93,7 @@ int				check_last_pipe_command(char *inp);
 int				check_for_spaces(char *inp);
 char			*get_backup(char *backup, char *input);
 int				quotes_validation(char *elements);
-char			*check_and_modify(char *input, char *new, int append, int out);
-int				count_out(char *input);
 int				is_whitespace(char c);
-int				count_append(char *input);
-int				get_next_index(char *line, int last);
-int				get_last_index(char *input);
-int				get_prelast_file(char *input, int i);
 //-------Parsing-utils----========================
 void			free_double_array(char **array);
 void			free_all_nodes(t_astnode *root);
@@ -124,10 +118,8 @@ void			add_env_value(
 int				get_variable_name(char *input, int i, char *dest);
 int				env_var_name_size(char *env_var);
 //-------Signals-------========================
-int				toggle_echoctl_status(int status);
 void			ctrl_c(int signum);
 void			new_ctrl_c(int signum);
-void			new_ctrl_c_pipe(int signum);
 //-------Execution-------========================
 void			init_executor(t_astnode *root, t_list **env);
 int				execute_pipeline(char **cmds, t_list **env, t_astnode *root);

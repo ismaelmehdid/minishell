@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_signals.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 17:00:34 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/01 22:04:46 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/09 17:00:00 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	ctrl_c(int signum)
 	}
 }
 
-void	new_ctrl_c_pipe(int signum)
+void	new_ctrl_c(int signum)
 {
 	g_last_command_status = 130;
 	if (signum == SIGINT)
@@ -32,26 +32,4 @@ void	new_ctrl_c_pipe(int signum)
 		ft_putchar_fd('\n', 2);
 		close(STDIN_FILENO);
 	}
-}
-
-void	new_ctrl_c(int signum)
-{
-	g_last_command_status = 130;
-	if (signum == SIGINT)
-		close(STDIN_FILENO);
-}
-
-int	toggle_echoctl_status(int status)
-{
-	struct termios	termios_settings;
-
-	if (tcgetattr(STDOUT_FILENO, &termios_settings) == -1)
-		return (-1);
-	if (status == 0)
-		termios_settings.c_lflag |= ECHOCTL;
-	else
-		termios_settings.c_lflag &= ~(ECHOCTL);
-	if (tcsetattr(STDOUT_FILENO, TCSANOW, &termios_settings) == -1)
-		return (-1);
-	return (0);
 }

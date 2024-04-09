@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:55:34 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/06 21:39:37 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/09 16:33:05 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,14 @@ static int	get_indx(char **envp)
 
 void	launch_cmd(char *cmd, char **envp, char *cmd_path, char **cmds)
 {
-	if (get_indx(envp) == -1 || envp[get_indx(envp)] == NULL)
-	{
-		ft_putstr_fd("PATH not set\n", 2);
-		return ;
-	}
 	cmds = split_quotes(cmd, " \t\n\v\f\r", NULL);
 	trim_quotes(cmds);
+	if ((get_indx(envp) == -1 || envp[get_indx(envp)] == NULL) && \
+		cmds && access(cmds[0], F_OK) != 0)
+	{
+		print_error_not_found(cmds[0]);
+		exit (127);
+	}
 	cmd_path = get_path(cmds[0], envp[get_indx(envp)] + 5);
 	if (cmd_path == NULL)
 	{

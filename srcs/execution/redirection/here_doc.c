@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 21:04:09 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/06 23:29:00 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/09 17:03:25 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,7 @@ static int	here_doc_loop(char *delimiter, int fd, char *input)
 		input = readline("heredoc> ");
 		if (!input)
 		{
-			if (restore_stdin(1) == 2)
-				continue ;
-			ft_putchar_fd('\n', 2);
+			restore_stdin(1);
 			free(delimiter);
 			close (fd);
 			return (-500);
