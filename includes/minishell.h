@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <imehdid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:28 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/09 17:00:26 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/11 15:54:23 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ int				handle_builtin(
 int				execute_echo(char *arg);
 int				execute_pwd(void);
 int				execute_export(char *arg, t_list *env, char **envp);
-int				execute_env(char **envp);
+int				execute_env(char **envp, char *args);
 void			execute_exit(
 					char *input,
 					t_list **env,

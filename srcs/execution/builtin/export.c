@@ -6,7 +6,7 @@
 /*   By: imehdid <imehdid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:37:45 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/11 14:48:29 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/11 15:54:47 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,10 +118,7 @@ int	execute_export(char *arg, t_list *env, char **envp)
 	exports = split_quotes(arg, " \t\n\v\f\r", NULL);
 	trim_quotes(exports);
 	if (!exports || size_double_array(exports) == 0)
-	{
-		execute_env(envp);
-		return (0);
-	}
+		return (execute_env(envp, NULL));
 	if (trim_quotes(exports) != 0)
 	{
 		free_double_array(exports);
