@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_builtin_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: imehdid <imehdid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 23:25:04 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/04 00:08:55 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/11 13:39:20 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,71 +64,78 @@ int	get_command(char *input, char *checking)
 	return (0);
 }
 
-static char	*initialize_new_string(char *args, int *i, int *e)
+static int	get_new_size(char *arg)
 {
-	char	*new;
+	int		i;
+	int		size;
+	char	quote;
 
-	*i = 0;
-	*e = 0;
-	new = malloc(ft_strlen(args) - 2 + sizeof(char));
-	if (!new)
-		return (NULL);
-	while (args[*i] && args[*i] != '\'' && args[*i] != '"')
-		new[(*e)++] = args[(*i)++];
-	return (new);
+	i = 0;
+	size = 0;
+	while (arg[i])
+	{
+		if (arg[i] == '\'' || arg[i] == '"')
+		{
+			quote = arg[i];
+			i++;
+			while (arg[i] != quote)
+			{
+				size++;
+				i++;
+			}
+			i++;
+			continue ;
+		}
+		else
+			size++;
+		i++;
+	}
+	return (size);
 }
 
-static int	trim_quotes_utils(char **args, char *new)
+static char	*get_new_arg(char **args, int index, int new_size)
 {
-	char	quote;
+	int		j;
 	int		i;
-	int		e;
+	char	quote;
+	char	*new_arg;
 
-	new = initialize_new_string(*args, &i, &e);
-	if (!new)
-		return (1);
-	if (args[0][i] == '\0')
+	j = 0;
+	i = 0;
+	new_arg = malloc((sizeof(char) * new_size) + sizeof(char));
+	if (new_arg == NULL)
+		return (NULL);
+	while (args[index][i])
 	{
-		free (new);
-		return (0);
+		if (args[index][i] == '\'' || args[index][i] == '"')
+		{
+			quote = args[index][i++];
+			while (args[index][i] != quote)
+				new_arg[j++] = args[index][i++];
+			i++;
+			continue ;
+		}
+		new_arg[j++] = args[index][i++];
 	}
-	quote = args[0][i++];
-	while (args[0][i] && args[0][i] != quote)
-		new[e++] = args[0][i++];
-	if (args[0][i++] == quote)
-	{
-		while (args[0][i] && !is_whitespace(args[0][i]))
-			new[e++] = args[0][i++];
-		new[e] = '\0';
-	}
-	free (args[0]);
-	*args = new;
-	return (0);
+	new_arg[j] = '\0';
+	free (args[index]);
+	return (new_arg);
 }
 
 int	trim_quotes(char **args)
 {
 	int		j;
-	char	*new;
-	int		i;
+	int		new_size;
 
-	i = 0;
 	j = 0;
-	new = NULL;
+	new_size = 0;
 	if (!args)
 		return (1);
 	while (args[j])
 	{
-		while (args[j][i] && args[j][i] != '\'' && args[j][i] != '"')
-			i++;
-		if (args[j][i] && trim_quotes_utils(&args[j], new))
-			return (1);
-		if (new)
-		{
-			free(new);
-			new = NULL;
-		}
-		i = 0;
+		new_size = get_new_size(args[j]);
+		if (new_size != ft_strlen(args[j]))
+			args[j] = get_new_arg(args, j, new_size);
 		j++;
 	}
 	return (0);

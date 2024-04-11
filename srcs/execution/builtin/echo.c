@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: imehdid <imehdid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:37:32 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/28 17:34:22 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/11 13:28:18 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,11 @@
 
 static void	print_arg(char *arg)
 {
-	char	quote;
 	int		i;
 
 	i = 0;
 	while (arg[i])
 	{
-		if (arg[i] == '\'' || arg[i] == '"')
-		{
-			quote = arg[i];
-			i++;
-			while (arg[i] && arg[i] != quote)
-				ft_putchar_fd(arg[i++], STDOUT_FILENO);
-			if (arg[i] == quote)
-			{
-				i++;
-				while (arg[i] && !is_whitespace(arg[i]))
-					ft_putchar_fd(arg[i++], STDOUT_FILENO);
-			}
-			break ;
-		}
 		ft_putchar_fd(arg[i], STDOUT_FILENO);
 		i++;
 	}
@@ -83,6 +68,7 @@ int	execute_echo(char *arg)
 
 	option = true;
 	args = split_quotes(arg, " \t\n\v\f\r", NULL);
+	trim_quotes(args);
 	if (args == NULL)
 	{
 		ft_putchar_fd('\n', STDOUT_FILENO);
