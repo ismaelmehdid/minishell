@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 20:08:47 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/09 17:06:59 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/12 10:17:55 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,8 @@ char	*pipes_validation(char *input)
 		free(backup);
 	if (!input || input == NULL)
 	{
-		if (g_last_command_status != 130)
+		if (g_last_command_status != 130 && \
+			g_last_command_status != 131)
 			g_last_command_status = 2;
 		return (NULL);
 	}

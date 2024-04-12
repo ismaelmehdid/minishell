@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:05 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/09 17:18:06 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/12 10:43:13 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ int	restore_stdin(int check_num)
 		}
 		if (check_num == 3)
 		{
-			g_last_command_status = 130;
+			if (g_last_command_status != 131)
+				g_last_command_status = 130;
 			ft_putchar_fd('\n', 2);
 			printf("\033[F\033[K");
 		}
@@ -67,6 +68,7 @@ static void	minishell_loop(t_astnode *ast_root, t_list **env, char *input)
 	while (1)
 	{
 		signal(SIGINT, ctrl_c);
+		signal(SIGQUIT, SIG_IGN);
 		input = readline("BestShell😎$> ");
 		if (!input && restore_stdin(3) == 0)
 			continue ;
@@ -82,7 +84,7 @@ static void	minishell_loop(t_astnode *ast_root, t_list **env, char *input)
 				free_all_nodes(ast_root);
 			}
 			else if (ast_root == NULL && g_last_command_status != 2 && \
-				g_last_command_status != 130)
+				g_last_command_status != 130 && g_last_command_status != 131)
 				g_last_command_status = 1;
 		}
 		if (input)
@@ -104,11 +106,11 @@ int	main(int argc, char **argv, char **envp)
 		free_list(&env);
 		return (1);
 	}
-	signal(SIGQUIT, SIG_IGN);
 	g_stdin_copy_fd = dup(STDIN_FILENO);
 	if (g_stdin_copy_fd < 0)
 		return (1);
 	minishell_loop(ast_root, &env, NULL);
+	printf("exit\n");
 	rl_clear_history();
 	free_list(&env);
 	close(g_stdin_copy_fd);

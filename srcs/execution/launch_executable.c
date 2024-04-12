@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 23:56:59 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/09 16:04:41 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/12 10:34:42 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,14 @@ char	*get_path(char *cmd, char *path_full)
 	return (NULL);
 }
 
+static void wait_pids(int status, pid_t pid)
+{
+	waitpid(pid, &status, 0);
+	g_last_command_status = WEXITSTATUS(status);
+	if (WIFSIGNALED(status))
+		g_last_command_status = 131;
+}
+
 static void	ft_execve(
 	char *cmd_path,
 	char **cmds,
@@ -96,10 +104,7 @@ static void	ft_execve(
 		}
 	}
 	else
-	{
-		waitpid(pid, &status, 0);
-		g_last_command_status = WEXITSTATUS(status);
-	}
+		wait_pids(status, pid);
 }
 
 void	launch_executable(char *cmd, char **envp, int i)

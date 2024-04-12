@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 22:49:26 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/29 18:52:08 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/12 10:06:32 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ t_astnode	*parsing(char **input, t_list *env)
 	t_astnode	*root;
 	char		**elements;
 
+	signal(SIGQUIT, ctrl_back_slash);
 	if (!(*input) || (*input) == NULL)
 		return (NULL);
 	elements = NULL;

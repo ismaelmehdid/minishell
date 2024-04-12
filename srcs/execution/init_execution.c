@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_execution.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/06 23:17:55 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/12 10:30:34 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ void	init_redirs(t_astnode *root, char **redirections, int fds[2])
 	}
 	if (status == 0)
 		g_last_command_status = 1;
-	if (status == -500)
+	if (status == -500 && g_last_command_status != 131)
 		g_last_command_status = 130;
 }
 
@@ -129,7 +129,8 @@ void	init_executor(t_astnode *root, t_list **env)
 	if (redirections)
 	{
 		init_redirs(root, redirections, fds);
-		if (g_last_command_status == 130 || g_last_command_status == 1)
+		if (g_last_command_status == 130 || \
+			g_last_command_status == 1 || g_last_command_status == 131)
 			return ;
 	}
 	if (g_last_command_status == 350)

@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/09 16:31:25 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/12 10:35:54 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ static void	wait_pipes(int num_processes)
 		wait(&status);
 		if (WEXITSTATUS(status))
 			g_last_command_status = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			g_last_command_status = 131;
 		i++;
 	}
 }
