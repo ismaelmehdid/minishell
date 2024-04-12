@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:28 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/12 09:36:11 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/12 16:24:38 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ int				env_var_name_size(char *env_var);
 //-------Signals-------========================
 void			ctrl_c(int signum);
 void			new_ctrl_c(int signum);
-void	ctrl_back_slash(int signum);
+void			ctrl_back_slash(int signum);
 //-------Execution-------========================
 void			init_executor(t_astnode *root, t_list **env);
 int				execute_pipeline(char **cmds, t_list **env, t_astnode *root);

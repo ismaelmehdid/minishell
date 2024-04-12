@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   launch_executable.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 23:56:59 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/12 10:34:42 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/12 16:25:14 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ char	*get_path(char *cmd, char *path_full)
 	return (NULL);
 }
 
-static void wait_pids(int status, pid_t pid)
+static void	wait_pids(int status, pid_t pid)
 {
 	waitpid(pid, &status, 0);
 	g_last_command_status = WEXITSTATUS(status);
