@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:37:41 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/12 17:17:31 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/12 17:24:10 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	execute_exit(char *input, t_list **env, t_astnode *root, char **envp)
 	code = errors_handler(args);
 	if (code == 2)
 		return ;
-	if (size_double_array(args) == 1)
+	if (code == 0 && size_double_array(args) == 1)
 		g_last_command_status = ft_atoi(args[0]);
 	free_double_array(args);
 	free_list(env);
