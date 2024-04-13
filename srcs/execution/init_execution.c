@@ -6,67 +6,11 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/12 10:30:34 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/13 16:27:13 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-static int	finish_init_pipe(
-	t_astnode *node,
-	int counter,
-	char **cmds,
-	t_list **env)
-{
-	if (node->left && node->right && node->right->type == COMMAND_NODE)
-	{
-		cmds[counter] = ft_strdup(node->left->value);
-		cmds[counter + 1] = ft_strdup(node->right->value);
-		if (cmds[counter] == NULL || cmds[counter + 1] == NULL)
-		{
-			ft_putstr_fd("Allocation error\n", 2);
-			g_last_command_status = 1;
-			free_double_array(cmds);
-			return (1);
-		}
-	}
-	if (execute_pipeline(cmds, env, node) == 1)
-	{
-		free_double_array(cmds);
-		g_last_command_status = 1;
-		return (1);
-	}
-	free_double_array(cmds);
-	return (0);
-}
-
-static int	init_pipe(t_astnode *node, t_list **env, int counter)
-{
-	char	**cmds;
-
-	cmds = ft_calloc(get_pipe_size(node) + 2, sizeof(char *));
-	if (cmds == NULL)
-	{
-		g_last_command_status = 1;
-		return (1);
-	}
-	while (node->right && node->right->type != COMMAND_NODE)
-	{
-		cmds[counter] = ft_strdup(node->left->value);
-		if (cmds[counter] == NULL)
-		{
-			ft_putstr_fd("Allocation error\n", 2);
-			free_double_array(cmds);
-			g_last_command_status = 1;
-			return (1);
-		}
-		node = node->right;
-		counter++;
-	}
-	if (finish_init_pipe(node, counter, cmds, env) == 1)
-		return (1);
-	return (0);
-}
 
 static int	execute_command(t_astnode *node, char **envp, t_list **env)
 {
@@ -89,33 +33,44 @@ static int	execute_command(t_astnode *node, char **envp, t_list **env)
 	return (0);
 }
 
-void	init_redirs(t_astnode *root, char **redirections, int fds[2])
+static void	init_redirs(t_astnode *root, char **redirections, int fds[2],
+		int status)
 {
-	int			status;
-	t_astnode	*temp;
+	int	empty_status;
 
-	status = 1;
 	del_redirs_from_root(&root);
-	temp = root;
-	while (temp)
-	{
-		if (only_spaces(temp->value) == 0
-			|| (temp->left && only_spaces(temp->left->value) == 0))
-			status = 0;
-		temp = temp->right;
-	}
-	if (status != 0)
-		status = make_redirection(redirections, fds, 0, -1);
-	if (status == -500 || status == 0)
+	empty_status = no_cmds(root);
+	status = make_redirection(redirections, fds, 0, -1);
+	if (status == -500 || empty_status == 0)
 	{
 		restore_std(fds);
-		ft_putchar_fd('\n', 2);
+		if (status == -500)
+			ft_putchar_fd('\n', 2);
 		free_double_array(redirections);
 	}
-	if (status == 0)
-		g_last_command_status = 1;
+	if (empty_status == 0 && g_last_command_status != 1)
+		g_last_command_status = 3;
 	if (status == -500 && g_last_command_status != 131)
 		g_last_command_status = 130;
+}
+
+static int	stop_exec(void)
+{
+	if (g_last_command_status == 130 || \
+		g_last_command_status == 3 || \
+		g_last_command_status == 131)
+	{
+		if (g_last_command_status == 3)
+			g_last_command_status = 0;
+		return (0);
+	}
+	if (g_last_command_status == 350 || \
+		g_last_command_status == 1)
+	{
+		g_last_command_status = 1;
+		return (0);
+	}
+	return (1);
 }
 
 void	init_executor(t_astnode *root, t_list **env)
@@ -127,17 +82,9 @@ void	init_executor(t_astnode *root, t_list **env)
 	g_last_command_status = 0;
 	redirections = create_list(root);
 	if (redirections)
-	{
-		init_redirs(root, redirections, fds);
-		if (g_last_command_status == 130 || \
-			g_last_command_status == 1 || g_last_command_status == 131)
-			return ;
-	}
-	if (g_last_command_status == 350)
-	{
-		g_last_command_status = 1;
+		init_redirs(root, redirections, fds, 1);
+	if (stop_exec() == 0)
 		return ;
-	}
 	if (root->type == PIPE_NODE)
 		init_pipe(root, env, 0);
 	else if (root->type == COMMAND_NODE)

@@ -130,6 +130,7 @@ char			*get_path(char *cmd, char *path_full);
 void			close_pipe_fds(int *fd, int size);
 t_pipeline		get_pipe_utils(char **cmds);
 int				get_pipe_size(t_astnode *node);
+int				init_pipe(t_astnode *node, t_list **env, int counter);
 void			launch_cmd(char *cmd, char **envp, char *cmd_path, char **cmds);
 void			print_error_not_found(char *cmd);
 int				get_command(char *input, char *checking);
@@ -184,10 +185,10 @@ int				if_there_was_in(char **redirs, int i);
 char			*ft_strjoin_free(char *s1, char const *s2, int s2_len);
 int				write_to_tmp_file(int fd, char *input);
 void			unlink_file(char *msg);
-int				write_from_stdin_to_fd(
-					int *fd,
-					int bytes_read,
-					int bytes_written);
+void			no_such_file_error(char *file);
+int				here_doc_exist(char **redirs, int i);
+void			useless_here_doc(char **redirs, int i);
+int				no_cmds(t_astnode *root);
 //-------Redirection-List-of-Char-Creation--=======
 char			**create_list(t_astnode *root);
 void			del_redirs_from_root(t_astnode **root);

@@ -49,14 +49,9 @@ static int	create_tmp_file(char *delimiter, int fd, int in_flag)
 	}
 	if (in_flag >= 0)
 	{
-		in_flag = write_from_stdin_to_fd(&fd, 1, 0);
-		if (in_flag < 0)
-		{
-			ft_putstr_fd("Error with read, write or dup2\n", 2);
-			if (close(fd) < 0)
-				ft_putstr_fd("File error\n", 2);
+		close(STDIN_FILENO);
+		if (dup2(g_stdin_copy_fd, STDIN_FILENO) < 0)
 			return (-1);
-		}
 	}
 	fd = here_doc_loop(delimiter, fd, NULL);
 	if (fd == -500)
