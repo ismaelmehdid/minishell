@@ -188,6 +188,7 @@ void			unlink_file(char *msg);
 void			no_such_file_error(char *file);
 int				here_doc_exist(char **redirs, int i);
 void			useless_here_doc(char **redirs, int i);
+int				no_cmds(t_astnode *root);
 //-------Redirection-List-of-Char-Creation--=======
 char			**create_list(t_astnode *root);
 void			del_redirs_from_root(t_astnode **root);

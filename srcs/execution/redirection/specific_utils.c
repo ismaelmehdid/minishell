@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   useless_here_doc.c                                 :+:      :+:    :+:   */
+/*   specific_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asyvash <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 16:22:45 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/13 16:26:10 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/13 17:37:19 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,22 @@ void	useless_here_doc(char **redirs, int i)
 		}
 		i++;
 	}
+}
+
+int	no_cmds(t_astnode *root)
+{
+	t_astnode	*temp;
+	int			status;
+
+	status = 1;
+	del_redirs_from_root(&root);
+	temp = root;
+	while (temp)
+	{
+		if (only_spaces(temp->value) == 0
+			|| (temp->left && only_spaces(temp->left->value) == 0))
+			status = 0;
+		temp = temp->right;
+	}
+	return (status);
 }

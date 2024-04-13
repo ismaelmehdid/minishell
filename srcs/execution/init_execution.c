@@ -36,27 +36,19 @@ static int	execute_command(t_astnode *node, char **envp, t_list **env)
 void	init_redirs(t_astnode *root, char **redirections, int fds[2],
 		int status)
 {
-	t_astnode	*temp;
+	int	empty_status;
 
 	del_redirs_from_root(&root);
-	temp = root;
-	while (temp)
-	{
-		if (only_spaces(temp->value) == 0
-			|| (temp->left && only_spaces(temp->left->value) == 0))
-			status = 0;
-		temp = temp->right;
-	}
-	if (status != 0)
-		status = make_redirection(redirections, fds, 0, -1);
-	if (status == -500 || status == 0)
+	empty_status = no_cmds(root);
+	status = make_redirection(redirections, fds, 0, -1);
+	if (status == -500 || empty_status == 0)
 	{
 		restore_std(fds);
 		if (status == -500)
 			ft_putchar_fd('\n', 2);
 		free_double_array(redirections);
 	}
-	if (status == 0 && g_last_command_status != 1)
+	if (empty_status == 0 && g_last_command_status != 1)
 		g_last_command_status = 3;
 	if (status == -500 && g_last_command_status != 131)
 		g_last_command_status = 130;
