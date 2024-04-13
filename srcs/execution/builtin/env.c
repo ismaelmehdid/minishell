@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <imehdid@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:37:38 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/11 16:00:57 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/12 17:26:54 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	errors_handler(char *args)
 		{
 			ft_putstr_fd("env: ", STDERR_FILENO);
 			ft_putstr_fd(args + i, STDERR_FILENO);
-			ft_putstr_fd(": Env command don't take arguments in Minishell\n",
+			ft_putstr_fd(": Env command don't take arguments or in Minishell\n",
 				STDERR_FILENO);
 			return (2);
 		}

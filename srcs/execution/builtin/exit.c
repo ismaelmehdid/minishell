@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:37:41 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/12 17:24:10 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/13 18:45:39 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ static int	check_args_quantity(char **args)
 {
 	if (size_double_array(args) > 1)
 	{
+		printf("exit\n");
 		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 		g_last_command_status = 1;
 		return (1);
@@ -32,6 +33,12 @@ static int	check_all_digits(char *args)
 	{
 		if (!ft_isdigit(args[i]))
 		{
+			if (i == 0 && args[i] == '-')
+			{
+				i++;
+				continue ;
+			}
+			printf("exit\n");
 			ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
 			ft_putstr_fd(args, STDERR_FILENO);
 			ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
@@ -78,6 +85,7 @@ void	execute_exit(char *input, t_list **env, t_astnode *root, char **envp)
 	free_all_nodes(root);
 	if (close(g_stdin_copy_fd) < 0)
 		ft_putstr_fd("File error\n", 2);
-	printf("exit\n");
+	if (code == 0)
+		printf("exit\n");
 	exit(g_last_command_status);
 }

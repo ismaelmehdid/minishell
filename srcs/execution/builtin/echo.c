@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:37:32 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/12 16:24:20 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/13 18:52:36 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ static bool	check_option(char **arg, int *args_index)
 				i++;
 			if (i > 1 && arg[j][i] == '\0')
 				(*args_index)++;
+			else
+				break ;
 		}
 		i = 1;
 		j++;
