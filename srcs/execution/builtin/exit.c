@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:37:41 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/13 18:45:39 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/13 19:16:49 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ static int	check_all_digits(char *args)
 	int	i;
 
 	i = 0;
+	if (!args)
+		return (0);
 	while (args[i])
 	{
 		if (!ft_isdigit(args[i]))
