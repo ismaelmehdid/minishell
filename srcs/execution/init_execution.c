@@ -33,7 +33,7 @@ static int	execute_command(t_astnode *node, char **envp, t_list **env)
 	return (0);
 }
 
-void	init_redirs(t_astnode *root, char **redirections, int fds[2],
+static void	init_redirs(t_astnode *root, char **redirections, int fds[2],
 		int status)
 {
 	int	empty_status;
