@@ -29,6 +29,7 @@ SRCS =	srcs/env_utils.c \
         srcs/execution/builtin/unset.c \
         srcs/execution/pipes/execute_pipes.c \
         srcs/execution/pipes/pipe_utils.c \
+        srcs/execution/pipes/pre_exec_pipes.c \
         srcs/execution/redirection/here_doc.c \
         srcs/execution/redirection/here_doc_utils.c \
         srcs/execution/redirection/here_doc_utils2.c \

@@ -40,6 +40,6 @@ void	ctrl_back_slash(int signum)
 	{
 		close(STDIN_FILENO);
 		g_last_command_status = 131;
-		ft_putstr_fd("\nQuit (core dumped)\n", 2);
+		ft_putstr_fd("Quit (core dumped)\n", 2);
 	}
 }

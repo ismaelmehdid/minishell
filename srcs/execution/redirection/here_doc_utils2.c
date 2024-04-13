@@ -12,27 +12,6 @@
 
 #include "../../../includes/minishell.h"
 
-int	write_from_stdin_to_fd(int *fd, int bytes_read, int bytes_written)
-{
-	char	buffer[100];
-
-	while (bytes_read != 0)
-	{
-		bytes_read = read(STDIN_FILENO, buffer, 100);
-		if (bytes_read == -1)
-			break ;
-		bytes_written = write((*fd), buffer, bytes_read);
-		if (bytes_written != bytes_read)
-			return (-1);
-	}
-	if (bytes_read == -1)
-		return (-1);
-	close(STDIN_FILENO);
-	if (dup2(g_stdin_copy_fd, STDIN_FILENO) < 0)
-		return (-1);
-	return (0);
-}
-
 int	write_to_tmp_file(int fd, char *input)
 {
 	int	bytes_read;
