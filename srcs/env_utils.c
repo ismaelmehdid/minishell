@@ -6,65 +6,59 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 23:54:18 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/03 23:43:10 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/14 18:03:04 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	ft_lstsize(t_list *lst)
+void	create_envp_loop(t_list *env, char **envp)
 {
-	int	count;
+	int	i;
 
-	count = 0;
-	while (lst != NULL)
+	i = 0;
+	while (env)
 	{
-		lst = lst->next;
-		count++;
+		if (env->export_marked == true && env->value_assigned == true)
+		{
+			envp[i] = ft_strdup(env->content);
+			if (envp[i] == NULL)
+			{
+				free_double_array(envp);
+				ft_putstr_fd("Malloc allocation error\n", 2);
+				return ;
+			}
+			i++;
+		}
+		env = env->next;
 	}
-	return (count);
-}
-
-void	free_list(t_list **env)
-{
-	t_list	*temp;
-
-	while ((*env) != NULL)
-	{
-		temp = (*env);
-		(*env) = (*env)->next;
-		free(temp->content);
-		free(temp);
-	}
+	envp[i] = NULL;
 }
 
 char	**create_envp(t_list *env)
 {
 	char	**envp;
 	int		size;
-	int		i;
 
-	size = ft_lstsize(env);
+	size = ft_lstsize(env, true);
 	envp = (char **)malloc(sizeof(char *) * (size + 1));
 	if (!envp)
 	{
 		ft_putstr_fd("Malloc allocation error\n", 2);
 		return (NULL);
 	}
-	i = -1;
-	while (i++, i < size)
-	{
-		envp[i] = ft_strdup(env->content);
-		if (envp[i] == NULL)
-		{
-			free_double_array(envp);
-			ft_putstr_fd("Malloc allocation error\n", 2);
-			return (NULL);
-		}
-		env = env->next;
-	}
-	envp[i] = NULL;
+	create_envp_loop(env, envp);
+	if (!envp)
+		return (NULL);
 	return (envp);
+}
+
+static void	set_env_utils(t_list **new_node, char **envp, int i)
+{
+	(*new_node)->content = ft_strdup(envp[i]);
+	(*new_node)->export_marked = true;
+	(*new_node)->value_assigned = true;
+	(*new_node)->export_marked_sub = true;
 }
 
 int	create_env(t_list **env, char **envp)
@@ -82,7 +76,7 @@ int	create_env(t_list **env, char **envp)
 			ft_putstr_fd("Allocation error\n", 2);
 			return (1);
 		}
-		new_node->content = ft_strdup(envp[i]);
+		set_env_utils(&new_node, envp, i);
 		if (new_node->content == NULL)
 		{
 			ft_putstr_fd("Allocation error\n", 2);

@@ -2,6 +2,7 @@ NAME = minishell
 
 SRCS =	srcs/env_utils.c \
         srcs/minishell.c \
+		srcs/list_utils.c \
         srcs/parsing/parsing.c \
         srcs/parsing/parsing_utils.c \
         srcs/parsing/pipes_validation/pipe_validation.c \
@@ -21,7 +22,9 @@ SRCS =	srcs/env_utils.c \
         srcs/execution/builtin/echo.c \
         srcs/execution/builtin/env.c \
         srcs/execution/builtin/export.c \
+        srcs/execution/builtin/export_print.c \
         srcs/execution/builtin/export_utils.c \
+        srcs/execution/builtin/export_utils_two.c \
         srcs/execution/builtin/handle_builtin.c \
         srcs/execution/builtin/handle_builtin_utils.c \
         srcs/execution/builtin/pwd.c \

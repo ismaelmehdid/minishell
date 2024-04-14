@@ -3,66 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <imehdid@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:37:45 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/11 15:54:47 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/14 18:09:00 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-static int	search_replace_existing(t_list **lst, char *arg)
-{
-	int		i;
-	t_list	*current;
-
-	i = 0;
-	while (arg[i] && arg[i] != '=')
-		i++;
-	if (arg[i] == '\0')
-		return (1);
-	current = *lst;
-	if (current == NULL)
-		return (0);
-	while (current)
-	{
-		if (search_replace_existing_cmp(current, arg))
-		{
-			free(current->content);
-			current->content = ft_strdup(arg);
-			return (1);
-		}
-		current = current->next;
-	}
-	return (0);
-}
-
-static int	checking_errors(char **exports)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	while (exports[i])
-	{
-		if (exports[i][0] == '='
-			|| (exports[i][0] != '_' && !ft_isalpha(exports[i][0])))
-			return (export_print_error(exports[i]));
-		while (exports[i][j] && exports[i][j] != '=')
-		{
-			if (exports[i][j] != '_' && !ft_isalnum(exports[i][j]))
-				return (export_print_error(exports[i]));
-			j++;
-		}
-		j = 0;
-		i++;
-	}
-	return (0);
-}
-
-static int	add_to_env(char *arg, t_list **env)
+static int	add_to_env(char *arg, t_list **env, bool assigned_value)
 {
 	t_list	*new;
 
@@ -75,10 +25,12 @@ static int	add_to_env(char *arg, t_list **env)
 	new->content = ft_strdup(arg);
 	if (!new->content)
 	{
-		ft_putstr_fd("Memory allocation error\n", 2);
 		free(new);
 		return (126);
 	}
+	new->value_assigned = assigned_value;
+	new->export_marked = true;
+	new->export_marked_sub = false;
 	if (*env)
 	{
 		get_last_node(*env)->next = new;
@@ -89,7 +41,48 @@ static int	add_to_env(char *arg, t_list **env)
 	return (0);
 }
 
-int	execute_export_utils(char **exports, t_list *env)
+static int	search_replace_existing_loop(t_list **lst, char *arg)
+{
+	t_list	*current;
+
+	current = *lst;
+	if (current == NULL)
+		return (0);
+	while (current)
+	{
+		if (search_replace_existing_cmp(current, arg))
+		{
+			free(current->content);
+			current->content = ft_strdup(arg);
+			current->value_assigned = true;
+			return (1);
+		}
+		current = current->next;
+	}
+	return (0);
+}
+
+static int	search_replace_existing(t_list **lst, char *arg)
+{
+	int		i;
+
+	i = 0;
+	if (!arg || ft_strlen(arg) == 0)
+		return (1);
+	while (arg[i] && arg[i] != '=')
+		i++;
+	if (arg[i] == '\0')
+	{
+		if (value_exist(*lst, arg) == false)
+			add_to_env(arg, lst, false);
+		return (1);
+	}
+	if (search_replace_existing_loop(lst, arg) != 0)
+		return (1);
+	return (0);
+}
+
+static int	execute_export_utils(char **exports, t_list *env)
 {
 	int	i;
 
@@ -100,7 +93,7 @@ int	execute_export_utils(char **exports, t_list *env)
 			i++;
 		else
 		{
-			if (add_to_env(exports[i], &env))
+			if (add_to_env(exports[i], &env, true))
 			{
 				free_double_array(exports);
 				return (126);
@@ -111,14 +104,14 @@ int	execute_export_utils(char **exports, t_list *env)
 	return (0);
 }
 
-int	execute_export(char *arg, t_list *env, char **envp)
+int	execute_export(char *arg, t_list *env)
 {
 	char	**exports;
 
 	exports = split_quotes(arg, " \t\n\v\f\r", NULL);
 	trim_quotes(exports);
 	if (!exports || size_double_array(exports) == 0)
-		return (execute_env(envp, NULL));
+		return (show_exported_var_list(env, exports));
 	if (trim_quotes(exports) != 0)
 	{
 		free_double_array(exports);

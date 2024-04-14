@@ -3,14 +3,43 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <imehdid@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 23:01:03 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/11 14:43:05 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/14 18:08:55 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
+
+bool	value_exist(t_list *lst, char *arg)
+{
+	int	i;
+	int	arg_len;
+	int	env_var_len;
+
+	arg_len = ft_strlen(arg);
+	env_var_len = 0;
+	while (lst)
+	{
+		i = -1;
+		while (lst->content[env_var_len] && lst->content[env_var_len] != '=')
+			env_var_len++;
+		if (env_var_len == arg_len)
+		{
+			while (arg[++i])
+			{
+				if (arg[i] != lst->content[i])
+					break ;
+			}
+			if (i == ft_strlen(arg))
+				return (true);
+		}
+		env_var_len = 0;
+		lst = lst->next;
+	}
+	return (false);
+}
 
 t_list	*get_last_node(t_list *lst)
 {
@@ -49,7 +78,29 @@ int	search_replace_existing_cmp(t_list *lst, char *arg)
 			return (0);
 		i++;
 	}
-	if (arg[i] == '=' && lst->content[i] == '=')
-		return (1);
+	return (1);
+}
+
+int	checking_errors(char **exports)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (exports[i])
+	{
+		if (exports[i][0] == '='
+			|| (exports[i][0] != '_' && !ft_isalpha(exports[i][0])))
+			return (export_print_error(exports[i]));
+		while (exports[i][j] && exports[i][j] != '=')
+		{
+			if (exports[i][j] != '_' && !ft_isalnum(exports[i][j]))
+				return (export_print_error(exports[i]));
+			j++;
+		}
+		j = 0;
+		i++;
+	}
 	return (0);
 }
