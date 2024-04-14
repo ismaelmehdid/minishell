@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes_validation_utils.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 00:04:18 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/04 00:36:34 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/14 23:25:49 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,13 @@ char	*print_parse_error(char *input, int i)
 		ft_putstr_fd("parse error near `|'\n", 2);
 	free(input);
 	return (NULL);
+}
+
+void	exit_program(char *backup)
+{
+	free(backup);
+	ft_putstr_fd("minishell: syntax error: ", 2);
+	ft_putstr_fd("unexpected end of file\n", 2);
+	printf("exit\n");
+	exit (2);
 }

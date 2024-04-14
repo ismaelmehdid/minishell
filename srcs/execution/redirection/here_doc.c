@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 21:04:09 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/09 17:03:25 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/14 23:23:13 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ static int	here_doc_loop(char *delimiter, int fd, char *input)
 		input = readline("heredoc> ");
 		if (!input)
 		{
+			if (isatty(STDIN_FILENO))
+				ft_putstr_fd("Delimited by EOF\n", 2);
 			restore_stdin(1);
 			free(delimiter);
 			close (fd);
@@ -40,6 +42,7 @@ static int	here_doc_loop(char *delimiter, int fd, char *input)
 
 static int	create_tmp_file(char *delimiter, int fd, int in_flag)
 {
+	signal(SIGQUIT, SIG_IGN);
 	fd = open("/tmp/heredoc", O_RDWR | O_CREAT | O_TRUNC,
 			S_IRUSR | S_IWUSR);
 	if (fd == -1)
@@ -54,6 +57,7 @@ static int	create_tmp_file(char *delimiter, int fd, int in_flag)
 			return (-1);
 	}
 	fd = here_doc_loop(delimiter, fd, NULL);
+	signal(SIGQUIT, ctrl_back_slash);
 	if (fd == -500)
 		unlink_file("without");
 	return (fd);

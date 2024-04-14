@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:28 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/14 22:28:25 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/14 23:26:12 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ t_astnode		*parsing(char **input, t_list *env);
 t_astnode		*init_ast(char **elements);
 t_astnode		*create_node(char *element);
 char			*pipes_validation(char *input);
+void			exit_program(char *backup);
 int				check_last_pipe_command(char *inp);
 int				check_for_spaces(char *inp);
 char			*get_backup(char *backup, char *input);
