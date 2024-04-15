@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 20:08:47 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/14 18:33:37 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/15 13:34:04 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,14 +93,15 @@ static char	*set_new_command(char *input, int i)
 
 static char	*validation_loop(char *input, char **backup)
 {
+	signal(SIGQUIT, SIG_IGN);
 	while (input && check_last_pipe_command(input))
 	{
 		*backup = get_backup(*backup, input);
 		if (!backup)
 			return (NULL);
 		input = set_new_command(input, 0);
-		if (!input && restore_stdin(0) == 0)
-			return (NULL);
+		if (!input && isatty(STDIN_FILENO))
+			exit_program(*backup);
 		else if (input && !pipes_format_checker(input))
 			return (NULL);
 		if (input)
@@ -122,6 +123,7 @@ char	*pipes_validation(char *input)
 	}
 	signal(SIGINT, new_ctrl_c);
 	input = validation_loop(input, &backup);
+	signal(SIGQUIT, ctrl_back_slash);
 	if (backup)
 		free(backup);
 	if (!input || input == NULL)
