@@ -3,41 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:55:34 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/09 16:33:05 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/15 13:12:44 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-void	close_pipe_fds(int *fd, int size)
+static void	free_and_exit(char **envp, char **cmds, char *cmd_path, int code)
 {
-	int	i;
-
-	i = 0;
-	while (i < size)
-	{
-		close(fd[i]);
-		i++;
-	}
-	free(fd);
-}
-
-t_pipeline	get_pipe_utils(char **cmds)
-{
-	t_pipeline	util;
-
-	util.i = 0;
-	util.j = 0;
-	util.k = -1;
-	util.m = 0;
-	while (cmds[util.i] != NULL)
-		util.i++;
-	util.fd = (int *)malloc(sizeof(int) * (2 * util.i + 1));
-	util.i = 0;
-	return (util);
+	if (cmd_path)
+		free(cmd_path);
+	free_double_array(cmds);
+	free_double_array(envp);
+	if (code != -1)
+		exit (code);
 }
 
 static int	get_indx(char **envp)
@@ -60,39 +42,19 @@ void	launch_cmd(char *cmd, char **envp, char *cmd_path, char **cmds)
 	if ((get_indx(envp) == -1 || envp[get_indx(envp)] == NULL) && \
 		cmds && access(cmds[0], F_OK) != 0)
 	{
-		print_error_not_found(cmds[0]);
-		exit (127);
+		print_error_not_found(cmds[0], 1);
+		free_and_exit(envp, cmds, NULL, 127);
 	}
 	cmd_path = get_path(cmds[0], envp[get_indx(envp)] + 5);
 	if (cmd_path == NULL)
 	{
-		print_error_not_found(cmds[0]);
-		free_double_array(cmds);
-		free(cmd_path);
-		free_double_array(envp);
-		exit (127);
+		print_error_not_found(cmds[0], 1);
+		free_and_exit(envp, cmds, NULL, 127);
 	}
 	if (execve(cmd_path, cmds, envp) < 0)
 	{
-		perror("Execve");
-		free_double_array(cmds);
-		free_double_array(envp);
-		exit (126);
+		print_error_not_found(cmds[0], 2);
+		free_and_exit(envp, cmds, cmd_path, 126);
 	}
-	free_double_array(envp);
-}
-
-int	get_pipe_size(t_astnode *node)
-{
-	int			counter;
-	t_astnode	*tmp_node;
-
-	counter = 1;
-	tmp_node = node;
-	while (tmp_node->right && tmp_node->right->type == PIPE_NODE)
-	{
-		tmp_node = tmp_node->right;
-		counter++;
-	}
-	return (counter);
+	free_and_exit(envp, cmds, cmd_path, -1);
 }

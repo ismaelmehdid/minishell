@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:28 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/14 22:28:25 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/14 23:48:18 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,7 @@ t_pipeline		get_pipe_utils(char **cmds);
 int				get_pipe_size(t_astnode *node);
 int				init_pipe(t_astnode *node, t_list **env, int counter);
 void			launch_cmd(char *cmd, char **envp, char *cmd_path, char **cmds);
-void			print_error_not_found(char *cmd);
+void			print_error_not_found(char *cmd, int code);
 int				get_command(char *input, char *checking);
 int				get_cmd_args_index(char *input);
 t_list			*free_copy_list(char *content, t_list *listptr);

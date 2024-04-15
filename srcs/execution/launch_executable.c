@@ -6,68 +6,25 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 23:56:59 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/12 17:52:59 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/15 13:29:22 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	print_error_not_found(char *cmd)
+void	print_error_not_found(char *cmd, int code)
 {
-	int	i;
-	int	quote;
-
-	i = 0;
-	ft_putstr_fd("Command not found: ", 2);
-	while (cmd && cmd[i] && is_whitespace(cmd[i]))
-		i++;
-	while (cmd && cmd[i])
+	if (code == 1)
 	{
-		if (cmd[i] == '\'' || cmd[i] == '"')
-		{
-			quote = cmd[i++];
-			while (cmd[i] && cmd[i] != quote)
-			{
-				ft_putchar_fd(cmd[i++], 2);
-				i++;
-			}
-			if (cmd[i] == quote)
-				i++;
-			continue ;
-		}
-		ft_putchar_fd(cmd[i], 2);
-		i++;
+		ft_putstr_fd("Minishell: ", 2);
+		ft_putstr_fd(cmd, 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
 	}
-	ft_putchar_fd('\n', 2);
-}
-
-char	*get_path(char *cmd, char *path_full)
-{
-	int		i;
-	char	*cmd_path;
-	char	*path;
-	char	**paths;
-
-	if (!cmd)
-		return (NULL);
-	if (access(cmd, F_OK) == 0)
-		return (ft_strdup(cmd));
-	paths = ft_split(path_full, ':');
-	i = -1;
-	while (paths[++i] != NULL)
+	else if (code == 2)
 	{
-		path = ft_strjoin(paths[i], "/");
-		cmd_path = ft_strjoin(path, cmd);
-		free(path);
-		if (access(cmd_path, F_OK) == 0)
-		{
-			free_double_array(paths);
-			return (cmd_path);
-		}
-		free(cmd_path);
+		ft_putstr_fd(cmd, 2);
+		ft_putstr_fd(": Command not found\n", 2);
 	}
-	free_double_array(paths);
-	return (NULL);
 }
 
 static void	wait_pids(int status, pid_t pid)
@@ -90,6 +47,8 @@ static void	ft_execve(
 	if (pid == -1)
 	{
 		perror("Fork");
+		free_double_array(cmds);
+		free(cmd_path);
 		g_last_command_status = 1;
 		return ;
 	}
@@ -97,14 +56,14 @@ static void	ft_execve(
 	{
 		if (execve(cmd_path, cmds, path_env) == -1)
 		{
-			free(cmd_path);
-			free_double_array(path_env);
-			perror("Execve");
+			print_error_not_found(cmds[0], 2);
 			exit (126);
 		}
 	}
 	else
 		wait_pids(status, pid);
+	free_double_array(cmds);
+	free(cmd_path);
 }
 
 void	launch_executable(char *cmd, char **envp, int i)
@@ -119,19 +78,18 @@ void	launch_executable(char *cmd, char **envp, int i)
 	trim_quotes(cmds);
 	if (!envp[i] && cmds && access(cmds[0], F_OK) != 0)
 	{
-		print_error_not_found(cmd);
+		print_error_not_found(cmd, 1);
+		free_double_array(cmds);
 		g_last_command_status = 127;
 		return ;
 	}
 	cmd_path = get_path(cmds[0], envp[i] + 5);
 	if (cmd_path == NULL)
 	{
-		print_error_not_found(cmds[0]);
+		print_error_not_found(cmds[0], 2);
 		free_double_array(cmds);
 		g_last_command_status = 127;
 		return ;
 	}
 	ft_execve(cmd_path, cmds, envp, 0);
-	free_double_array(cmds);
-	free(cmd_path);
 }
