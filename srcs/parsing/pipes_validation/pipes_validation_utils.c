@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 00:04:18 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/14 23:25:49 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/16 23:58:52 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ char	*print_parse_error(char *input, int i)
 void	exit_program(char *backup)
 {
 	free(backup);
+	close(g_stdin_copy_fd);
 	ft_putstr_fd("minishell: syntax error: ", 2);
 	ft_putstr_fd("unexpected end of file\n", 2);
 	printf("exit\n");
