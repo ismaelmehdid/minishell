@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_execution.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/15 13:27:36 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/21 01:49:20 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,15 @@ static int	execute_command(t_astnode *node, char **envp, t_list **env)
 	return (0);
 }
 
+static void	simple_cmd(t_astnode *root, t_list **env,
+	char **redirs, int fds[2])
+{
+	execute_command(root, create_envp(*env), env);
+	restore_std(fds);
+	if (redirs)
+		free_double_array(redirs);
+}
+
 static void	init_redirs(t_astnode *root, char **redirections, int fds[2],
 		int status)
 {
@@ -83,25 +92,6 @@ static void	init_redirs(t_astnode *root, char **redirections, int fds[2],
 		g_last_command_status = 130;
 }
 
-static int	stop_exec(void)
-{
-	if (g_last_command_status == 130 || \
-		g_last_command_status == 3 || \
-		g_last_command_status == 131)
-	{
-		if (g_last_command_status == 3)
-			g_last_command_status = 0;
-		return (0);
-	}
-	if (g_last_command_status == 350 || \
-		g_last_command_status == 1)
-	{
-		g_last_command_status = 1;
-		return (0);
-	}
-	return (1);
-}
-
 void	init_executor(t_astnode *root, t_list **env)
 {
 	char		**redirections;
@@ -109,16 +99,21 @@ void	init_executor(t_astnode *root, t_list **env)
 
 	ft_memset(fds, -1, sizeof(fds));
 	g_last_command_status = 0;
-	redirections = create_list(root);
+	redirections = NULL;
+	if (root->type == COMMAND_NODE)
+		redirections = create_list(root);
 	if (redirections)
 		init_redirs(root, redirections, fds, 1);
-	if (stop_exec() == 0)
+	if (stop_exec_cmd() == 0)
 		return ;
 	if (root->type == PIPE_NODE)
-		init_pipe(root, env, 0);
+	{
+		if (init_pipe(root, env, 0) == 1)
+		{
+			ft_putstr_fd("Allocation error\n", 2);
+			g_last_command_status = 1;
+		}
+	}
 	else if (root->type == COMMAND_NODE)
-		execute_command(root, create_envp(*env), env);
-	if (redirections)
-		free_double_array(redirections);
-	restore_std(fds);
+		simple_cmd(root, env, redirections, fds);
 }

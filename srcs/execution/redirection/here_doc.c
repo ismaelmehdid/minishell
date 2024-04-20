@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 21:04:09 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/14 23:23:13 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/21 01:40:32 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	here_doc(char *delimiter, int fd, int dup_return, int in_flag)
 	return (dup_return);
 }
 
-static int	pre_here_doc_2(char **redirs, int i, int quantity, int orig_stdout)
+static int	pre_here_doc_2(char **redirs, int i, int orig_stdout)
 {
 	int	status;
 	int	check_val;
@@ -109,8 +109,6 @@ static int	pre_here_doc_2(char **redirs, int i, int quantity, int orig_stdout)
 			return (-1);
 		close (stdout_copy_fd);
 	}
-	else if (quantity == 0)
-		status = here_doc(get_file_redir(redirs[i]), 0, 0, -1);
 	else
 		status = here_doc(get_file_redir(redirs[i]), 0, 0, 1);
 	return (status);
@@ -139,7 +137,7 @@ int	pre_here_doc(char **redirs, int i, int stdout_copy_fd, int orig_stdout)
 		close(stdout_copy_fd);
 	}
 	else
-		i = pre_here_doc_2(redirs, i, quantity, orig_stdout);
+		i = pre_here_doc_2(redirs, i, orig_stdout);
 	if (++quantity == get_quantity(redirs))
 		quantity = 0;
 	return (i);

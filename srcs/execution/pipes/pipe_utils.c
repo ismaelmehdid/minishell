@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:55:34 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/15 13:12:44 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/21 01:14:46 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,17 @@ void	launch_cmd(char *cmd, char **envp, char *cmd_path, char **cmds)
 		free_and_exit(envp, cmds, cmd_path, 126);
 	}
 	free_and_exit(envp, cmds, cmd_path, -1);
+}
+
+char	*get_content(t_astnode *node)
+{
+	char	*content;
+
+	if (node->type == PIPE_NODE)
+		content = ft_strdup(node->left->value);
+	else
+		content = ft_strdup(node->value);
+	if (!content)
+		return (NULL);
+	return (content);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:28 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/15 13:33:48 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/21 01:45:43 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,9 @@ typedef struct s_pipeline
 	int			m;
 	pid_t		pid;
 	int			*fd;
+	int			fds[2];
+	char		**redirs;
+	char		**cmds;
 }t_pipeline;
 
 typedef struct s_cpy_word_indexes{
@@ -142,14 +145,14 @@ void			ctrl_back_slash(int signum);
 //=== Execution -----------------------------------------------------------===//
 
 void			init_executor(t_astnode *root, t_list **env);
-int				execute_pipeline(char **cmds, t_list **env, t_astnode *root);
+int				execute_pipeline(t_pipeline *utl, t_list **env, t_astnode *root);
 void			launch_executable(char *cmd, char **envp, int i);
 
 //=== Execution utils -----------------------------------------------------===//
 
 char			*get_path(char *cmd, char *path_full);
 void			close_pipe_fds(int *fd, int size);
-t_pipeline		get_pipe_utils(char **cmds);
+void			get_pipe_utils(t_pipeline **utl);
 int				get_pipe_size(t_astnode *node);
 int				init_pipe(t_astnode *node, t_list **env, int counter);
 void			launch_cmd(char *cmd, char **envp, char *cmd_path, char **cmds);
@@ -158,6 +161,12 @@ int				get_command(char *input, char *checking);
 int				get_cmd_args_index(char *input);
 t_list			*free_copy_list(char *content, t_list *listptr);
 int				mystrcmp(const char *first, const char *second);
+char			*get_content(t_astnode *node);
+int				check_empty_status(char *cmds);
+void			stop_exec(t_pipeline *utl);
+void			free_pipeline_util(t_pipeline *utl);
+int				handle_fds_dup(char **cmds, t_pipeline *utl);
+void			wait_pipes(int num_processes);
 
 //=== Built-ins -----------------------------------------------------------===//
 
@@ -218,6 +227,7 @@ void			no_such_file_error(char *file);
 int				here_doc_exist(char **redirs, int i);
 void			useless_here_doc(char **redirs, int i);
 int				no_cmds(t_astnode *root);
+int				stop_exec_cmd(void);
 
 //=== Redirection List of Char Creation -----------------------------------===//
 

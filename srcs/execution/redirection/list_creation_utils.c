@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list_creation_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 21:04:15 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/05 18:06:28 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/21 00:44:22 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,23 +58,15 @@ static int	count_in_node(char *line)
 	return (count);
 }
 
-int	count_redirs(t_astnode *node)
+int	count_redirs(t_astnode *root)
 {
 	int	count;
 
 	count = 0;
-	while (node->right)
+	if (root->value)
 	{
-		if (node->left && redir_exist(node->left->value) == 0)
-			count += count_in_node(node->left->value);
-		if (node->right && redir_exist(node->right->value) == 0)
-			count += count_in_node(node->right->value);
-		node = node->right;
-	}
-	if (count == 0 && node->value)
-	{
-		if (redir_exist(node->value) == 0)
-			count += count_in_node(node->value);
+		if (redir_exist(root->value) == 0)
+			count += count_in_node(root->value);
 	}
 	return (count);
 }

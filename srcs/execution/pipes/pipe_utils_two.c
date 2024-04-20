@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_utils_two.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 12:56:57 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/15 12:57:30 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/20 23:24:48 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,16 @@ void	close_pipe_fds(int *fd, int size)
 	free(fd);
 }
 
-t_pipeline	get_pipe_utils(char **cmds)
+void	get_pipe_utils(t_pipeline **utl)
 {
-	t_pipeline	util;
-
-	util.i = 0;
-	util.j = 0;
-	util.k = -1;
-	util.m = 0;
-	while (cmds[util.i] != NULL)
-		util.i++;
-	util.fd = (int *)malloc(sizeof(int) * (2 * util.i + 1));
-	util.i = 0;
-	return (util);
+	(*utl)->i = 0;
+	(*utl)->j = 0;
+	(*utl)->k = -1;
+	(*utl)->m = 0;
+	while ((*utl)->cmds[(*utl)->i] != NULL)
+		(*utl)->i++;
+	(*utl)->fd = (int *)malloc(sizeof(int) * (2 * (*utl)->i + 1));
+	(*utl)->i = 0;
 }
 
 int	get_pipe_size(t_astnode *node)

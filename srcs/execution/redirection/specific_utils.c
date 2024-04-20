@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   specific_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 16:22:45 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/13 17:37:19 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/21 01:45:28 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,23 @@ int	no_cmds(t_astnode *root)
 		temp = temp->right;
 	}
 	return (status);
+}
+
+int	stop_exec_cmd(void)
+{
+	if (g_last_command_status == 130 || \
+		g_last_command_status == 3 || \
+		g_last_command_status == 131)
+	{
+		if (g_last_command_status == 3)
+			g_last_command_status = 0;
+		return (0);
+	}
+	if (g_last_command_status == 350 || \
+		g_last_command_status == 1)
+	{
+		g_last_command_status = 1;
+		return (0);
+	}
+	return (1);
 }
