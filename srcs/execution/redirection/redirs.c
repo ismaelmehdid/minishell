@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 21:27:27 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/21 17:45:49 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/21 19:07:28 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ int	make_redirection(char **redirs, int fds[2], int status, int i)
 {
 	char	*file;
 
-	printf("Mais bordel\n");
 	if (!backup_std(fds))
 		return (1);
 	while (i++, redirs[i] != NULL)
