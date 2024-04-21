@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_pipes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/21 01:31:46 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/21 18:12:27 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	handle_redir(t_pipeline *utl)
 	char	**redirs;
 	int		status;
 	int		empty_status;
-	
+
 	redirs = ft_split(utl->redirs[utl->k], '\t');
 	if (!redirs)
 	{
@@ -40,11 +40,10 @@ static void	handle_redir(t_pipeline *utl)
 	stop_exec(utl);
 }
 
-static int	child_process(t_pipeline *utl, t_list **env,
-	t_astnode *root)
+static int	child_process(t_pipeline *utl, t_list **env, t_astnode *root)
 {
 	char	**envp;
-	
+
 	envp = create_envp(*env);
 	if (handle_fds_dup(utl->cmds, utl) != 0)
 	{

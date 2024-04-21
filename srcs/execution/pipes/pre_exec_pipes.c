@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pre_exec_pipes.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 14:47:46 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/21 01:14:39 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/21 18:16:30 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,7 @@ static int	finish_init_pipe(
 	{
 		utl->cmds[counter] = ft_strdup(node->left->value);
 		utl->cmds[counter + 1] = ft_strdup(node->right->value);
-		if (utl->cmds[counter] == NULL || \
-			utl->cmds[counter + 1] == NULL)
+		if (utl->cmds[counter] == NULL || utl->cmds[counter + 1] == NULL)
 		{
 			free_double_array(utl->cmds);
 			return (1);
@@ -38,7 +37,7 @@ static int	finish_init_pipe(
 	return (0);
 }
 
-void fill_redirs(t_pipeline *utl, char *content, int i, int j)
+void	fill_redirs(t_pipeline *utl, char *content, int i, int j)
 {
 	int	k;
 
@@ -53,7 +52,6 @@ void fill_redirs(t_pipeline *utl, char *content, int i, int j)
 			j++;
 			k++;
 		}
-		utl->redirs[i][k++] = ' ';
 		while (is_whitespace(content[j]))
 			j++;
 		while (content[j] && !is_whitespace(content[j]))
@@ -64,11 +62,12 @@ void fill_redirs(t_pipeline *utl, char *content, int i, int j)
 		}
 		utl->redirs[i][k++] = '\t';
 	}
+	utl->redirs[i][k] = '\0';
 }
 
 int	exctract_redirs(t_pipeline *utl, t_astnode *root, int i, char *content)
 {
-	t_astnode *tmp;
+	t_astnode	*tmp;
 
 	tmp = root;
 	utl->redirs = ft_calloc(get_pipe_size(root) + 2, sizeof(char *));
@@ -94,7 +93,7 @@ int	exctract_redirs(t_pipeline *utl, t_astnode *root, int i, char *content)
 	return (0);
 }
 
-static int pre_init_pipe(t_pipeline *utl, t_astnode *root)
+static int	pre_init_pipe(t_pipeline *utl, t_astnode *root)
 {
 	if (exctract_redirs(utl, root, 0, NULL) == 1)
 	{
@@ -112,7 +111,7 @@ static int pre_init_pipe(t_pipeline *utl, t_astnode *root)
 
 int	init_pipe(t_astnode *root, t_list **env, int counter)
 {
-	t_pipeline utl;
+	t_pipeline	utl;
 
 	if (pre_init_pipe(&utl, root) == 1)
 		return (1);

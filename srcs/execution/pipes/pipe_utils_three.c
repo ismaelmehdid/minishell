@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_utils_three.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 01:17:06 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/21 01:18:44 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/21 15:46:41 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	wait_pipes(int num_processes)
 	}
 }
 
-int handle_fds_dup(char **cmds, t_pipeline *utl)
+int	handle_fds_dup(char **cmds, t_pipeline *utl)
 {
 	if (cmds[utl->k + 1] != NULL)
 	{
@@ -50,7 +50,7 @@ int handle_fds_dup(char **cmds, t_pipeline *utl)
 	return (0);
 }
 
-void    free_pipeline_util(t_pipeline *utl)
+void	free_pipeline_util(t_pipeline *utl)
 {
 	if (utl->redirs)
 		free_double_array(utl->redirs);
@@ -84,7 +84,7 @@ void	stop_exec(t_pipeline *utl)
 	}
 }
 
-int check_empty_status(char *cmds)
+int	check_empty_status(char *cmds)
 {
 	int	i;
 
