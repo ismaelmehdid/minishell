@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:28 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/22 14:41:52 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/22 14:48:02 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ typedef struct s_pipeline
 	int			fds[2];
 	char		**redirs;
 	char		**cmds;
-	int			std_out_fd;
 }t_pipeline;
 
 typedef struct s_cpy_word_indexes{

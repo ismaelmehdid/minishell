@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/22 14:35:11 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/22 14:48:14 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,12 +99,6 @@ static int	pre_execution(t_pipeline **utl)
 			return (1);
 		}
 		(*utl)->i++;
-	}
-	(*utl)->std_out_fd = dup(STDOUT_FILENO);
-	if ((*utl)->std_out_fd < 0)
-	{
-		ft_putstr_fd("dup error\n", 2);
-		return (1);
 	}
 	(*utl)->fds[0] = dup(STDIN_FILENO);
 	(*utl)->fds[1] = dup(STDOUT_FILENO);

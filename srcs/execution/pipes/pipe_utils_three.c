@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 01:17:06 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/22 14:38:06 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/22 14:48:43 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ void	free_pipeline_util(t_pipeline *utl)
 		close_pipe_fds(utl->fd, utl->i);
 	close(utl->fds[0]);
 	close(utl->fds[1]);
-	close(utl->std_out_fd);
 }
 
 void	stop_exec(t_pipeline *utl)
