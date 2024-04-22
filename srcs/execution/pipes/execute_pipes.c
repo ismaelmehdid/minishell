@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_pipes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/21 18:12:27 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/22 14:35:11 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	handle_redir(t_pipeline *utl)
 		exit (1);
 	}
 	empty_status = check_empty_status(utl->cmds[utl->k]);
-	status = make_redirection(redirs, utl->fds, 0, -1);
+	status = make_redirection(redirs, utl->fds, -1);
 	free_double_array(redirs);
 	if (status == -500 || empty_status == 0)
 	{
@@ -35,12 +35,30 @@ static void	handle_redir(t_pipeline *utl)
 	}
 	if (empty_status == 0 && g_last_command_status != 1)
 		g_last_command_status = 3;
-	if (status == -500)
+	else if (status == -500)
 		g_last_command_status = 130;
 	stop_exec(utl);
 }
 
-static int	child_process(t_pipeline *utl, t_list **env, t_astnode *root)
+static void parent_procces(t_pipeline *utl)
+{
+	int	i;
+	int status;
+
+	i = 0;
+	while (i < utl->j)
+	{
+		close(utl->fd[i]);
+		i++;
+	}
+	waitpid(utl->pid, &status, 0);
+	if (WIFEXITED(status))
+		g_last_command_status = WEXITSTATUS(status);
+	if (WIFSIGNALED(status))
+		g_last_command_status = WTERMSIG(status) + 128;
+}
+
+static void	child_process(t_pipeline *utl, t_list **env, t_astnode *root)
 {
 	char	**envp;
 
@@ -64,7 +82,6 @@ static int	child_process(t_pipeline *utl, t_list **env, t_astnode *root)
 		exit(0);
 	}
 	launch_cmd(utl->cmds[utl->k], envp, NULL, NULL);
-	return (0);
 }
 
 static int	pre_execution(t_pipeline **utl)
@@ -83,6 +100,16 @@ static int	pre_execution(t_pipeline **utl)
 		}
 		(*utl)->i++;
 	}
+	(*utl)->std_out_fd = dup(STDOUT_FILENO);
+	if ((*utl)->std_out_fd < 0)
+	{
+		ft_putstr_fd("dup error\n", 2);
+		return (1);
+	}
+	(*utl)->fds[0] = dup(STDIN_FILENO);
+	(*utl)->fds[1] = dup(STDOUT_FILENO);
+	if ((*utl)->fds[0] < 0 || (*utl)->fds[1] < 0)
+		return (1);
 	return (0);
 }
 
@@ -99,7 +126,6 @@ int	execute_pipeline(t_pipeline *utl, t_list **env, t_astnode *root)
 		utl->pid = fork();
 		if (utl->pid == -1)
 		{
-			perror("Fork");
 			free_pipeline_util(utl);
 			return (1);
 		}
@@ -108,9 +134,10 @@ int	execute_pipeline(t_pipeline *utl, t_list **env, t_astnode *root)
 			child_process(utl, env, root);
 			restore_std(utl->fds);
 		}
+		else
+			parent_procces(utl);
 		utl->j += 2;
 	}
 	free_pipeline_util(utl);
-	wait_pipes(utl->i);
 	return (0);
 }

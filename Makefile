@@ -38,7 +38,6 @@ SRCS =	srcs/env_utils.c \
         srcs/execution/pipes/pre_exec_pipes.c \
         srcs/execution/redirection/here_doc.c \
         srcs/execution/redirection/here_doc_utils.c \
-        srcs/execution/redirection/here_doc_utils2.c \
         srcs/execution/redirection/specific_utils.c \
         srcs/execution/redirection/list_creation.c \
         srcs/execution/redirection/list_creation_utils.c \

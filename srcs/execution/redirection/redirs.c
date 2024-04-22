@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   redirs.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 21:27:27 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/21 19:07:28 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/22 14:34:37 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-static int	backup_std(int fds[2])
+int	backup_std(int fds[2])
 {
 	fds[0] = -1;
 	fds[1] = -1;
@@ -90,19 +90,18 @@ static int	dup_std(t_redirection type, char *file)
 	return (dup_return);
 }
 
-int	make_redirection(char **redirs, int fds[2], int status, int i)
+int	make_redirection(char **redirs, int fds[2], int i)
 {
 	char	*file;
+	int		status;
 
-	if (!backup_std(fds))
-		return (1);
 	while (i++, redirs[i] != NULL)
 	{
 		file = get_file_redir(redirs[i]);
 		if (file == NULL)
 			return (1);
 		if (redir_type(redirs[i]) == HERE_DOC)
-			status = pre_here_doc(redirs, i, 0, fds[1]);
+			status = pre_here_doc(redirs[i], fds[1]);
 		else
 			status = dup_std(redir_type(redirs[i]), file);
 		free (file);

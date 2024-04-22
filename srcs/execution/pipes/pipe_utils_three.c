@@ -3,31 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_utils_three.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 01:17:06 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/21 15:46:41 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/22 14:38:06 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
-
-void	wait_pipes(int num_processes)
-{
-	int	i;
-	int	status;
-
-	i = 0;
-	while (i < num_processes)
-	{
-		wait(&status);
-		if (WIFEXITED(status))
-			g_last_command_status = WEXITSTATUS(status);
-		if (WIFSIGNALED(status))
-			g_last_command_status = WTERMSIG(status) + 128;
-		i++;
-	}
-}
 
 int	handle_fds_dup(char **cmds, t_pipeline *utl)
 {
@@ -58,6 +41,7 @@ void	free_pipeline_util(t_pipeline *utl)
 		close_pipe_fds(utl->fd, utl->i);
 	close(utl->fds[0]);
 	close(utl->fds[1]);
+	close(utl->std_out_fd);
 }
 
 void	stop_exec(t_pipeline *utl)

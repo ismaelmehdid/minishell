@@ -3,60 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/23 23:18:03 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/04 01:43:49 by imehdid          ###   ########.fr       */
+/*   Created: 2024/04/03 12:21:12 by asyvash           #+#    #+#             */
+/*   Updated: 2024/04/22 13:52:46 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-int	if_there_was_out_append(char **redirs, int i)
+int	write_to_tmp_file(int fd, char *input)
 {
-	int	j;
-	int	check_val;
+	int	bytes_read;
 
-	j = 0;
-	check_val = 1;
-	while (j < i)
+	input = ft_strjoin_free(input, "\n", ft_strlen("\n"));
+	if (!input)
+		return (-1);
+	bytes_read = write(fd, input, ft_strlen(input));
+	if (bytes_read < 0)
 	{
-		if (ft_strncmp(redirs[j], ">", 1) == 0 || \
-			ft_strncmp(redirs[j], ">>", 2) == 0)
-			check_val = 0;
-		j++;
+		if (input)
+			free (input);
+		close(fd);
+		return (-1);
 	}
-	return (check_val);
+	free(input);
+	return (0);
 }
 
-int	if_there_was_in(char **redirs, int i)
+void	unlink_file(char *msg)
 {
-	int	j;
-	int	check_val;
-
-	j = 0;
-	check_val = 1;
-	while (j < i)
-	{
-		if (ft_strncmp(redirs[j], "<", 1) == 0)
-			check_val = 0;
-		j++;
-	}
-	return (check_val);
-}
-
-int	get_quantity(char **redirs)
-{
-	int	i;
-	int	quantity;
-
-	i = 0;
-	quantity = 0;
-	while (redirs[i])
-	{
-		if (ft_strncmp(redirs[i], "<<", 2) == 0)
-			quantity++;
-		i++;
-	}
-	return (quantity);
+	if (unlink("/tmp/heredoc") < 0)
+		ft_putstr_fd("Unlinking failed\n", 2);
+	if (ft_strncmp(msg, "without", 7) != 0)
+		ft_putstr_fd(msg, 2);
 }

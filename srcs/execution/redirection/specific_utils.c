@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   specific_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 16:22:45 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/21 17:43:30 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/22 14:13:40 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	useless_here_doc(char **redirs, int i)
 	{
 		if (ft_strncmp(redirs[i], "<<", 2) == 0)
 		{
-			here_doc(get_file_redir(redirs[i]), 0, 0, 0);
+			here_doc(get_file_redir(redirs[i]), 0, 0);
 			close(STDIN_FILENO);
 			if (dup2(g_stdin_copy_fd, STDIN_FILENO))
 			{

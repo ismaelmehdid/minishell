@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_execution.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/21 17:48:01 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/22 14:34:54 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,12 @@ static void	init_redirs(t_astnode *root, char **redirections, int fds[2],
 
 	del_redirs_from_root(&root);
 	empty_status = no_cmds(root);
-	status = make_redirection(redirections, fds, 0, -1);
+	if (!backup_std(fds))
+	{
+		g_last_command_status = 1;
+		return ;
+	}
+	status = make_redirection(redirections, fds, -1);
 	if (status == -500 || empty_status == 0)
 	{
 		restore_std(fds);
@@ -110,10 +115,13 @@ void	init_executor(t_astnode *root, t_list **env)
 	{
 		if (init_pipe(root, env, 0) == 1)
 		{
-			ft_putstr_fd("Allocation error\n", 2);
+			ft_putstr_fd("Error occurred\n", 2);
 			g_last_command_status = 1;
 		}
 	}
 	else if (root->type == COMMAND_NODE)
+	{
 		simple_cmd(root, env, redirections, fds);
+		restore_std(fds);
+	}
 }
