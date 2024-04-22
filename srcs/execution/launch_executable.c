@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   launch_executable.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 23:56:59 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/21 17:42:48 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/22 20:43:28 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ static void	wait_pids(int status, pid_t pid)
 {
 	waitpid(pid, &status, 0);
 	g_last_command_status = WEXITSTATUS(status);
-	if (WIFSIGNALED(status))
-		g_last_command_status = 131;
+	if (WIFSIGNALED(status) && g_last_command_status != 131)
+		g_last_command_status = WTERMSIG(status) + 128;
 }
 
 static void	ft_execve(
