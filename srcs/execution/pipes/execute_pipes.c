@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_pipes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/22 18:29:06 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/22 20:53:39 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static void	parent_procces(t_pipeline *utl)
 	waitpid(utl->pid, &status, 0);
 	if (WIFEXITED(status))
 		g_last_command_status = WEXITSTATUS(status);
-	if (WIFSIGNALED(status))
+	if (WIFSIGNALED(status) && g_last_command_status != 131)
 		g_last_command_status = WTERMSIG(status) + 128;
 }
 
