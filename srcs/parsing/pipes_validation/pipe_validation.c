@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 20:08:47 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/15 13:34:04 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/22 16:23:50 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ static char	*set_new_command(char *input, int i)
 	return (new_inp);
 }
 
-static char	*validation_loop(char *input, char **backup)
+static char	*validation_loop(char *input, char **backup, t_list **env)
 {
 	signal(SIGQUIT, SIG_IGN);
 	while (input && check_last_pipe_command(input))
@@ -101,7 +101,7 @@ static char	*validation_loop(char *input, char **backup)
 			return (NULL);
 		input = set_new_command(input, 0);
 		if (!input && isatty(STDIN_FILENO))
-			exit_program(*backup);
+			exit_program(*backup, env);
 		else if (input && !pipes_format_checker(input))
 			return (NULL);
 		if (input)
@@ -110,7 +110,7 @@ static char	*validation_loop(char *input, char **backup)
 	return (input);
 }
 
-char	*pipes_validation(char *input)
+char	*pipes_validation(char *input, t_list **env)
 {
 	char	*backup;
 
@@ -122,7 +122,7 @@ char	*pipes_validation(char *input)
 		return (NULL);
 	}
 	signal(SIGINT, new_ctrl_c);
-	input = validation_loop(input, &backup);
+	input = validation_loop(input, &backup, env);
 	signal(SIGQUIT, ctrl_back_slash);
 	if (backup)
 		free(backup);

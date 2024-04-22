@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes_validation_utils.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 00:04:18 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/16 23:58:52 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/22 16:24:01 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,10 @@ char	*print_parse_error(char *input, int i)
 	return (NULL);
 }
 
-void	exit_program(char *backup)
+void	exit_program(char *backup, t_list **env)
 {
 	free(backup);
+	free_list(env);
 	close(g_stdin_copy_fd);
 	ft_putstr_fd("minishell: syntax error: ", 2);
 	ft_putstr_fd("unexpected end of file\n", 2);

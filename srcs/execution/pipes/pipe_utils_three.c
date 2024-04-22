@@ -6,28 +6,11 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 01:17:06 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/22 11:24:19 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/22 18:00:40 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
-
-void	wait_pipes(int num_processes)
-{
-	int	i;
-	int	status;
-
-	i = 0;
-	while (i < num_processes)
-	{
-		wait(&status);
-		if (WIFEXITED(status))
-			g_last_command_status = WEXITSTATUS(status);
-		if (WIFSIGNALED(status))
-			g_last_command_status = WTERMSIG(status) + 128;
-		i++;
-	}
-}
 
 int	handle_fds_dup(char **cmds, t_pipeline *utl)
 {
@@ -56,6 +39,10 @@ void	free_pipeline_util(t_pipeline *utl)
 		free_double_array(utl->redirs);
 	if (utl->fd)
 		close_pipe_fds(utl->fd, utl->i * 2);
+	if (utl->fds[0] >= 0)
+		close(utl->fds[0]);
+	if (utl->fds[1] >= 0)
+		close(utl->fds[1]);
 }
 
 void	stop_exec(t_pipeline *utl)

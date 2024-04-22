@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:55:34 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/21 17:38:50 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/22 17:39:40 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static void	free_and_exit(char **envp, char **cmds, char *cmd_path, int code)
 	free_double_array(envp);
 	if (code != -1)
 		exit (code);
+	exit (0);
 }
 
 static int	get_indx(char **envp)
@@ -48,7 +49,7 @@ void	launch_cmd(char *cmd, char **envp, char *cmd_path, char **cmds)
 	cmd_path = get_path(cmds[0], envp[get_indx(envp)] + 5);
 	if (cmd_path == NULL)
 	{
-		print_error_not_found(cmds[0], 1);
+		print_error_not_found(cmds[0], 2);
 		free_and_exit(envp, cmds, NULL, 127);
 	}
 	if (execve(cmd_path, cmds, envp) < 0)

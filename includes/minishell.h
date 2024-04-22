@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:28 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/21 15:45:38 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/22 16:23:46 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,8 @@ int				restore_stdin(int check_num);
 t_astnode		*parsing(char **input, t_list *env);
 t_astnode		*init_ast(char **elements);
 t_astnode		*create_node(char *element);
-char			*pipes_validation(char *input);
-void			exit_program(char *backup);
+char			*pipes_validation(char *input, t_list **env);
+void			exit_program(char *backup, t_list **env);
 int				check_last_pipe_command(char *inp);
 int				check_for_spaces(char *inp);
 char			*get_backup(char *backup, char *input);
@@ -169,7 +169,6 @@ int				check_empty_status(char *cmds);
 void			stop_exec(t_pipeline *utl);
 void			free_pipeline_util(t_pipeline *utl);
 int				handle_fds_dup(char **cmds, t_pipeline *utl);
-void			wait_pipes(int num_processes);
 
 //=== Built-ins -----------------------------------------------------------===//
 
@@ -204,25 +203,14 @@ int				trim_quotes(char **args);
 
 //=== Redirections --------------------------------------------------------===//
 
-int				make_redirection(
-					char **redirections,
-					int fds[2],
-					int status,
-					int i);
+int				make_redirection(char **redirs, int fds[2], int i);
 int				dup_error(int fds[2]);
 void			restore_std(int fds[2]);
 int				get_flags(t_redirection type);
 t_redirection	redir_type(char *redirection);
-int				pre_here_doc(
-					char **redirs,
-					int i,
-					int stdout_copy_fd,
-					int orig_stdout);
-int				here_doc(char *delimiter, int fd, int dup_return, int in_flag);
+int				pre_here_doc(char *redir, int orig_stdout);
 char			*get_file_redir(char *rediction);
-int				get_quantity(char **redirs);
-int				if_there_was_out_append(char **redirs, int i);
-int				if_there_was_in(char **redirs, int i);
+int				here_doc(char *delimiter, int fd, int dup_return);
 char			*ft_strjoin_free(char *s1, char const *s2, int s2_len);
 int				write_to_tmp_file(int fd, char *input);
 void			unlink_file(char *msg);
@@ -231,6 +219,7 @@ int				here_doc_exist(char **redirs, int i);
 void			useless_here_doc(char **redirs, int i);
 int				no_cmds(t_astnode *root);
 int				stop_exec_cmd(void);
+int				backup_std(int fds[2]);
 
 //=== Redirection List of Char Creation -----------------------------------===//
 
@@ -245,5 +234,4 @@ int				still_exist(char *line);
 
 extern int						g_last_command_status;
 extern int						g_stdin_copy_fd;
-
 #endif

@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:37:38 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/14 11:54:32 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/22 17:44:20 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@ static int	errors_handler(char *args)
 		{
 			ft_putstr_fd("env: ", STDERR_FILENO);
 			ft_putstr_fd(args + i, STDERR_FILENO);
-			ft_putstr_fd(": Env command don't take arguments or in Minishell\n",
+			ft_putstr_fd(": Env command don't take arguments or options",
+				STDERR_FILENO);
+			ft_putstr_fd(" in Minishell\n",
 				STDERR_FILENO);
 			return (2);
 		}
