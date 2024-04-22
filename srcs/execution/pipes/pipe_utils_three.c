@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 01:17:06 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/21 15:46:41 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/22 11:24:19 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,7 @@ void	free_pipeline_util(t_pipeline *utl)
 	if (utl->redirs)
 		free_double_array(utl->redirs);
 	if (utl->fd)
-		close_pipe_fds(utl->fd, utl->i);
-	close(utl->fds[0]);
-	close(utl->fds[1]);
+		close_pipe_fds(utl->fd, utl->i * 2);
 }
 
 void	stop_exec(t_pipeline *utl)
