@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_utils_two.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: imehdid <imehdid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:56:44 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/05 02:25:03 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/24 13:17:48 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,9 @@ static int	add_pwd_to_env(t_list **env, char *cwd)
 		return (1);
 	}
 	current->content[0] = '\0';
+	current->export_marked = true;
+	current->value_assigned = true;
+	current->export_marked_sub = true;
 	ft_strlcat(current->content, "PWD=", 4 + ft_strlen(cwd) + 1);
 	ft_strlcat(current->content, cwd, 4 + ft_strlen(cwd) + 1);
 	current->next = *env;

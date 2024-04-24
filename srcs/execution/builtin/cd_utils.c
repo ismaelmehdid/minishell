@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: imehdid <imehdid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 20:15:42 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/05 02:24:16 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/24 13:17:54 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,9 @@ static int	add_old_pwd_to_env(t_list **env, char *cwd)
 		perror("cd");
 		return (1);
 	}
+	current->export_marked = true;
+	current->value_assigned = true;
+	current->export_marked_sub = true;
 	current->content[0] = '\0';
 	ft_strlcat(current->content, "OLDPWD=", 7 + ft_strlen(cwd) + 1);
 	ft_strlcat(current->content, cwd, 7 + ft_strlen(cwd) + 1);

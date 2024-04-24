@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_pipes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <imehdid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/22 20:53:39 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/24 12:14:39 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,9 @@ static void	child_process(t_pipeline *utl, t_list **env, t_astnode *root)
 		close(utl->fd[utl->m]);
 		utl->m++;
 	}
+	close(utl->fds[0]);
+	close(utl->fds[1]);
+	close(g_stdin_copy_fd);
 	if (handle_builtin(utl->cmds[utl->k], envp, env, root) == 0)
 	{
 		free_double_array(envp);

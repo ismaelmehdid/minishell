@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: imehdid <imehdid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:28 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/22 16:23:46 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/24 12:40:33 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,7 +179,7 @@ int				handle_builtin(
 					t_astnode *root);
 int				execute_echo(char *arg);
 int				execute_pwd(void);
-int				execute_export(char *arg, t_list *env);
+int				execute_export(char *arg, t_list **env);
 bool			value_exist(t_list *lst, char *arg);
 int				show_exported_var_list(t_list *env, char **exports);
 int				checking_errors(char **exports);

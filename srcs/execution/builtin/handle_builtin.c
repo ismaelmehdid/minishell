@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_builtin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: imehdid <imehdid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/14 17:31:38 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/24 12:38:18 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int	find_builtin_two(
 {
 	if (get_command(cmd, "export") == 0)
 	{
-		return (execute_export(cmd + get_cmd_args_index(cmd), *env));
+		return (execute_export(cmd + get_cmd_args_index(cmd), env));
 	}
 	else if (get_command(cmd, "unset") == 0)
 	{

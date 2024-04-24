@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: imehdid <imehdid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:37:45 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/14 18:18:48 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/24 13:06:19 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,10 @@ static int	add_to_env(char *arg, t_list **env, bool assigned_value)
 	new->export_marked = true;
 	new->export_marked_sub = false;
 	if (*env)
-	{
 		get_last_node(*env)->next = new;
-		new->next = NULL;
-	}
 	else
 		*env = new;
+	new->next = NULL;
 	return (0);
 }
 
@@ -82,18 +80,18 @@ static int	search_replace_existing(t_list **lst, char *arg)
 	return (0);
 }
 
-static int	execute_export_utils(char **exports, t_list *env)
+static int	execute_export_utils(char **exports, t_list **env)
 {
 	int	i;
 
 	i = 0;
 	while (exports[i])
 	{
-		if (search_replace_existing(&env, exports[i]))
+		if (search_replace_existing(env, exports[i]))
 			i++;
 		else
 		{
-			if (add_to_env(exports[i], &env, true))
+			if (add_to_env(exports[i], env, true))
 			{
 				free_double_array(exports);
 				return (126);
@@ -104,14 +102,14 @@ static int	execute_export_utils(char **exports, t_list *env)
 	return (0);
 }
 
-int	execute_export(char *arg, t_list *env)
+int	execute_export(char *arg, t_list **env)
 {
 	char	**exports;
 
 	exports = split_quotes(arg, " \t\n\v\f\r", NULL);
 	trim_quotes(exports);
 	if (!exports || size_double_array(exports) == 0)
-		return (show_exported_var_list(env, exports));
+		return (show_exported_var_list(*env, exports));
 	if (trim_quotes(exports) != 0)
 	{
 		free_double_array(exports);
