@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 15:33:38 by imehdid           #+#    #+#             */
-/*   Updated: 2024/03/30 18:09:55 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/25 17:20:58 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,14 @@ int	count_words(char *input, char *skip)
 		if (input[i])
 		{
 			count++;
-			if (input[i] == '\'' || input[i] == '"')
-				skip_quotes(input, &i);
-			else
+			while (input[i] && !ft_strchr(skip, input[i]))
 			{
-				while (input[i] && !ft_strchr(skip, input[i]))
-					i++;
+				if (input[i] == '\'' || input[i] == '"')
+				{
+					skip_quotes(input, &i);
+					continue ;
+				}
+				i++;
 			}
 		}
 	}
@@ -95,6 +97,6 @@ char	*malloc_word(char *input, int *i, char *skip, t_list *env)
 		else
 			handle_no_quote(input, i, &nb_letters, env);
 	}
-	word = malloc(sizeof(char) * (nb_letters + 1));
+	word = ft_calloc(nb_letters + 1, sizeof(char));
 	return (word);
 }

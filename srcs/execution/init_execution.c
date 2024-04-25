@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_execution.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/22 20:46:03 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/25 17:37:33 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*get_path(char *cmd, char *path_full)
 	char	*path;
 	char	**paths;
 
-	if (!cmd)
+	if (!cmd || ft_strlen(cmd) == 0)
 		return (NULL);
 	if (access(cmd, F_OK) == 0)
 		return (ft_strdup(cmd));
