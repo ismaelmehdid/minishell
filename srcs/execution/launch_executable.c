@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 23:56:59 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/25 17:52:12 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/25 17:53:32 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ static void	ft_execve(
 		wait_pids(status, pid);
 	free_double_array(cmds);
 	free(cmd_path);
-
 }
 
 void	launch_executable(char *cmd, char **envp, int i)
