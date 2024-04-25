@@ -6,18 +6,16 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 15:33:38 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/25 17:20:58 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/25 17:42:41 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-int	count_words(char *input, char *skip)
+int	count_words(char *input, char *skip, int i)
 {
-	int		i;
 	int		count;
 
-	i = 0;
 	count = 0;
 	if (!input || !skip)
 		return (0);

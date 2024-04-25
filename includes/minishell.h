@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <imehdid@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:28 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/24 12:40:33 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/25 17:43:51 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,13 @@ typedef struct s_pipeline
 	int			fds[2];
 	char		**redirs;
 	char		**cmds;
-}t_pipeline;
+}	t_pipeline;
 
-typedef struct s_cpy_word_indexes{
+typedef struct s_cpy_word_indexes
+{
 	int	i;
 	int	k;
-}t_cpy_word_indexes;
+}	t_cpy_word_indexes;
 
 //=== Utils ---------------------------------------------------------------===//
 
@@ -123,7 +124,7 @@ char			*print_parse_error(char *input, int i);
 
 char			**split_quotes(char *input, char *skip, t_list *env);
 void			skip_quotes(char *input, int *i);
-int				count_words(char *input, char *skip);
+int				count_words(char *input, char *skip, int i);
 char			*malloc_word(char *input, int *i, char *skip, t_list *env);
 int				copy_word(char *result, char *input, char *skip, t_list *env);
 int				size_double_array(char **array);
@@ -234,4 +235,5 @@ int				still_exist(char *line);
 
 extern int						g_last_command_status;
 extern int						g_stdin_copy_fd;
+
 #endif
