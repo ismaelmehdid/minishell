@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:28 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/26 15:10:43 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/26 16:15:33 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,13 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <signal.h>
-# include <sys/types.h>
-# include <sys/stat.h>
 # include <fcntl.h>
 # include <dirent.h>
 # include <string.h>
-# include <errno.h>
-# include <termios.h>
-# include <sys/ioctl.h>
 # include <curses.h>
-# include <termcap.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <limits.h>
-# include <sys/wait.h>
 
 //=== Data structures -----------------------------------------------------===//
 
