@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_print.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 16:04:17 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/14 17:53:02 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/26 15:58:12 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ static void	print_exported_var(t_list *env, bool sub_var)
 	while (temp)
 	{
 		i = 0;
+		printf("declare -x ");
 		while (temp->content[i] && temp->content[i] != '=')
 			printf("%c", temp->content[i++]);
 		if (temp->content[i] == '=')

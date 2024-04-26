@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 21:04:09 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/26 15:22:51 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/26 15:53:58 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@ static int get_return_scenario(char *delimiter, int orig_stdin, int fd)
 {
 	if (isatty(STDIN_FILENO))
 	{
-		ft_putstr_fd("Delimited by EOF\n", 2);
+		ft_putstr_fd("minishell: warning: here-document ", 2);
+		ft_putstr_fd("delimited by end-of-file ", 2);
+		ft_putstr_fd("(wanted 'EOF')\n", 2);
 		g_last_command_status = 0;
 		return (fd);
 	}
