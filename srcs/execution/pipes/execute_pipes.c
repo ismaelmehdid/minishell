@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_pipes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/25 16:01:27 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/26 15:00:17 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ static void	child_process(t_pipeline *utl, t_list **env, t_astnode *root)
 {
 	char	**envp;
 
-	envp = create_envp(*env);
 	if (handle_fds_dup(utl->cmds, utl) != 0)
 	{
 		free_pipeline_util(utl);
@@ -76,14 +75,11 @@ static void	child_process(t_pipeline *utl, t_list **env, t_astnode *root)
 		close(utl->fd[utl->m]);
 		utl->m++;
 	}
+	if (handle_builtin(utl->cmds[utl->k], env, root, utl->fds) == 0)
+		exit(0);
+	envp = create_envp(*env);
 	close(utl->fds[0]);
 	close(utl->fds[1]);
-	close(g_stdin_copy_fd);
-	if (handle_builtin(utl->cmds[utl->k], envp, env, root) == 0)
-	{
-		free_double_array(envp);
-		exit(0);
-	}
 	launch_cmd(utl->cmds[utl->k], envp, NULL, NULL);
 }
 

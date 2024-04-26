@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_validation.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 20:08:47 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/22 16:23:50 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/26 15:07:23 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,11 +74,8 @@ static char	*set_new_command(char *input, int i)
 
 	cmd = readline("pipe> ");
 	if (!cmd)
-	{
-		free(input);
 		return (NULL);
-	}
-	while (cmd[i] && (cmd[i] == ' ' || (cmd[i] >= 9 && cmd[i] <= 13)))
+	while (is_whitespace(cmd[i]))
 		i++;
 	new_inp = ft_strjoin_free(input, cmd, ft_strlen(cmd));
 	if (!new_inp)
@@ -91,7 +88,7 @@ static char	*set_new_command(char *input, int i)
 	return (new_inp);
 }
 
-static char	*validation_loop(char *input, char **backup, t_list **env)
+static char	*validation_loop(char *input, char **backup, t_list **env, int orig_stdin)
 {
 	signal(SIGQUIT, SIG_IGN);
 	while (input && check_last_pipe_command(input))
@@ -101,7 +98,12 @@ static char	*validation_loop(char *input, char **backup, t_list **env)
 			return (NULL);
 		input = set_new_command(input, 0);
 		if (!input && isatty(STDIN_FILENO))
+		{
+			close(orig_stdin);
 			exit_program(*backup, env);
+		}
+		else if (!isatty(STDIN_FILENO))
+			restore_stdin(19, orig_stdin);
 		else if (input && !pipes_format_checker(input))
 			return (NULL);
 		if (input)
@@ -110,11 +112,8 @@ static char	*validation_loop(char *input, char **backup, t_list **env)
 	return (input);
 }
 
-char	*pipes_validation(char *input, t_list **env)
+char	*pipes_validation(char *input, t_list **env, char *backup, int orig_stdin)
 {
-	char	*backup;
-
-	backup = NULL;
 	input = pipes_format_checker(input);
 	if (!input)
 	{
@@ -122,10 +121,14 @@ char	*pipes_validation(char *input, t_list **env)
 		return (NULL);
 	}
 	signal(SIGINT, new_ctrl_c);
-	input = validation_loop(input, &backup, env);
-	signal(SIGQUIT, ctrl_back_slash);
-	if (backup)
-		free(backup);
+	orig_stdin = dup(STDIN_FILENO);
+	if (orig_stdin < 0)
+	{
+		ft_putstr_fd("dup error\n", 2);
+		return (NULL);
+	}
+	input = validation_loop(input, &backup, env, orig_stdin);
+	leaks_signal_fix(backup, orig_stdin);
 	if (!input || input == NULL)
 	{
 		if (g_last_command_status != 130 && \

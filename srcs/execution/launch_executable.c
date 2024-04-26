@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   launch_executable.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 23:56:59 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/25 17:53:32 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/26 13:19:08 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,9 @@ void	print_error_not_found(char *cmd, int code)
 static void	wait_pids(int status, pid_t pid)
 {
 	waitpid(pid, &status, 0);
-	g_last_command_status = WEXITSTATUS(status);
-	if (WIFSIGNALED(status) && g_last_command_status != 131)
+	if (WEXITSTATUS(status))
+		g_last_command_status = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status) && g_last_command_status != 131)
 		g_last_command_status = WTERMSIG(status) + 128;
 }
 

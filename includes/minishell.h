@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:28 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/25 17:43:51 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/26 15:10:43 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,14 +94,18 @@ void			free_list(t_list **env);
 char			**create_envp(t_list *env);
 int				ft_lstsize(t_list *lst, bool count_only_env);
 int				create_env(t_list **env, char **envp);
-int				restore_stdin(int check_num);
+int				restore_stdin(int check_num, int orig_stdin);
 
 //=== Parsing -------------------------------------------------------------===//
 
 t_astnode		*parsing(char **input, t_list *env);
 t_astnode		*init_ast(char **elements);
 t_astnode		*create_node(char *element);
-char			*pipes_validation(char *input, t_list **env);
+char			*pipes_validation(
+					char *input,
+					t_list **env,
+					char *backup,
+					int orig_stdin);
 void			exit_program(char *backup, t_list **env);
 int				check_last_pipe_command(char *inp);
 int				check_for_spaces(char *inp);
@@ -119,6 +123,7 @@ int				contain_str(char **array, char *element);
 void			skip_quotes(char *input, int *i);
 int				only_spaces(char *line);
 char			*print_parse_error(char *input, int i);
+void			leaks_signal_fix(char *backup, int orig_stdin);
 
 //=== Split elements ------------------------------------------------------===//
 
@@ -175,9 +180,9 @@ int				handle_fds_dup(char **cmds, t_pipeline *utl);
 
 int				handle_builtin(
 					char *input,
-					char **envp,
 					t_list **env,
-					t_astnode *root);
+					t_astnode *root,
+					int fds[2]);
 int				execute_echo(char *arg);
 int				execute_pwd(void);
 int				execute_export(char *arg, t_list **env);
@@ -209,17 +214,17 @@ int				dup_error(int fds[2]);
 void			restore_std(int fds[2]);
 int				get_flags(t_redirection type);
 t_redirection	redir_type(char *redirection);
-int				pre_here_doc(char *redir, int orig_stdout);
+int				pre_here_doc(char *redir, int fds[2]);
 char			*get_file_redir(char *rediction);
-int				here_doc(char *delimiter, int fd, int dup_return);
+int				here_doc(char *delimiter, int fd, int dup_return, int orig_stdin);
 char			*ft_strjoin_free(char *s1, char const *s2, int s2_len);
 int				write_to_tmp_file(int fd, char *input);
 void			unlink_file(char *msg);
 void			no_such_file_error(char *file);
 int				here_doc_exist(char **redirs, int i);
-void			useless_here_doc(char **redirs, int i);
+void			useless_here_doc(char **redirs, int i, int orig_stdin);
 int				no_cmds(t_astnode *root);
-int				stop_exec_cmd(void);
+int				stop_exec_cmd(int fds[2]);
 int				backup_std(int fds[2]);
 
 //=== Redirection List of Char Creation -----------------------------------===//
@@ -234,6 +239,5 @@ int				still_exist(char *line);
 //=== Global variables ----------------------------------------------------===//
 
 extern int						g_last_command_status;
-extern int						g_stdin_copy_fd;
 
 #endif

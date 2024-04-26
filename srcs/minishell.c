@@ -6,13 +6,12 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:05 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/22 12:26:46 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/26 15:15:24 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int						g_stdin_copy_fd = 0;
 int						g_last_command_status = 0;
 
 int	only_spaces(char *line)
@@ -32,10 +31,10 @@ int	only_spaces(char *line)
 
 int	is_whitespace(char c)
 {
-	return (c == ' ' || (c >= 9 && c <= 13));
+	return (c == ' ' || c == '\t' || c == '\n');
 }
 
-int	restore_stdin(int check_num)
+int	restore_stdin(int check_num, int orig_stdin)
 {
 	if (check_num == 1)
 		printf("\033[F\033[K");
@@ -53,7 +52,7 @@ int	restore_stdin(int check_num)
 			ft_putchar_fd('\n', 2);
 			printf("\033[F\033[K");
 		}
-		if (dup2(g_stdin_copy_fd, STDIN_FILENO) < 0)
+		if (dup2(orig_stdin, STDIN_FILENO) < 0)
 		{
 			ft_putstr_fd("dup2 error\n", 2);
 			return (-1);
@@ -63,41 +62,55 @@ int	restore_stdin(int check_num)
 	return (2);
 }
 
-static void	minishell_loop(t_astnode *ast_root, t_list **env, char *input)
+static void minishell(t_astnode *root, t_list **env, char *input)
+{
+	add_history(input);
+	root = parsing(&input, *env);
+	if (root)
+	{
+		init_executor(root, env);
+		free_all_nodes(root);
+	}
+	else if (root == NULL && g_last_command_status != 2 && \
+		g_last_command_status != 130 && g_last_command_status != 131)
+			g_last_command_status = 1;
+}
+
+static int	prompt_loop(t_astnode *root, t_list **env, char *input, int orig_stdin)
 {
 	while (1)
 	{
+		orig_stdin = dup(STDIN_FILENO);
+		if (orig_stdin < 0)
+			return (1);
 		signal(SIGINT, ctrl_c);
 		signal(SIGQUIT, SIG_IGN);
 		input = readline("BestShell😎$> ");
-		if (!input && restore_stdin(3) == 0)
-			continue ;
-		else if (!input)
-			break ;
-		if (only_spaces(input) == 1)
+		if (!input && restore_stdin(3, orig_stdin) == 0)
 		{
-			add_history(input);
-			ast_root = parsing(&input, *env);
-			if (ast_root)
-			{
-				init_executor(ast_root, env);
-				free_all_nodes(ast_root);
-			}
-			else if (ast_root == NULL && g_last_command_status != 2 && \
-				g_last_command_status != 130 && g_last_command_status != 131)
-				g_last_command_status = 1;
+			close(orig_stdin);
+			continue ;
 		}
+		else if (!input)
+		{
+			close (orig_stdin);
+			break ;
+		}
+		close(orig_stdin);
+		if (only_spaces(input) == 1)
+			minishell(root, env, input);
 		if (input)
 			free(input);
 	}
+	return (g_last_command_status);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_astnode	*ast_root;
+	t_astnode	*root;
 	t_list		*env;
 
-	ast_root = NULL;
+	root = NULL;
 	(void)argc;
 	(void)argv;
 	if (create_env(&env, envp) == 1)
@@ -106,13 +119,9 @@ int	main(int argc, char **argv, char **envp)
 		free_list(&env);
 		return (1);
 	}
-	g_stdin_copy_fd = dup(STDIN_FILENO);
-	if (g_stdin_copy_fd < 0)
-		return (1);
-	minishell_loop(ast_root, &env, NULL);
-	printf("exit\n");
+	g_last_command_status = prompt_loop(root, &env, NULL, 0);
+	ft_putstr_fd("exit\n", 2);
 	rl_clear_history();
 	free_list(&env);
-	close(g_stdin_copy_fd);
 	return (g_last_command_status);
 }

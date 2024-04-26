@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes_validation_utils.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 00:04:18 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/22 16:24:01 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/26 15:03:24 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	check_for_spaces(char *inp)
 	int	i;
 
 	i = 0;
-	while (inp[i] && (inp[i] == ' ' || (inp[i] >= 9 && inp[i] <= 13)))
+	while (is_whitespace(inp[i]))
 		i++;
 	if (i > 0 && inp[i] == '|')
 		return (1);
@@ -65,9 +65,8 @@ void	exit_program(char *backup, t_list **env)
 {
 	free(backup);
 	free_list(env);
-	close(g_stdin_copy_fd);
 	ft_putstr_fd("minishell: syntax error: ", 2);
 	ft_putstr_fd("unexpected end of file\n", 2);
-	printf("exit\n");
+	ft_putstr_fd("exit\n", 2);
 	exit (2);
 }
