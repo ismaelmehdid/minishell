@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:37:41 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/26 23:59:03 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/27 00:17:45 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ static int	check_all_digits(char *args)
 				continue ;
 			}
 			ft_putstr_fd("exit\n", 2);
-			ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
-			ft_putstr_fd(args, STDERR_FILENO);
-			ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
+			ft_putstr_fd("minishell: exit: ", 2);
+			ft_putstr_fd(args, 2);
+			ft_putstr_fd(": numeric argument required\n", 2);
 			g_last_command_status = 2;
 			return (1);
 		}
@@ -52,8 +52,43 @@ static int	check_all_digits(char *args)
 	return (0);
 }
 
+static int	ft_atoi_check_limit(const char *str)
+{
+	int		i;
+	long	is_neg;
+	long	res;
+
+	if (!str)
+		return (0);
+	i = 0;
+	is_neg = 1;
+	while (is_whitespace(str[i]))
+		i++;
+	if (str[i] == '-')
+		is_neg = -1;
+	if (is_neg == -1 || str[i] == '+')
+		i++;
+	if (str[i] == '\0')
+		return (1);
+	res = 0;
+	while (str[i] >= '0' && str[i] <= '9')
+		res = (res * 10) + (str[i++] - '0');
+	if (res * is_neg < -2147483648 || res * is_neg > 2147483647)
+		return (1);
+	return (0);
+}
+
 static int	errors_handler(char **args)
 {
+	if (ft_atoi_check_limit(args[0]) == 1)
+	{
+		ft_putstr_fd("exit\n", 2);
+		ft_putstr_fd("minishell: exit: ", 2);
+		ft_putstr_fd(args[0], 2);
+		ft_putstr_fd(": numeric argument required\n", 2);
+		g_last_command_status = 2;
+		return (1);
+	}
 	if (check_all_digits(args[0]))
 		return (1);
 	if (check_args_quantity(args))
