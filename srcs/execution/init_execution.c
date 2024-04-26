@@ -6,40 +6,11 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/26 14:36:30 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/26 17:23:44 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-char	*get_path(char *cmd, char *path_full)
-{
-	int		i;
-	char	*cmd_path;
-	char	*path;
-	char	**paths;
-
-	if (!cmd || ft_strlen(cmd) == 0)
-		return (NULL);
-	if (access(cmd, F_OK) == 0)
-		return (ft_strdup(cmd));
-	paths = ft_split(path_full, ':');
-	i = -1;
-	while (paths[++i] != NULL)
-	{
-		path = ft_strjoin(paths[i], "/");
-		cmd_path = ft_strjoin(path, cmd);
-		free(path);
-		if (access(cmd_path, F_OK) == 0)
-		{
-			free_double_array(paths);
-			return (cmd_path);
-		}
-		free(cmd_path);
-	}
-	free_double_array(paths);
-	return (NULL);
-}
 
 static void	init_redirs(t_astnode *root, char **redirections, int fds[2],
 		int status)

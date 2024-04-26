@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:55:34 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/22 17:39:40 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/26 17:30:26 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,10 @@ void	launch_cmd(char *cmd, char **envp, char *cmd_path, char **cmds)
 		free_and_exit(envp, cmds, NULL, 127);
 	}
 	cmd_path = get_path(cmds[0], envp[get_indx(envp)] + 5);
+	if (cmd_path == NULL && g_last_command_status == 126)
+		free_and_exit(envp, cmds, NULL, 126);
 	if (cmd_path == NULL)
-	{
-		print_error_not_found(cmds[0], 2);
 		free_and_exit(envp, cmds, NULL, 127);
-	}
 	if (execve(cmd_path, cmds, envp) < 0)
 	{
 		print_error_not_found(cmds[0], 2);

@@ -18,6 +18,7 @@ SRCS =	srcs/env_utils.c \
         srcs/execution/handle_signals.c \
         srcs/execution/init_execution.c \
         srcs/execution/launch_executable.c \
+        srcs/execution/get_path.c \
         srcs/execution/builtin/cd.c \
         srcs/execution/builtin/cd_utils.c \
         srcs/execution/builtin/cd_utils_two.c \

@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 23:56:59 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/26 13:19:08 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/26 17:21:17 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,15 @@ void	print_error_not_found(char *cmd, int code)
 {
 	if (code == 1)
 	{
-		ft_putstr_fd("Minishell: ", 2);
+		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(cmd, 2);
 		ft_putstr_fd(": No such file or directory\n", 2);
 	}
 	else if (code == 2)
 	{
+		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(cmd, 2);
-		ft_putstr_fd(": Command not found\n", 2);
+		ft_putstr_fd(": command not found\n", 2);
 	}
 }
 
@@ -87,9 +88,9 @@ void	launch_executable(char *cmd, char **envp, int i)
 	cmd_path = get_path(cmds[0], envp[i] + 5);
 	if (cmd_path == NULL)
 	{
-		print_error_not_found(cmds[0], 2);
 		free_double_array(cmds);
-		g_last_command_status = 127;
+		if (g_last_command_status != 126)
+			g_last_command_status = 127;
 		return ;
 	}
 	ft_execve(cmd_path, cmds, envp, 0);
