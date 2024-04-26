@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <imehdid@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:37:45 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/24 13:06:19 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/26 23:57:29 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	add_to_env(char *arg, t_list **env, bool assigned_value)
 	new = (t_list *)malloc(sizeof(t_list));
 	if (!new)
 	{
-		ft_putstr_fd("Memory allocation error\n", 2);
+		ft_putstr_fd("Allocation error\n", 2);
 		return (126);
 	}
 	new->content = ft_strdup(arg);
@@ -106,7 +106,7 @@ int	execute_export(char *arg, t_list **env)
 {
 	char	**exports;
 
-	exports = split_quotes(arg, " \t\n\v\f\r", NULL);
+	exports = split_quotes_bash(arg, " \t\n", NULL);
 	trim_quotes(exports);
 	if (!exports || size_double_array(exports) == 0)
 		return (show_exported_var_list(*env, exports));

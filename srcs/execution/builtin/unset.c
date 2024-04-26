@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:37:54 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/29 18:26:00 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/26 23:56:18 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int	create_all_keys(char *old_str, char **temp, char **new_key)
 		*temp = ft_strjoin(old_str, "=");
 		if (!*temp)
 		{
-			ft_putstr_fd("Malloc allocation error\n", 2);
+			ft_putstr_fd("Allocation error\n", 2);
 			free_double_array(new_key);
 			return (1);
 		}
@@ -62,10 +62,10 @@ static char	**create_key(char *key)
 	old_str = NULL;
 	if (invalid_parameter(key) == 1)
 		return (NULL);
-	new_key = split_quotes(key, " \t\n\v\f\r", NULL);
+	new_key = split_quotes_bash(key, " \t\n", NULL);
 	if (!new_key)
 	{
-		ft_putstr_fd("Malloc allocation error\n", 2);
+		ft_putstr_fd("Allocation error\n", 2);
 		return (NULL);
 	}
 	if (trim_quotes(new_key) != 0)

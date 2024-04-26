@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 22:49:26 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/26 15:10:54 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/26 23:53:03 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_astnode	*create_node(char *element)
 	node = malloc(sizeof(t_astnode));
 	if (!node)
 	{
-		ft_putstr_fd("Malloc error\n", 2);
+		ft_putstr_fd("Allocation error\n", 2);
 		return (NULL);
 	}
 	node->value = ft_strdup(element);
@@ -92,7 +92,7 @@ t_astnode	*parsing(char **input, t_list *env)
 		return (NULL);
 	if (quotes_validation(*input))
 		return (NULL);
-	elements = split_quotes(*input, "|", env);
+	elements = split_quotes_bash(*input, "|", env);
 	if (!elements || !size_double_array(elements))
 	{
 		free_double_array(elements);

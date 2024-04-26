@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 23:56:59 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/26 17:21:17 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/26 23:48:08 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	launch_executable(char *cmd, char **envp, int i)
 	while (envp[++i] != NULL)
 		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
 			break ;
-	cmds = split_quotes(cmd, " \t\n\v\f\r", NULL);
+	cmds = split_quotes_bash(cmd, " \t\n", NULL);
 	trim_quotes(cmds);
 	if (!envp[i] && cmds && access(cmds[0], F_OK) != 0)
 	{

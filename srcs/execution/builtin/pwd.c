@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:37:50 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/15 18:37:44 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/26 23:56:41 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	execute_pwd(void)
 	}
 	else
 	{
-		ft_putstr_fd("Can't get PWD\n", 2);
+		ft_putstr_fd("minishell: Can't get PWD\n", 2);
 		return (1);
 	}
 	return (0);

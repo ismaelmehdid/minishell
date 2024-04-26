@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_elements.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 16:17:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/25 17:43:03 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/26 23:52:26 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ static void	copy_each_elements(
 	result[j] = NULL;
 }
 
-char	**split_quotes(char *input, char *skip, t_list *env)
+char	**split_quotes_bash(char *input, char *skip, t_list *env)
 {
 	char	**result;
 

@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:37:41 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/26 15:13:44 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/26 23:59:03 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	check_args_quantity(char **args)
 {
 	if (size_double_array(args) > 1)
 	{
-		printf("exit\n");
+		ft_putstr_fd("exit\n", 2);
 		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 		g_last_command_status = 1;
 		return (1);
@@ -40,7 +40,7 @@ static int	check_all_digits(char *args)
 				i++;
 				continue ;
 			}
-			printf("exit\n");
+			ft_putstr_fd("exit\n", 2);
 			ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
 			ft_putstr_fd(args, STDERR_FILENO);
 			ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
@@ -70,7 +70,7 @@ void	execute_exit(char *input, t_list **env, t_astnode *root, char **envp)
 	int		code;
 
 	code = 0;
-	args = split_quotes(input, " \t\n\v\f\r", NULL);
+	args = split_quotes_bash(input, " \t\n", NULL);
 	if (!args)
 		g_last_command_status = 126;
 	trim_quotes(args);

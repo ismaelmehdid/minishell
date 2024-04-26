@@ -3,6 +3,7 @@ NAME = minishell
 SRCS =	srcs/env_utils.c \
         srcs/minishell.c \
 		srcs/list_utils.c \
+        srcs/basic_utils.c \
         srcs/parsing/parsing.c \
         srcs/parsing/redir_syntax_check.c \
         srcs/parsing/parsing_utils.c \

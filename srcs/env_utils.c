@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 23:54:18 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/14 23:11:50 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/26 23:49:53 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	**create_envp(t_list *env)
 	envp = (char **)malloc(sizeof(char *) * (size + 1));
 	if (!envp)
 	{
-		ft_putstr_fd("Malloc allocation error\n", 2);
+		ft_putstr_fd("Allocation error\n", 2);
 		return (NULL);
 	}
 	create_envp_loop(env, envp);

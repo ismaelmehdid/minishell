@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:28 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/26 16:15:33 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/26 23:47:52 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ void			leaks_signal_fix(char *backup, int orig_stdin);
 
 //=== Split elements ------------------------------------------------------===//
 
-char			**split_quotes(char *input, char *skip, t_list *env);
+char			**split_quotes_bash(char *input, char *skip, t_list *env);
 void			skip_quotes(char *input, int *i);
 int				count_words(char *input, char *skip, int i);
 char			*malloc_word(char *input, int *i, char *skip, t_list *env);

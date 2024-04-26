@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 00:04:18 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/26 15:03:24 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/26 23:51:02 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,7 @@ int	check_last_pipe_command(char *inp)
 	int	i;
 
 	i = ft_strlen(inp) - 1;
-	while (i >= 0 && (inp[i] == ' ' \
-		|| (inp[i] >= 9 && inp[i] <= 13)))
+	while (i >= 0 && is_whitespace(inp[i]))
 		i--;
 	if (i >= 0 && inp[i] == '|')
 		return (1);

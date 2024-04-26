@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:55:34 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/26 17:30:26 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/26 23:55:00 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int	get_indx(char **envp)
 
 void	launch_cmd(char *cmd, char **envp, char *cmd_path, char **cmds)
 {
-	cmds = split_quotes(cmd, " \t\n\v\f\r", NULL);
+	cmds = split_quotes_bash(cmd, " \t\n", NULL);
 	trim_quotes(cmds);
 	if ((get_indx(envp) == -1 || envp[get_indx(envp)] == NULL) && \
 		cmds && access(cmds[0], F_OK) != 0)
