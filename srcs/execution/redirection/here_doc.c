@@ -20,6 +20,7 @@ static int	get_return_scenario(char *delimiter, int orig_stdin, int fd)
 		ft_putstr_fd("delimited by end-of-file ", 2);
 		ft_putstr_fd("(wanted 'EOF')\n", 2);
 		g_last_command_status = 0;
+		free(delimiter);
 		return (fd);
 	}
 	restore_stdin(1, orig_stdin);
