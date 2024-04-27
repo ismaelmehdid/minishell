@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 23:01:03 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/14 18:08:55 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/27 18:55:28 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,14 +65,14 @@ int	search_replace_existing_cmp(t_list *lst, char *arg)
 
 	len = 0;
 	len2 = 0;
-	while (arg[len2] && arg[len2] != '=')
+	while (arg[len2] && arg[len2] != '=' && arg[len2] != '+')
 		len2++;
 	while (lst->content[len] && lst->content[len] != '=')
 		len++;
 	if (len != len2)
 		return (0);
 	i = 0;
-	while (arg[i] && arg[i] != '=')
+	while (arg[i] && arg[i] != '=' && arg[i] != '+')
 	{
 		if (arg[i] != lst->content[i])
 			return (0);
@@ -93,8 +93,10 @@ int	checking_errors(char **exports)
 		if (exports[i][0] == '='
 			|| (exports[i][0] != '_' && !ft_isalpha(exports[i][0])))
 			return (export_print_error(exports[i]));
-		while (exports[i][j] && exports[i][j] != '=')
+		while (exports[i][j] && exports[i][j] != '+' && exports[i][j] != '=')
 		{
+			if (exports[i][j] == '+' && exports[i][j + 1] == '=')
+				return (0);
 			if (exports[i][j] != '_' && !ft_isalnum(exports[i][j]))
 				return (export_print_error(exports[i]));
 			j++;

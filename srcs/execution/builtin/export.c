@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:37:45 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/27 17:01:42 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/27 19:12:54 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int	add_to_env(char *arg, t_list **env, bool assigned_value)
 	return (0);
 }
 
-static int	search_replace_existing_loop(t_list **lst, char *arg)
+static int	search_replace_existing_loop(t_list **lst, char *arg, bool append)
 {
 	t_list	*current;
 
@@ -50,10 +50,9 @@ static int	search_replace_existing_loop(t_list **lst, char *arg)
 	{
 		if (search_replace_existing_cmp(current, arg))
 		{
-			free(current->content);
-			current->content = ft_strdup(arg);
-			current->value_assigned = true;
-			return (1);
+			if (append == true)
+				return (append_export(current, arg));
+			return (replace_export(current, arg));
 		}
 		current = current->next;
 	}
@@ -67,7 +66,7 @@ static int	search_replace_existing(t_list **lst, char *arg)
 	i = 0;
 	if (!arg || ft_strlen(arg) == 0)
 		return (1);
-	while (arg[i] && arg[i] != '=')
+	while (arg[i] && arg[i] != '=' && arg[i] != '+')
 		i++;
 	if (arg[i] == '\0')
 	{
@@ -75,7 +74,13 @@ static int	search_replace_existing(t_list **lst, char *arg)
 			add_to_env(arg, lst, false);
 		return (1);
 	}
-	if (search_replace_existing_loop(lst, arg) != 0)
+	if (arg[i] == '+')
+	{
+		if (search_replace_existing_loop(lst, arg, true) != 0)
+			return (1);
+		return (0);
+	}
+	if (search_replace_existing_loop(lst, arg, true) != 0)
 		return (1);
 	return (0);
 }
@@ -83,12 +88,17 @@ static int	search_replace_existing(t_list **lst, char *arg)
 static int	execute_export_utils(char **exports, t_list **env)
 {
 	int	i;
+	int	code;
 
 	i = 0;
+	code = 0;
 	while (exports[i])
 	{
-		if (search_replace_existing(env, exports[i]))
+		code = search_replace_existing(env, exports[i]);
+		if (code == 1)
 			i++;
+		else if (code == 2)
+			return (1);
 		else
 		{
 			if (add_to_env(exports[i], env, true))
