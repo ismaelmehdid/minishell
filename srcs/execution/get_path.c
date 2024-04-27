@@ -30,7 +30,10 @@ static int	read_current_dir(char *filename)
 			break ;
 		if (ft_strncmp(filename, entry->d_name,
 				ft_strlen(filename)) == 0)
+		{
+			closedir(dir);
 			return (0);
+		}
 	}
 	closedir(dir);
 	return (1);
