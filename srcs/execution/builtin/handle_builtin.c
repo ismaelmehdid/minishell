@@ -88,5 +88,6 @@ int	handle_builtin(
 		return (1);
 	}
 	g_last_command_status = find_builtin(input, envp, env);
+	free_double_array(envp);
 	return (g_last_command_status);
 }
