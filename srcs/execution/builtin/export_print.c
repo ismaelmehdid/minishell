@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 16:04:17 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/26 15:58:12 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/27 16:59:22 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,11 +80,10 @@ static t_list	*copy_list(t_list *env, bool sub_var)
 	return (new_list);
 }
 
-static void	print_exported_var(t_list *env, bool sub_var)
+static void	print_exported_var(t_list *env, bool sub_var, int i)
 {
 	t_list	*exported_sub_list;
 	t_list	*temp;
-	int		i;
 
 	exported_sub_list = copy_list(env, sub_var);
 	if (!exported_sub_list)
@@ -115,7 +114,7 @@ int	show_exported_var_list(t_list *env, char **exports)
 	free_double_array(exports);
 	if (!env)
 		return (0);
-	print_exported_var(env, true);
-	print_exported_var(env, false);
+	print_exported_var(env, true, 0);
+	print_exported_var(env, false, 0);
 	return (0);
 }
