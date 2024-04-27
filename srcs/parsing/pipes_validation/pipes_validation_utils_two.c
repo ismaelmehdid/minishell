@@ -1,30 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   pipes_validation_utils_two.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/25 15:37:50 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/26 23:56:41 by asyvash          ###   ########.fr       */
+/*   Created: 2024/04/26 15:08:15 by asyvash           #+#    #+#             */
+/*   Updated: 2024/04/26 15:08:43 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-int	execute_pwd(void)
+void leaks_signal_fix(char *backup, int orig_stdin)
 {
-	char	cwd[PATH_MAX];
-
-	if (getcwd(cwd, sizeof(cwd)) != NULL)
-	{
-		ft_putstr_fd(cwd, STDOUT_FILENO);
-		ft_putstr_fd("\n", STDOUT_FILENO);
-	}
-	else
-	{
-		ft_putstr_fd("minishell: Can't get PWD\n", 2);
-		return (1);
-	}
-	return (0);
+	close(orig_stdin);
+	signal(SIGQUIT, ctrl_back_slash);
+	if (backup)
+		free(backup);
 }

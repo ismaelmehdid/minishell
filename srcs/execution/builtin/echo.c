@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:37:32 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/25 15:24:28 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/26 23:59:34 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	execute_echo(char *arg)
 
 	args_index = 0;
 	option = true;
-	args = split_quotes(arg, " \t\n\v\f\r", NULL);
+	args = split_quotes_bash(arg, " \t\n", NULL);
 	trim_quotes(args);
 	if (args == NULL)
 	{

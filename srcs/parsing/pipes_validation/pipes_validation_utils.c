@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 00:04:18 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/25 18:25:46 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/27 15:42:02 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	check_for_spaces(char *inp)
 	int	i;
 
 	i = 0;
-	while (inp[i] && (inp[i] == ' ' || (inp[i] >= 9 && inp[i] <= 13)))
+	while (is_whitespace(inp[i]))
 		i++;
 	if (i > 0 && inp[i] == '|')
 		return (1);
@@ -43,8 +43,7 @@ int	check_last_pipe_command(char *inp)
 	int	i;
 
 	i = ft_strlen(inp) - 1;
-	while (i >= 0 && (inp[i] == ' ' \
-		|| (inp[i] >= 9 && inp[i] <= 13)))
+	while (i >= 0 && is_whitespace(inp[i]))
 		i--;
 	if (i >= 0 && inp[i] == '|')
 		return (1);
@@ -65,9 +64,8 @@ void	exit_program(char *backup, t_list **env)
 {
 	free(backup);
 	free_list(env);
-	close(g_stdin_copy_fd);
 	ft_putstr_fd("minishell: syntax error: ", 2);
 	ft_putstr_fd("unexpected end of file\n", 2);
-	write (STDERR_FILENO, "exit\n", 6);
+	ft_putstr_fd("exit\n", 2);
 	exit (2);
 }

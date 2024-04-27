@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_syntax_check.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 22:21:28 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/15 13:32:21 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/26 23:53:31 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	redir_syntax_checker(char *input)
 	input = check_redirs(input, 0);
 	if (input == NULL)
 	{
-		ft_putstr_fd("Invalid usage of '<' or '>'\n", 2);
+		ft_putstr_fd("minishell: Invalid usage of '<' or '>'\n", 2);
 		return (1);
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 21:27:27 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/22 14:34:37 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/26 14:16:07 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	backup_std(int fds[2])
 	if (fds[0] < 0)
 	{
 		ft_putstr_fd("STDIN dup error\n", 2);
+		g_last_command_status = 1;
 		return (0);
 	}
 	fds[1] = dup(STDOUT_FILENO);
@@ -27,6 +28,7 @@ int	backup_std(int fds[2])
 	{
 		ft_putstr_fd("STDOUT dup error\n", 2);
 		close(fds[0]);
+		g_last_command_status = 1;
 		return (0);
 	}
 	return (1);
@@ -101,14 +103,14 @@ int	make_redirection(char **redirs, int fds[2], int i)
 		if (file == NULL)
 			return (1);
 		if (redir_type(redirs[i]) == HERE_DOC)
-			status = pre_here_doc(redirs[i], fds[1]);
+			status = pre_here_doc(redirs[i], fds);
 		else
 			status = dup_std(redir_type(redirs[i]), file);
 		free (file);
 		if (status == -500)
 			return (-500);
 		if (status == -600 && here_doc_exist(redirs, i) == 0)
-			useless_here_doc(redirs, i);
+			useless_here_doc(redirs, i, fds[0]);
 		if (status == -600)
 			no_such_file_error(redirs[i]);
 		if (status < 0)

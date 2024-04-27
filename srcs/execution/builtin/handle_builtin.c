@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_builtin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <imehdid@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/24 12:38:18 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/27 17:34:13 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,12 @@ static int	find_builtin(
 
 int	handle_builtin(
 	char *input,
-	char **envp,
 	t_list **env,
-	t_astnode *root)
+	t_astnode *root,
+	int fds[2])
 {
-	int	i;
+	char	**envp;
+	int		i;
 
 	i = 0;
 	if (!input)
@@ -75,9 +76,18 @@ int	handle_builtin(
 	input += i;
 	if (get_command(input, "exit") == 0)
 	{
-		execute_exit(input + get_cmd_args_index(input), env, root, envp);
+		restore_std(fds);
+		execute_exit(input + get_cmd_args_index(input), env, root, NULL);
 		return (g_last_command_status);
 	}
+	envp = create_envp(*env);
+	if (!envp)
+	{
+		ft_putstr_fd("Allocation error\n", 2);
+		g_last_command_status = 1;
+		return (1);
+	}
 	g_last_command_status = find_builtin(input, envp, env);
+	free_double_array(envp);
 	return (g_last_command_status);
 }

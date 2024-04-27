@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_utils_two.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <imehdid@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 15:56:44 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/24 13:17:48 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/27 00:01:24 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ static int	prepare_cd_utils(char **args, char *thepath)
 	{
 		if (size_double_array(args) > 1)
 		{
-			ft_putstr_fd("Minishell: cd: too many arguments\n", 2);
+			ft_putstr_fd("minishell: cd: too many arguments\n", 2);
 			free_double_array(args);
 			return (1);
 		}
 		if (ft_strlen(args[0]) > PATH_MAX)
 		{
-			ft_putstr_fd("Minishell: cd: ", 2);
+			ft_putstr_fd("minishell: cd: ", 2);
 			ft_putstr_fd(args[0], 2);
 			ft_putstr_fd(" : File name too long\n", 2);
 			free_double_array(args);
@@ -39,7 +39,7 @@ int	prepare_cd(char *path, char *thepath)
 {
 	char	**args;
 
-	args = split_quotes(path, " \t\n\v\f\r", NULL);
+	args = split_quotes_bash(path, " \t\n", NULL);
 	if (!args)
 		return (126);
 	if (trim_quotes(args) != 0)

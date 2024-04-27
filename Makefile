@@ -3,11 +3,13 @@ NAME = minishell
 SRCS =	srcs/env_utils.c \
         srcs/minishell.c \
 		srcs/list_utils.c \
+        srcs/basic_utils.c \
         srcs/parsing/parsing.c \
         srcs/parsing/redir_syntax_check.c \
         srcs/parsing/parsing_utils.c \
         srcs/parsing/pipes_validation/pipe_validation.c \
         srcs/parsing/pipes_validation/pipes_validation_utils.c \
+        srcs/parsing/pipes_validation/pipes_validation_utils_two.c \
         srcs/parsing/quotes_validation/quotes_validation.c \
         srcs/parsing/spliting_elements/get_env_size.c \
         srcs/parsing/spliting_elements/get_env_value.c \
@@ -17,6 +19,7 @@ SRCS =	srcs/env_utils.c \
         srcs/execution/handle_signals.c \
         srcs/execution/init_execution.c \
         srcs/execution/launch_executable.c \
+        srcs/execution/get_path.c \
         srcs/execution/builtin/cd.c \
         srcs/execution/builtin/cd_utils.c \
         srcs/execution/builtin/cd_utils_two.c \

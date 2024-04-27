@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   launch_executable.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 23:56:59 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/25 17:53:32 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/26 23:48:08 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,24 @@ void	print_error_not_found(char *cmd, int code)
 {
 	if (code == 1)
 	{
-		ft_putstr_fd("Minishell: ", 2);
+		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(cmd, 2);
 		ft_putstr_fd(": No such file or directory\n", 2);
 	}
 	else if (code == 2)
 	{
+		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(cmd, 2);
-		ft_putstr_fd(": Command not found\n", 2);
+		ft_putstr_fd(": command not found\n", 2);
 	}
 }
 
 static void	wait_pids(int status, pid_t pid)
 {
 	waitpid(pid, &status, 0);
-	g_last_command_status = WEXITSTATUS(status);
-	if (WIFSIGNALED(status) && g_last_command_status != 131)
+	if (WEXITSTATUS(status))
+		g_last_command_status = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status) && g_last_command_status != 131)
 		g_last_command_status = WTERMSIG(status) + 128;
 }
 
@@ -74,7 +76,7 @@ void	launch_executable(char *cmd, char **envp, int i)
 	while (envp[++i] != NULL)
 		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
 			break ;
-	cmds = split_quotes(cmd, " \t\n\v\f\r", NULL);
+	cmds = split_quotes_bash(cmd, " \t\n", NULL);
 	trim_quotes(cmds);
 	if (!envp[i] && cmds && access(cmds[0], F_OK) != 0)
 	{
@@ -86,9 +88,9 @@ void	launch_executable(char *cmd, char **envp, int i)
 	cmd_path = get_path(cmds[0], envp[i] + 5);
 	if (cmd_path == NULL)
 	{
-		print_error_not_found(cmds[0], 2);
 		free_double_array(cmds);
-		g_last_command_status = 127;
+		if (g_last_command_status != 126)
+			g_last_command_status = 127;
 		return ;
 	}
 	ft_execve(cmd_path, cmds, envp, 0);

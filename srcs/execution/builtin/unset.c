@@ -6,76 +6,29 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:37:54 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/29 18:26:00 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/27 17:01:14 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-static int	invalid_parameter(char *param)
+static int	cmp_var_name(char *existing, char *to_remove)
 {
 	int	i;
 
 	i = 0;
-	while (param[i] != '\0')
+	while (to_remove[i] && existing[i] && existing[i] != '=')
 	{
-		if (param[i] == '=')
-		{
-			ft_putstr_fd("unset: ", 2);
-			ft_putstr_fd(param, 2);
-			ft_putstr_fd(": invalid parameter name\n", 2);
-			g_last_command_status = 128;
-			return (1);
-		}
+		if (to_remove[i] != existing[i])
+			return (0);
 		i++;
 	}
+	if (to_remove[i] == '\0' && (existing[i] == '\0' || existing[i] == '='))
+		return (1);
 	return (0);
 }
 
-static int	create_all_keys(char *old_str, char **temp, char **new_key)
-{
-	temp = new_key;
-	while (*temp)
-	{
-		old_str = *temp;
-		*temp = ft_strjoin(old_str, "=");
-		if (!*temp)
-		{
-			ft_putstr_fd("Malloc allocation error\n", 2);
-			free_double_array(new_key);
-			return (1);
-		}
-		free(old_str);
-		temp++;
-	}
-	*temp = NULL;
-	return (0);
-}
-
-static char	**create_key(char *key)
-{
-	char	**new_key;
-	char	**temp;
-	char	*old_str;
-
-	temp = NULL;
-	old_str = NULL;
-	if (invalid_parameter(key) == 1)
-		return (NULL);
-	new_key = split_quotes(key, " \t\n\v\f\r", NULL);
-	if (!new_key)
-	{
-		ft_putstr_fd("Malloc allocation error\n", 2);
-		return (NULL);
-	}
-	if (trim_quotes(new_key) != 0)
-		return (NULL);
-	if (create_all_keys(old_str, temp, new_key) != 0)
-		return (NULL);
-	return (new_key);
-}
-
-static void	search_and_remove_env(t_list **head, char **args)
+static void	search_and_remove_vars(t_list **head, char **args)
 {
 	t_list	*curr;
 	t_list	*previous;
@@ -84,7 +37,7 @@ static void	search_and_remove_env(t_list **head, char **args)
 	previous = NULL;
 	while (*args)
 	{
-		while (curr && ft_strncmp(curr->content, *args, ft_strlen(*args)) != 0)
+		while (curr && cmp_var_name(curr->content, *args) == 0)
 		{
 			previous = curr;
 			curr = curr->next;
@@ -110,15 +63,15 @@ int	execute_unset(t_list **head, char *key)
 
 	if (key[0] == '\0')
 		return (0);
-	args = create_key(key);
-	if (!args)
+	args = split_quotes_bash(key, " \t\n", NULL);
+	if (trim_quotes(args) != 0)
 	{
-		if (g_last_command_status == 128)
-			return (128);
-		else
-			return (1);
+		free_double_array(args);
+		return (126);
 	}
-	search_and_remove_env(head, args);
+	if (!args || size_double_array(args) == 0)
+		return (0);
+	search_and_remove_vars(head, args);
 	free_double_array(args);
 	return (0);
 }

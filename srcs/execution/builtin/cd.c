@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:37:27 by asyvash           #+#    #+#             */
-/*   Updated: 2024/03/26 18:52:29 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/27 00:29:34 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ static int	change_to_old_pwd_dir(t_list **env)
 	}
 	if (get_old_pwd(env, &old_pwd))
 		return (1);
+	printf("%s\n", old_pwd);
 	if (chdir(old_pwd) != 0)
 	{
 		free(old_pwd);
