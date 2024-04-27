@@ -169,6 +169,9 @@ int				check_empty_status(char *cmds);
 void			stop_exec(t_pipeline *utl);
 void			free_pipeline_util(t_pipeline *utl);
 int				handle_fds_dup(char **cmds, t_pipeline *utl);
+void			free_child_if_builtin(t_pipeline *utl,
+					t_list **env,
+					t_astnode *root);
 
 //=== Built-ins -----------------------------------------------------------===//
 
