@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 00:04:18 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/22 16:24:01 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/25 18:25:46 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,6 @@ void	exit_program(char *backup, t_list **env)
 	close(g_stdin_copy_fd);
 	ft_putstr_fd("minishell: syntax error: ", 2);
 	ft_putstr_fd("unexpected end of file\n", 2);
-	printf("exit\n");
+	write (STDERR_FILENO, "exit\n", 6);
 	exit (2);
 }

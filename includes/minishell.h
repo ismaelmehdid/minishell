@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:28 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/25 17:43:51 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/27 15:39:16 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # include <errno.h>
 # include <termios.h>
 # include <sys/ioctl.h>
-# include <curses.h>
+# include <stdbool.h>
 # include <termcap.h>
 # include <readline/readline.h>
 # include <readline/history.h>

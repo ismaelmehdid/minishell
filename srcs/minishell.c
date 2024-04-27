@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:05 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/22 12:26:46 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/25 18:27:24 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int	main(int argc, char **argv, char **envp)
 	if (g_stdin_copy_fd < 0)
 		return (1);
 	minishell_loop(ast_root, &env, NULL);
-	printf("exit\n");
+	write (STDOUT_FILENO, "exit\n", 6);
 	rl_clear_history();
 	free_list(&env);
 	close(g_stdin_copy_fd);
