@@ -51,3 +51,12 @@ int	get_pipe_size(t_astnode *node)
 	}
 	return (counter);
 }
+
+void	free_child_if_builtin(t_pipeline *utl, t_list **env,
+	t_astnode *root)
+{
+	free_double_array(utl->cmds);
+	free_list(env);
+	free_all_nodes(root);
+	free_pipeline_util(utl);
+}

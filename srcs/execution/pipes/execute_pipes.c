@@ -76,7 +76,10 @@ static void	child_process(t_pipeline *utl, t_list **env, t_astnode *root)
 		utl->m++;
 	}
 	if (handle_builtin(utl->cmds[utl->k], env, root, utl->fds) == 0)
+	{
+		free_child_if_builtin(utl, env, root);
 		exit(0);
+	}
 	envp = create_envp(*env);
 	close(utl->fds[0]);
 	close(utl->fds[1]);
