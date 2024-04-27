@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 17:23:27 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/26 17:24:05 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/27 17:02:56 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,26 @@
 
 static int	read_current_dir(char *filename)
 {
-	DIR	*dir;
-    struct dirent	*entry;
+	DIR					*dir;
+	struct dirent		*entry;
 
-    dir = opendir(".");
-    if (dir == NULL)
+	dir = opendir(".");
+	if (dir == NULL)
 	{
-        perror("opendir error\n");
-        return (1);
-    }
-    while (1)
+		perror("opendir error\n");
+		return (1);
+	}
+	while (1)
 	{
 		entry = readdir(dir);
 		if (entry == NULL)
 			break ;
-        if (ft_strncmp(filename, entry->d_name,
-			ft_strlen(filename)) == 0)
+		if (ft_strncmp(filename, entry->d_name,
+				ft_strlen(filename)) == 0)
 			return (0);
-    }
-    closedir(dir);
-    return (1);
+	}
+	closedir(dir);
+	return (1);
 }
 
 static int	check_file_cmd(char *cmd, int i)

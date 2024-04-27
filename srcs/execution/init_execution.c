@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/26 17:23:44 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/27 15:26:42 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	init_redirs(t_astnode *root, char **redirections, int fds[2],
 static int	execute_command(t_astnode *node, t_list **env, int fds[2])
 {
 	char	**envp;
-	
+
 	handle_builtin(node->value, env, node, fds);
 	if (g_last_command_status != 300)
 		return (0);

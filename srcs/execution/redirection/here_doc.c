@@ -6,13 +6,13 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 21:04:09 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/26 15:53:58 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/27 15:27:25 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-static int get_return_scenario(char *delimiter, int orig_stdin, int fd)
+static int	get_return_scenario(char *delimiter, int orig_stdin, int fd)
 {
 	if (isatty(STDIN_FILENO))
 	{
@@ -64,7 +64,7 @@ static int	create_tmp_file(char *delimiter, int fd, int orig_stdin)
 	close(STDIN_FILENO);
 	if (dup2(orig_stdin, STDIN_FILENO) < 0)
 		return (-1);
-	fd = here_doc_loop(delimiter, fd, NULL,  orig_stdin);
+	fd = here_doc_loop(delimiter, fd, NULL, orig_stdin);
 	signal(SIGQUIT, ctrl_back_slash);
 	if (fd == -500)
 		unlink_file("without");
