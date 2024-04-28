@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:37:38 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/22 17:44:20 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/28 17:39:33 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-static int	errors_handler(char *args)
+static int	errors_handler_env(char *args)
 {
 	int	i;
 
@@ -42,7 +42,7 @@ int	execute_env(char **envp, char *args)
 	i = 0;
 	if (!envp)
 		return (1);
-	if (errors_handler(args))
+	if (errors_handler_env(args))
 		return (2);
 	while (envp[i] != NULL)
 	{
