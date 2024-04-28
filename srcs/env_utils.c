@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 23:54:18 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/27 17:43:38 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/28 18:02:31 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,10 @@ static void	set_env_utils(t_list **new_node, char **envp, int i)
 	(*new_node)->export_marked = true;
 	(*new_node)->value_assigned = true;
 	(*new_node)->export_marked_sub = true;
+	if ((*new_node)->content[0] == '_' && (*new_node)->content[1] == '=')
+		(*new_node)->export_excluded = true;
+	else
+		(*new_node)->export_excluded = false;
 }
 
 int	create_env(t_list **env, char **envp)
