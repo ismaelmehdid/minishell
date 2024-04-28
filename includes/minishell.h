@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:28 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/28 18:14:42 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/28 18:37:04 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,7 +200,6 @@ void			execute_exit(
 					t_list **env,
 					t_astnode *root,
 					char **envp);
-int				errors_handler(char **args, int in_pipes);
 int				execute_cd(char *path, t_list **env);
 int				prepare_cd(char *path, char *thepath);
 int				execute_unset(t_list **head, char *key);

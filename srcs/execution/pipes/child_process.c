@@ -6,42 +6,37 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 17:22:13 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/28 18:11:58 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/28 18:43:33 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-static int  check_exit_args_in_pipes(char *input)
+static void	exit_in_child(char *cmd,
+				t_pipeline *utl,
+				t_list **env, 
+				t_astnode *root)
 {
-	char	**args;
-	int		code;
+	int		i;
 
-	code = 0;
-	args = split_quotes_bash(input, " \t\n", NULL);
-	if (!args)
-		g_last_command_status = 126;
-	trim_quotes(args);
-	if (!args)
-		g_last_command_status = 126;
-	code = errors_handler(args, 1);
-	return (code);
+	i = 0;
+	while (is_whitespace(cmd[i]))
+		i++;
+	if (get_command(cmd + i, "exit") == 0)
+	{
+		free_double_array(utl->cmds);
+		free_pipeline_util(utl);
+		g_last_command_status = 
+			handle_builtin(cmd + i, env, root, utl->fds);
+		exit (g_last_command_status);
+	}
 }
 
 static void exec_in_child(t_pipeline *utl, t_list **env, t_astnode *root)
 {
 	char    **envp;
-	int		i;
 
-	i = 0;
-	while (is_whitespace(utl->cmds[utl->k][i]))
-		i++;
-	if (get_command(utl->cmds[utl->k] + i, "exit") == 0)
-	{
-		if (check_exit_args_in_pipes(utl->cmds[utl->k] \
-			+ 5) != 2)
-			free_pipeline_util(utl);
-	}
+	exit_in_child(utl->cmds[utl->k], utl, env, root);
 	g_last_command_status = 
 		handle_builtin(utl->cmds[utl->k], env, root, utl->fds);
 	if (g_last_command_status != 300)
