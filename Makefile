@@ -29,6 +29,7 @@ SRCS =	srcs/env_utils.c \
         srcs/execution/builtin/export_print.c \
         srcs/execution/builtin/export_utils.c \
         srcs/execution/builtin/export_utils_two.c \
+        srcs/execution/builtin/export_utils_three.c \
         srcs/execution/builtin/handle_builtin.c \
         srcs/execution/builtin/handle_builtin_utils.c \
         srcs/execution/builtin/pwd.c \

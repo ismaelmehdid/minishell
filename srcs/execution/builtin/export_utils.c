@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 23:01:03 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/27 18:55:28 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/28 15:03:14 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,10 +93,12 @@ int	checking_errors(char **exports)
 		if (exports[i][0] == '='
 			|| (exports[i][0] != '_' && !ft_isalpha(exports[i][0])))
 			return (export_print_error(exports[i]));
-		while (exports[i][j] && exports[i][j] != '+' && exports[i][j] != '=')
+		while (exports[i][j] && exports[i][j] != '=')
 		{
 			if (exports[i][j] == '+' && exports[i][j + 1] == '=')
 				return (0);
+			if (exports[i][j] == '+' && exports[i][j + 1] != '=')
+				return (export_print_error(exports[i]));
 			if (exports[i][j] != '_' && !ft_isalnum(exports[i][j]))
 				return (export_print_error(exports[i]));
 			j++;

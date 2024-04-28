@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:37:45 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/27 19:12:54 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/28 14:51:55 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	add_to_env(char *arg, t_list **env, bool assigned_value)
 		ft_putstr_fd("Allocation error\n", 2);
 		return (126);
 	}
-	new->content = ft_strdup(arg);
+	new->content = cpy_new_env(arg);
 	if (!new->content)
 	{
 		free(new);
@@ -74,13 +74,13 @@ static int	search_replace_existing(t_list **lst, char *arg)
 			add_to_env(arg, lst, false);
 		return (1);
 	}
-	if (arg[i] == '+')
+	if (arg[i] == '+' && arg[i + 1] == '=')
 	{
 		if (search_replace_existing_loop(lst, arg, true) != 0)
 			return (1);
 		return (0);
 	}
-	if (search_replace_existing_loop(lst, arg, true) != 0)
+	if (search_replace_existing_loop(lst, arg, false) != 0)
 		return (1);
 	return (0);
 }
