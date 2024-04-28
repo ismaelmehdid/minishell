@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_utils_three.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 01:17:06 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/25 18:32:50 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/28 19:04:38 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,26 +45,26 @@ void	free_pipeline_util(t_pipeline *utl)
 		close(utl->fds[1]);
 }
 
-void	stop_exec(t_pipeline *utl)
+void	stop_exec(t_pipeline *utl, t_list **env, t_astnode *root)
 {
 	if (g_last_command_status == 130)
 	{
-		free_pipeline_util(utl);
+		free_child_if_builtin(utl, env, root);
 		exit (130);
 	}
 	else if (g_last_command_status == 3)
 	{
-		free_pipeline_util(utl);
+		free_child_if_builtin(utl, env, root);
 		exit (0);
 	}
 	else if (g_last_command_status == 350)
 	{
-		free_pipeline_util(utl);
+		free_child_if_builtin(utl, env, root);
 		exit (1);
 	}
 	else if (g_last_command_status == 1)
 	{
-		free_pipeline_util(utl);
+		free_child_if_builtin(utl, env, root);
 		exit (1);
 	}
 }

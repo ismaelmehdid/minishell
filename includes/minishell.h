@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:28 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/28 18:37:04 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/28 19:05:10 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,7 @@ t_list			*free_copy_list(char *content, t_list *listptr);
 int				mystrcmp(const char *first, const char *second);
 char			*get_content(t_astnode *node);
 int				check_empty_status(char *cmds);
-void			stop_exec(t_pipeline *utl);
+void			stop_exec(t_pipeline *utl, t_list **env, t_astnode *root);
 void			free_pipeline_util(t_pipeline *utl);
 int				handle_fds_dup(char **cmds, t_pipeline *utl);
 void			free_child_if_builtin(t_pipeline *utl,
