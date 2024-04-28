@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:28 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/28 19:05:10 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/28 20:14:26 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ int				is_whitespace(char c);
 //=== Parsing utils -------------------------------------------------------===//
 
 void			free_double_array(char **array);
-int				redir_syntax_checker(char *input);
+int				redir_syntax_checker(char *input, t_list *env);
 void			free_all_nodes(t_astnode *root);
 int				ft_strcmp(char *one, char *two);
 int				contain_str(char **array, char *element);

@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 22:49:26 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/26 23:53:03 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/28 19:57:45 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ t_astnode	*parsing(char **input, t_list *env)
 	if (!(*input) || (*input) == NULL)
 		return (NULL);
 	elements = NULL;
-	if (redir_syntax_checker(*input) == 1)
+	if (redir_syntax_checker(*input, env) == 1)
 		return (NULL);
 	*input = pipes_validation(*input, &env, NULL, 0);
 	if (!*input)
