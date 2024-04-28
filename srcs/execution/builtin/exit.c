@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:37:41 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/28 17:23:42 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/28 17:44:47 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ static int	ft_atoi_check_limit(const char *str)
 
 int	errors_handler(char **args)
 {
+	ft_putstr_fd(args[0], 2);
 	if (ft_atoi_check_limit(args[0]) == 1)
 	{
 		ft_putstr_fd("exit\n", 2);
