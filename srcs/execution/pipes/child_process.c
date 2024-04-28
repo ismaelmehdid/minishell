@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 17:22:13 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/28 18:43:33 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/28 18:58:11 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,13 @@ static void	exit_in_child(char *cmd,
 	i = 0;
 	while (is_whitespace(cmd[i]))
 		i++;
-	if (get_command(cmd + i, "exit") == 0)
+	cmd += i;
+	if (get_command(cmd, "exit") == 0)
 	{
+		perror("im here");
 		free_double_array(utl->cmds);
 		free_pipeline_util(utl);
-		g_last_command_status = 
-			handle_builtin(cmd + i, env, root, utl->fds);
+		execute_exit(cmd + 5, env, root, NULL);
 		exit (g_last_command_status);
 	}
 }
