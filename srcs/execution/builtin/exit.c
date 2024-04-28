@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:37:41 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/27 15:41:52 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/28 17:23:42 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static int	ft_atoi_check_limit(const char *str)
 	return (0);
 }
 
-static int	errors_handler(char **args)
+int	errors_handler(char **args)
 {
 	if (ft_atoi_check_limit(args[0]) == 1)
 	{

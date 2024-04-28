@@ -36,6 +36,7 @@ SRCS =	srcs/env_utils.c \
         srcs/execution/builtin/exit.c \
         srcs/execution/builtin/unset.c \
         srcs/execution/pipes/execute_pipes.c \
+        srcs/execution/pipes/child_process.c \
         srcs/execution/pipes/pipe_utils.c \
         srcs/execution/pipes/pipe_utils_two.c \
         srcs/execution/pipes/pipe_utils_three.c \

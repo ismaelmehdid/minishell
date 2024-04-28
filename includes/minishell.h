@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:28 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/28 15:39:33 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/28 17:24:54 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,6 +172,9 @@ int				handle_fds_dup(char **cmds, t_pipeline *utl);
 void			free_child_if_builtin(t_pipeline *utl,
 					t_list **env,
 					t_astnode *root);
+void			child_process(t_pipeline *utl,
+					t_list **env,
+					t_astnode *root);
 
 //=== Built-ins -----------------------------------------------------------===//
 
@@ -196,6 +199,7 @@ void			execute_exit(
 					t_list **env,
 					t_astnode *root,
 					char **envp);
+int				errors_handler(char **args);
 int				execute_cd(char *path, t_list **env);
 int				prepare_cd(char *path, char *thepath);
 int				execute_unset(t_list **head, char *key);
