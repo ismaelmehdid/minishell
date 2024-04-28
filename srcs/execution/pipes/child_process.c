@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 17:22:13 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/28 17:50:06 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/28 18:11:58 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int  check_exit_args_in_pipes(char *input)
 	trim_quotes(args);
 	if (!args)
 		g_last_command_status = 126;
-	code = errors_handler(args);
+	code = errors_handler(args, 1);
 	return (code);
 }
 
@@ -36,11 +36,10 @@ static void exec_in_child(t_pipeline *utl, t_list **env, t_astnode *root)
 	i = 0;
 	while (is_whitespace(utl->cmds[utl->k][i]))
 		i++;
-	utl->cmds[utl->k] += i;
-	if (get_command(utl->cmds[utl->k], "exit") == 0)
+	if (get_command(utl->cmds[utl->k] + i, "exit") == 0)
 	{
-		if (check_exit_args_in_pipes(utl->cmds[utl->k] + \
-			get_cmd_args_index(utl->cmds[utl->k])) != 2)
+		if (check_exit_args_in_pipes(utl->cmds[utl->k] \
+			+ 5) != 2)
 			free_pipeline_util(utl);
 	}
 	g_last_command_status = 

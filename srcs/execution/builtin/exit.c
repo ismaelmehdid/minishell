@@ -6,32 +6,32 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:37:41 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/28 17:44:47 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/28 18:10:20 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-static int	check_args_quantity(char **args)
+static int	check_args_quantity(char **args, int in_pipes)
 {
 	if (size_double_array(args) > 1)
 	{
-		ft_putstr_fd("exit\n", 2);
-		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
+		if (in_pipes == 0)
+		{
+			ft_putstr_fd("exit\n", 2);
+			ft_putstr_fd("minishell: exit: too many arguments\n", 2);
+		}
 		g_last_command_status = 1;
 		return (1);
 	}
 	return (0);
 }
 
-static int	check_all_digits(char *args)
+static int	check_all_digits(char *args, int i, int in_pipes)
 {
-	int	i;
-
-	i = 0;
 	if (!args)
 		return (0);
-	while (args[i])
+	while (i++, args[i])
 	{
 		if (!ft_isdigit(args[i]))
 		{
@@ -40,14 +40,17 @@ static int	check_all_digits(char *args)
 				i++;
 				continue ;
 			}
-			ft_putstr_fd("exit\n", 2);
-			ft_putstr_fd("minishell: exit: ", 2);
-			ft_putstr_fd(args, 2);
-			ft_putstr_fd(": numeric argument required\n", 2);
+			if (in_pipes == 0)
+			{
+				ft_putstr_fd("exit\n", 2);
+				ft_putstr_fd("minishell: exit: ", 2);
+				ft_putstr_fd(args, 2);
+				ft_putstr_fd(": numeric argument ", 2);
+				ft_putstr_fd("required\n", 2);
+			}
 			g_last_command_status = 2;
 			return (1);
 		}
-		i++;
 	}
 	return (0);
 }
@@ -78,10 +81,9 @@ static int	ft_atoi_check_limit(const char *str)
 	return (0);
 }
 
-int	errors_handler(char **args)
+int	errors_handler(char **args, int in_pipes)
 {
-	ft_putstr_fd(args[0], 2);
-	if (ft_atoi_check_limit(args[0]) == 1)
+	if (ft_atoi_check_limit(args[0]) == 1 && in_pipes != 1)
 	{
 		ft_putstr_fd("exit\n", 2);
 		ft_putstr_fd("minishell: exit: ", 2);
@@ -90,9 +92,9 @@ int	errors_handler(char **args)
 		g_last_command_status = 2;
 		return (1);
 	}
-	if (check_all_digits(args[0]))
+	if (check_all_digits(args[0], -1, in_pipes))
 		return (1);
-	if (check_args_quantity(args))
+	if (check_args_quantity(args, in_pipes))
 	{
 		free_double_array(args);
 		return (2);
@@ -112,7 +114,7 @@ void	execute_exit(char *input, t_list **env, t_astnode *root, char **envp)
 	trim_quotes(args);
 	if (!args)
 		g_last_command_status = 126;
-	code = errors_handler(args);
+	code = errors_handler(args, 0);
 	if (code == 2)
 		return ;
 	if (code == 0 && size_double_array(args) == 1)
