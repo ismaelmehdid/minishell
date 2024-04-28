@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:37:45 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/28 14:51:55 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/28 18:06:58 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ static int	add_to_env(char *arg, t_list **env, bool assigned_value)
 	new->value_assigned = assigned_value;
 	new->export_marked = true;
 	new->export_marked_sub = false;
+	new->export_excluded = false;
 	if (*env)
 		get_last_node(*env)->next = new;
 	else

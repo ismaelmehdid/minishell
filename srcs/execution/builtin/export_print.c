@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_print.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 16:04:17 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/27 16:59:22 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/28 18:05:40 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,13 @@ static void	swap_nodes(t_list *node1, t_list *node2)
 	bool	temp_export_marked;
 	bool	temp_export_marked_sub;
 	bool	temp_value_assigned;
+	bool	temp_export_excluded;
 
 	temp_content = node1->content;
 	temp_export_marked = node1->export_marked;
 	temp_export_marked_sub = node1->export_marked_sub;
 	temp_value_assigned = node1->value_assigned;
+	temp_export_excluded = node1->export_excluded;
 	node1->content = node2->content;
 	node1->export_marked = node2->export_marked;
 	node1->export_marked_sub = node2->export_marked_sub;
@@ -31,6 +33,7 @@ static void	swap_nodes(t_list *node1, t_list *node2)
 	node2->export_marked = temp_export_marked;
 	node2->export_marked_sub = temp_export_marked_sub;
 	node2->value_assigned = temp_value_assigned;
+	node2->export_excluded = temp_export_excluded;
 }
 
 static void	sort_list(t_list **head)
@@ -60,7 +63,7 @@ static t_list	*copy_list(t_list *env, bool sub_var)
 
 	if (!env)
 		return (NULL);
-	if (env->export_marked_sub == sub_var)
+	if (env->export_marked_sub == sub_var && env->export_excluded == false)
 	{
 		new_list = malloc(sizeof(t_list));
 		if (!new_list)
@@ -71,6 +74,7 @@ static t_list	*copy_list(t_list *env, bool sub_var)
 		new_list->export_marked = env->export_marked;
 		new_list->export_marked_sub = env->export_marked_sub;
 		new_list->value_assigned = env->value_assigned;
+		new_list->export_excluded = env->export_excluded;
 		new_list->next = copy_list(env->next, sub_var);
 		return (new_list);
 	}
