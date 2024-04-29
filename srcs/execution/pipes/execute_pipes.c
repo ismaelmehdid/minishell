@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/28 17:23:09 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/29 11:45:02 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static int	pre_execution(t_pipeline **utl)
 	return (0);
 }
 
-int	execute_pipeline(t_pipeline *utl, t_list **env, t_astnode *root)
+int	execute_pipeline(t_pipeline *utl, t_list **env)
 {
 	get_pipe_utils(&utl);
 	if (pre_execution(&utl) == 1)
@@ -70,7 +70,7 @@ int	execute_pipeline(t_pipeline *utl, t_list **env, t_astnode *root)
 			return (1);
 		}
 		else if (utl->pid == 0)
-			child_process(utl, env, root);
+			child_process(utl, env);
 		else
 			parent_procces(utl);
 		utl->j += 2;

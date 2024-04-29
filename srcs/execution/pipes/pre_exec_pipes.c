@@ -3,32 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   pre_exec_pipes.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 14:47:46 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/25 18:57:05 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/29 11:46:30 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
 static int	finish_init_pipe(
-	t_astnode *node,
+	t_astnode *root,
 	int counter,
 	t_pipeline *utl,
 	t_list **env)
 {
-	if (node->left && node->right && node->right->type == COMMAND_NODE)
+	if (root->left && root->right && root->right->type == COMMAND_NODE)
 	{
-		utl->cmds[counter] = ft_strdup(node->left->value);
-		utl->cmds[counter + 1] = ft_strdup(node->right->value);
+		utl->cmds[counter] = ft_strdup(root->left->value);
+		utl->cmds[counter + 1] = ft_strdup(root->right->value);
 		if (utl->cmds[counter] == NULL || utl->cmds[counter + 1] == NULL)
 		{
 			free_double_array(utl->cmds);
 			return (1);
 		}
 	}
-	if (execute_pipeline(utl, env, node) == 1)
+	if (execute_pipeline(utl, env) == 1)
 	{
 		free_double_array(utl->cmds);
 		return (1);

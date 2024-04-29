@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 17:22:13 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/28 19:03:49 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/29 11:43:59 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 
 static void	exit_in_child(char *cmd,
 				t_pipeline *utl,
-				t_list **env, 
-				t_astnode *root)
+				t_list **env)
 {
 	int		i;
 
@@ -25,24 +24,23 @@ static void	exit_in_child(char *cmd,
 	cmd += i;
 	if (get_command(cmd, "exit") == 0)
 	{
-		perror("im here");
 		free_double_array(utl->cmds);
 		free_pipeline_util(utl);
-		execute_exit(cmd + 5, env, root, NULL);
+		execute_exit(cmd + 5, env, NULL, NULL);
 		exit (g_last_command_status);
 	}
 }
 
-static void exec_in_child(t_pipeline *utl, t_list **env, t_astnode *root)
+static void exec_in_child(t_pipeline *utl, t_list **env)
 {
 	char    **envp;
 
-	exit_in_child(utl->cmds[utl->k], utl, env, root);
+	exit_in_child(utl->cmds[utl->k], utl, env);
 	g_last_command_status = 
-		handle_builtin(utl->cmds[utl->k], env, root, utl->fds);
+		handle_builtin(utl->cmds[utl->k], env, NULL, utl->fds);
 	if (g_last_command_status != 300)
 	{
-		free_child_if_builtin(utl, env, root);
+		free_child_if_builtin(utl, env);
 		exit(g_last_command_status);
 	}
 	envp = create_envp(*env);
@@ -51,7 +49,7 @@ static void exec_in_child(t_pipeline *utl, t_list **env, t_astnode *root)
 	launch_cmd(utl->cmds[utl->k], envp, NULL, NULL);
 }
 
-static void	handle_redir(t_pipeline *utl, t_list **env, t_astnode *root)
+static void	handle_redir(t_pipeline *utl, t_list **env)
 {
 	char	**redirs;
 	int		status;
@@ -76,10 +74,10 @@ static void	handle_redir(t_pipeline *utl, t_list **env, t_astnode *root)
 		g_last_command_status = 3;
 	else if (status == -500)
 		g_last_command_status = 130;
-	stop_exec(utl, env, root);
+	stop_exec(utl, env);
 }
 
-void	child_process(t_pipeline *utl, t_list **env, t_astnode *root)
+void	child_process(t_pipeline *utl, t_list **env)
 {
 	if (handle_fds_dup(utl->cmds, utl) != 0)
 	{
@@ -88,11 +86,11 @@ void	child_process(t_pipeline *utl, t_list **env, t_astnode *root)
 	}
 	if (utl->redirs[utl->k] && (utl->redirs[utl->k][0] == '<' || \
 		utl->redirs[utl->k][0] == '>'))
-		handle_redir(utl, env, root);
+		handle_redir(utl, env);
 	while (utl->m < 2 * utl->i)
 	{
 		close(utl->fd[utl->m]);
 		utl->m++;
 	}
-	exec_in_child(utl, env, root);
+	exec_in_child(utl, env);
 }

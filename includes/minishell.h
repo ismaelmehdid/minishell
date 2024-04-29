@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:28 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/28 20:14:26 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/29 11:45:21 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,10 +146,7 @@ void			ctrl_back_slash(int signum);
 //=== Execution -----------------------------------------------------------===//
 
 void			init_executor(t_astnode *root, t_list **env);
-int				execute_pipeline(
-					t_pipeline *utl,
-					t_list **env,
-					t_astnode *root);
+int				execute_pipeline(t_pipeline *utl, t_list **env);
 void			launch_executable(char *cmd, char **envp, int i);
 
 //=== Execution utils -----------------------------------------------------===//
@@ -167,15 +164,13 @@ t_list			*free_copy_list(char *content, t_list *listptr);
 int				mystrcmp(const char *first, const char *second);
 char			*get_content(t_astnode *node);
 int				check_empty_status(char *cmds);
-void			stop_exec(t_pipeline *utl, t_list **env, t_astnode *root);
+void			stop_exec(t_pipeline *utl, t_list **env);
 void			free_pipeline_util(t_pipeline *utl);
 int				handle_fds_dup(char **cmds, t_pipeline *utl);
 void			free_child_if_builtin(t_pipeline *utl,
-					t_list **env,
-					t_astnode *root);
+					t_list **env);
 void			child_process(t_pipeline *utl,
-					t_list **env,
-					t_astnode *root);
+					t_list **env);
 
 //=== Built-ins -----------------------------------------------------------===//
 
