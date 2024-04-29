@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:05 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/27 17:52:19 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/29 22:19:25 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,11 @@
 
 int						g_last_command_status = 0;
 
-static void	minishell(t_astnode *root, t_list **env, char *input)
+static void	minishell(t_list **env, char *input)
 {
+	t_astnode	*root;
+
+	root = NULL;
 	add_history(input);
 	root = parsing(&input, *env);
 	if (root)
@@ -29,7 +32,7 @@ static void	minishell(t_astnode *root, t_list **env, char *input)
 		g_last_command_status = 1;
 }
 
-static int	prompt_loop(t_astnode *root, t_list **env,
+static int	prompt_loop(t_list **env,
 			char *input, int orig_stdin)
 {
 	while (1)
@@ -52,7 +55,7 @@ static int	prompt_loop(t_astnode *root, t_list **env,
 		}
 		close(orig_stdin);
 		if (only_spaces(input) == 1)
-			minishell(root, env, input);
+			minishell(env, input);
 		if (input)
 			free(input);
 	}
@@ -61,10 +64,8 @@ static int	prompt_loop(t_astnode *root, t_list **env,
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_astnode	*root;
 	t_list		*env;
 
-	root = NULL;
 	(void)argc;
 	(void)argv;
 	if (create_env(&env, envp) == 1)
@@ -73,7 +74,7 @@ int	main(int argc, char **argv, char **envp)
 		free_list(&env);
 		return (1);
 	}
-	g_last_command_status = prompt_loop(root, &env, NULL, 0);
+	g_last_command_status = prompt_loop(&env, NULL, 0);
 	ft_putstr_fd("exit\n", 2);
 	rl_clear_history();
 	free_list(&env);

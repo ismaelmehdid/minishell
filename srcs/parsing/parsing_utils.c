@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 00:09:18 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/14 17:47:07 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/29 22:29:52 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,13 @@ void	free_all_nodes(t_astnode *root)
 		return ;
 	free_all_nodes(root->left);
 	free_all_nodes(root->right);
-	free(root->value);
+	if (root->value)
+	{
+		free(root->value);
+		root->value = NULL;
+	}
 	free(root);
+	root = NULL;
 }
 
 int	ft_strcmp(char *one, char *two)

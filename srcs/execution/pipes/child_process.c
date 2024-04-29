@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child_process.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 17:22:13 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/29 12:10:25 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/29 22:32:12 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,9 @@ static void	handle_redir(t_pipeline *utl, t_list **env)
 	stop_exec(utl, env);
 }
 
-void	child_process(t_pipeline *utl, t_list **env)
+void	child_process(t_pipeline *utl, t_list **env, t_astnode *root)
 {
+	free_all_nodes(root);
 	if (handle_fds_dup(utl->cmds, utl) != 0)
 	{
 		full_free_child(utl, env);

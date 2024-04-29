@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pre_exec_pipes.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 14:47:46 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/29 21:47:01 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/29 22:31:01 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	finish_init_pipe(
 			return (1);
 		}
 	}
-	if (execute_pipeline(utl, env) == 1)
+	if (execute_pipeline(utl, env, root) == 1)
 	{
 		free_double_array(utl->cmds);
 		return (1);
@@ -129,6 +129,7 @@ int	init_pipe(t_astnode *orig, t_list **env, int counter)
 		root = root->right;
 		counter++;
 	}
+	root = orig;
 	if (finish_init_pipe(root, counter, &utl, env) == 1)
 		return (1);
 	return (0);
