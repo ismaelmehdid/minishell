@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 01:17:06 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/29 11:43:20 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/29 12:09:02 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,22 +49,22 @@ void	stop_exec(t_pipeline *utl, t_list **env)
 {
 	if (g_last_command_status == 130)
 	{
-		free_child_if_builtin(utl, env);
+		full_free_child(utl, env);
 		exit (130);
 	}
 	else if (g_last_command_status == 3)
 	{
-		free_child_if_builtin(utl, env);
+		full_free_child(utl, env);
 		exit (0);
 	}
 	else if (g_last_command_status == 350)
 	{
-		free_child_if_builtin(utl, env);
+		full_free_child(utl, env);
 		exit (1);
 	}
 	else if (g_last_command_status == 1)
 	{
-		free_child_if_builtin(utl, env);
+		full_free_child(utl, env);
 		exit (1);
 	}
 }

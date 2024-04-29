@@ -6,15 +6,14 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 17:22:13 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/29 11:43:59 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/29 12:10:25 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-static void	exit_in_child(char *cmd,
-				t_pipeline *utl,
-				t_list **env)
+static void	exit_in_child(char *cmd, t_pipeline *utl,
+					t_list **env)
 {
 	int		i;
 
@@ -26,7 +25,8 @@ static void	exit_in_child(char *cmd,
 	{
 		free_double_array(utl->cmds);
 		free_pipeline_util(utl);
-		execute_exit(cmd + 5, env, NULL, NULL);
+		execute_exit(cmd + get_cmd_args_index(cmd),
+			env, NULL, NULL);
 		exit (g_last_command_status);
 	}
 }
@@ -40,7 +40,7 @@ static void exec_in_child(t_pipeline *utl, t_list **env)
 		handle_builtin(utl->cmds[utl->k], env, NULL, utl->fds);
 	if (g_last_command_status != 300)
 	{
-		free_child_if_builtin(utl, env);
+		full_free_child(utl, env);
 		exit(g_last_command_status);
 	}
 	envp = create_envp(*env);
@@ -54,11 +54,11 @@ static void	handle_redir(t_pipeline *utl, t_list **env)
 	char	**redirs;
 	int		status;
 	int		empty_status;
-
+	
 	redirs = ft_split(utl->redirs[utl->k], '\t');
 	if (!redirs)
 	{
-		free_pipeline_util(utl);
+		full_free_child(utl, env);
 		exit (1);
 	}
 	empty_status = check_empty_status(utl->cmds[utl->k]);
@@ -81,7 +81,7 @@ void	child_process(t_pipeline *utl, t_list **env)
 {
 	if (handle_fds_dup(utl->cmds, utl) != 0)
 	{
-		free_pipeline_util(utl);
+		full_free_child(utl, env);
 		exit (1);
 	}
 	if (utl->redirs[utl->k] && (utl->redirs[utl->k][0] == '<' || \

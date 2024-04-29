@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:28 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/29 11:45:21 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/29 12:08:12 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,7 @@ int				check_empty_status(char *cmds);
 void			stop_exec(t_pipeline *utl, t_list **env);
 void			free_pipeline_util(t_pipeline *utl);
 int				handle_fds_dup(char **cmds, t_pipeline *utl);
-void			free_child_if_builtin(t_pipeline *utl,
+void			full_free_child(t_pipeline *utl,
 					t_list **env);
 void			child_process(t_pipeline *utl,
 					t_list **env);
