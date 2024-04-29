@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 14:47:46 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/29 11:46:30 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/29 21:47:01 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,10 +109,12 @@ static int	pre_init_pipe(t_pipeline *utl, t_astnode *root)
 	return (0);
 }
 
-int	init_pipe(t_astnode *root, t_list **env, int counter)
+int	init_pipe(t_astnode *orig, t_list **env, int counter)
 {
 	t_pipeline	utl;
+	t_astnode	*root;
 
+	root = orig;
 	if (pre_init_pipe(&utl, root) == 1)
 		return (1);
 	while (root->right && root->right->type != COMMAND_NODE)

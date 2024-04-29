@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:28 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/29 12:08:12 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/29 21:46:31 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ char			*get_path(char *cmd, char *path_full);
 void			close_pipe_fds(int *fd, int size);
 void			get_pipe_utils(t_pipeline **utl);
 int				get_pipe_size(t_astnode *node);
-int				init_pipe(t_astnode *node, t_list **env, int counter);
+int				init_pipe(t_astnode *orig, t_list **env, int counter);
 void			launch_cmd(char *cmd, char **envp, char *cmd_path, char **cmds);
 void			print_error_not_found(char *cmd, int code);
 int				get_command(char *input, char *checking);
