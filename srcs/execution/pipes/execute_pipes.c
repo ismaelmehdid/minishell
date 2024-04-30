@@ -79,3 +79,14 @@ int	execute_pipeline(t_pipeline *utl, t_list **env, t_astnode *root)
 	free_pipeline_util(utl);
 	return (0);
 }
+
+int	pipeline(t_pipeline *utl, t_list **env, t_astnode *root)
+{
+	if (execute_pipeline(utl, env, root) == 1)
+	{
+		free_double_array(utl->cmds);
+		return (1);
+	}
+	free_double_array(utl->cmds);
+	return (0);
+}

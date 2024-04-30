@@ -15,8 +15,7 @@
 static int	finish_init_pipe(
 	t_astnode *root,
 	int counter,
-	t_pipeline *utl,
-	t_list **env)
+	t_pipeline *utl)
 {
 	if (root->left && root->right && root->right->type == COMMAND_NODE)
 	{
@@ -24,16 +23,12 @@ static int	finish_init_pipe(
 		utl->cmds[counter + 1] = ft_strdup(root->right->value);
 		if (utl->cmds[counter] == NULL || utl->cmds[counter + 1] == NULL)
 		{
+			ft_putstr_fd("Allocation error\n", 2);
 			free_double_array(utl->cmds);
+			free_double_array(utl->redirs);
 			return (1);
 		}
 	}
-	if (execute_pipeline(utl, env, root) == 1)
-	{
-		free_double_array(utl->cmds);
-		return (1);
-	}
-	free_double_array(utl->cmds);
 	return (0);
 }
 
@@ -129,8 +124,10 @@ int	init_pipe(t_astnode *orig, t_list **env, int counter)
 		root = root->right;
 		counter++;
 	}
+	if (finish_init_pipe(root, counter, &utl) == 1)
+		return (1);
 	root = orig;
-	if (finish_init_pipe(root, counter, &utl, env) == 1)
+	if (pipeline(&utl, env, root) == 1)
 		return (1);
 	return (0);
 }

@@ -146,6 +146,8 @@ void			ctrl_back_slash(int signum);
 //=== Execution -----------------------------------------------------------===//
 
 void			init_executor(t_astnode *root, t_list **env);
+int				pipeline(t_pipeline *utl, t_list **env,
+					t_astnode *root);
 int				execute_pipeline(t_pipeline *utl,
 					t_list **env, t_astnode *root);
 void			launch_executable(char *cmd, char **envp, int i);
