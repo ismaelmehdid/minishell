@@ -23,10 +23,7 @@ static void	exit_in_child(char *cmd, t_pipeline *utl,
 	cmd += i;
 	if (get_command(cmd, "exit") == 0)
 	{
-		free_double_array(utl->cmds);
-		free_pipeline_util(utl);
-		execute_exit(cmd + get_cmd_args_index(cmd),
-			env, NULL, NULL);
+		execute_exit_pipe(utl, env);
 		exit (g_last_command_status);
 	}
 }

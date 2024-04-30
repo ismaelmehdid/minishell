@@ -171,6 +171,7 @@ void			full_free_child(t_pipeline *utl,
 					t_list **env);
 void			child_process(t_pipeline *utl,
 					t_list **env, t_astnode *root);
+void			execute_exit_pipe(t_pipeline *utl, t_list **env);
 
 //=== Built-ins -----------------------------------------------------------===//
 
