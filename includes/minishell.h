@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:28 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/29 22:32:03 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/30 12:36:43 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,8 @@ void			ctrl_back_slash(int signum);
 //=== Execution -----------------------------------------------------------===//
 
 void			init_executor(t_astnode *root, t_list **env);
-int				execute_pipeline(t_pipeline *utl, t_list **env, t_astnode *root);
+int				execute_pipeline(t_pipeline *utl,
+					t_list **env, t_astnode *root);
 void			launch_executable(char *cmd, char **envp, int i);
 
 //=== Execution utils -----------------------------------------------------===//
@@ -172,6 +173,7 @@ void			full_free_child(t_pipeline *utl,
 void			child_process(t_pipeline *utl,
 					t_list **env, t_astnode *root);
 void			execute_exit_pipe(t_pipeline *utl, t_list **env);
+char			*get_arg_exit_pipe(t_pipeline *utl);
 
 //=== Built-ins -----------------------------------------------------------===//
 

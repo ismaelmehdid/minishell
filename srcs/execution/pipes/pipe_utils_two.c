@@ -58,3 +58,20 @@ void	full_free_child(t_pipeline *utl, t_list **env)
 	free_list(env);
 	free_pipeline_util(utl);
 }
+
+char	*get_arg_exit_pipe(t_pipeline *utl)
+{
+	int		i;
+	char	*input;
+
+	i = 0;
+	while (is_whitespace(utl->cmds[utl->k][i]))
+		i++;
+	input = ft_strdup(utl->cmds[utl->k] + i + \
+		get_cmd_args_index(utl->cmds[utl->k] + i));
+	free_double_array(utl->cmds);
+	free_pipeline_util(utl);
+	if (!input)
+		return (NULL);
+	return (input);
+}

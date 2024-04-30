@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 17:22:13 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/29 22:32:12 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/04/30 12:40:22 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,12 @@ static void	exit_in_child(char *cmd, t_pipeline *utl,
 	}
 }
 
-static void exec_in_child(t_pipeline *utl, t_list **env)
+static void	exec_in_child(t_pipeline *utl, t_list **env)
 {
-	char    **envp;
+	char	**envp;
 
 	exit_in_child(utl->cmds[utl->k], utl, env);
-	g_last_command_status = 
+	g_last_command_status = \
 		handle_builtin(utl->cmds[utl->k], env, NULL, utl->fds);
 	if (g_last_command_status != 300)
 	{
@@ -51,7 +51,7 @@ static void	handle_redir(t_pipeline *utl, t_list **env)
 	char	**redirs;
 	int		status;
 	int		empty_status;
-	
+
 	redirs = ft_split(utl->redirs[utl->k], '\t');
 	if (!redirs)
 	{

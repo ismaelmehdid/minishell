@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 22:21:28 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/28 23:20:12 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/04/30 12:41:16 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,10 @@ static char	*check_redirs(char *inp, int i)
 	return (inp);
 }
 
-static int check_dollar_sign(char *inp, int flag, int size)
+static int	check_dollar_sign(char *inp, int flag, int size)
 {
 	static int	i;
-	
+
 	if (!i)
 		i = -1;
 	while (i++, inp[i] && i <= size)
@@ -82,10 +82,10 @@ static int	check_env_value(char *content)
 static int	ambiguous_redir(char *input, t_list *env)
 {
 	t_list	*tmp;
-	int	j;
+	int		j;
 
 	j = 0;
-	while(!is_whitespace(input[j]) && input[j])
+	while (!is_whitespace(input[j]) && input[j])
 		j++;
 	tmp = env;
 	while (tmp)

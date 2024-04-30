@@ -1,4 +1,14 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execute_exit_in_pipe.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: asyvash <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/30 12:37:11 by asyvash           #+#    #+#             */
+/*   Updated: 2024/04/30 12:37:18 by asyvash          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
@@ -87,23 +97,6 @@ static int	errors_handler(char **args)
 		return (2);
 	}
 	return (0);
-}
-
-static char	*get_arg_exit_pipe(t_pipeline *utl)
-{
-	int		i;
-	char	*input;
-
-	i = 0;
-	while (is_whitespace(utl->cmds[utl->k][i]))
-		i++;
-	input = ft_strdup(utl->cmds[utl->k] + i + \
-		get_cmd_args_index(utl->cmds[utl->k] + i));
-	free_double_array(utl->cmds);
-	free_pipeline_util(utl);
-	if (!input)
-		return (NULL);
-	return (input);
 }
 
 void	execute_exit_pipe(t_pipeline *utl, t_list **env)
