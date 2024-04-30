@@ -49,6 +49,7 @@ static int	execute_command(t_astnode *node, t_list **env, int fds[2])
 	}
 	if (g_last_command_status == 300)
 		g_last_command_status = 0;
+	restore_std(fds);
 	launch_executable(node->value, envp, -1);
 	free_double_array(envp);
 	return (0);
@@ -61,11 +62,13 @@ static void	simple_cmd(t_astnode *root, t_list **env,
 	if (redirs)
 		init_redirs(root, redirs, fds, 1);
 	if (stop_exec_cmd(fds) == 0)
+	{
+		restore_std(fds);
 		return ;
+	}
 	if (redirs)
 		free_double_array(redirs);
 	execute_command(root, env, fds);
-	restore_std(fds);
 }
 
 void	init_executor(t_astnode *root, t_list **env)
