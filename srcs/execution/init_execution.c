@@ -20,12 +20,12 @@ static void	init_redirs(t_astnode *root, char **redirections, int fds[2],
 	del_redirs_from_root(&root);
 	empty_status = no_cmds(root);
 	status = make_redirection(redirections, fds, -1);
+	free_double_array(redirections);
 	if (status == -500 || empty_status == 0)
 	{
 		restore_std(fds);
 		if (status == -500)
 			ft_putchar_fd('\n', 2);
-		free_double_array(redirections);
 	}
 	if (empty_status == 0 && g_last_command_status != 1)
 		g_last_command_status = 3;
@@ -49,8 +49,7 @@ static int	execute_command(t_astnode *node, t_list **env, int fds[2])
 	}
 	if (g_last_command_status == 300)
 		g_last_command_status = 0;
-	restore_std(fds);
-	launch_executable(node->value, envp, -1);
+	launch_executable(node->value, envp, -1, fds);
 	free_double_array(envp);
 	return (0);
 }
@@ -66,9 +65,8 @@ static void	simple_cmd(t_astnode *root, t_list **env,
 		restore_std(fds);
 		return ;
 	}
-	if (redirs)
-		free_double_array(redirs);
 	execute_command(root, env, fds);
+	restore_std(fds);
 }
 
 void	init_executor(t_astnode *root, t_list **env)

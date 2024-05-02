@@ -54,7 +54,7 @@ OBJS_DIR = objs/
 OBJS = $(patsubst srcs/%.c,$(OBJS_DIR)%.o,$(SRCS))
 
 CC = cc
-CFLAGS = -g -Wall -Wextra -Werror -Iincludes
+CFLAGS = -Wall -Wextra -Werror -Iincludes
 
 RM = rm -rf
 

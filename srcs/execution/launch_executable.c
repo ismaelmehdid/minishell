@@ -37,25 +37,36 @@ static void	wait_pids(int status, pid_t pid)
 		g_last_command_status = WTERMSIG(status) + 128;
 }
 
+static void	pid_error(char **cmds, char *cmd_path,
+				char **path_env)
+{
+	perror("Fork");
+	free_double_array(cmds);
+	free(cmd_path);
+	free(path_env);
+	g_last_command_status = 1;
+}
+
 static void	ft_execve(
 	char *cmd_path,
 	char **cmds,
 	char **path_env,
-	int status)
+	int fds[2])
 {
 	pid_t	pid;
+	int		status;
 
+	status = 0;
 	pid = fork();
 	if (pid == -1)
 	{
-		perror("Fork");
-		free_double_array(cmds);
-		free(cmd_path);
-		g_last_command_status = 1;
+		pid_error(cmds, cmd_path, path_env);
 		return ;
 	}
 	else if (pid == 0)
 	{
+		close(fds[0]);
+		close(fds[1]);
 		if (execve(cmd_path, cmds, path_env) == -1)
 		{
 			print_error_not_found(cmds[0], 2);
@@ -68,7 +79,7 @@ static void	ft_execve(
 	free(cmd_path);
 }
 
-void	launch_executable(char *cmd, char **envp, int i)
+void	launch_executable(char *cmd, char **envp, int i, int fds[2])
 {
 	char	*cmd_path;
 	char	**cmds;
@@ -93,5 +104,5 @@ void	launch_executable(char *cmd, char **envp, int i)
 			g_last_command_status = 127;
 		return ;
 	}
-	ft_execve(cmd_path, cmds, envp, 0);
+	ft_execve(cmd_path, cmds, envp, fds);
 }

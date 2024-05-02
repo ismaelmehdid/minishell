@@ -44,6 +44,8 @@ static void	exec_in_child(t_pipeline *utl, t_list **env)
 	close(utl->fds[0]);
 	close(utl->fds[1]);
 	launch_cmd(utl->cmds[utl->k], envp, NULL, NULL);
+	full_free_child(utl, env);
+	exit (g_last_command_status);
 }
 
 static void	handle_redir(t_pipeline *utl, t_list **env)

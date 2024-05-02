@@ -50,6 +50,8 @@ static int	check_dollar_sign(char *inp, int flag, int size)
 	{
 		if (inp[i] == '\'' || inp[i] == '"')
 			skip_quotes(inp, &i);
+		if (inp[i] == '\0')
+			break ;
 		if (inp[i + 1] && (inp[i] == '>' || inp[i] == '<'))
 			flag = 1;
 		if (!is_whitespace(inp[i]) && inp[i] != '>' && \

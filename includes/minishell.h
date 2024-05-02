@@ -150,7 +150,7 @@ int				pipeline(t_pipeline *utl, t_list **env,
 					t_astnode *root);
 int				execute_pipeline(t_pipeline *utl,
 					t_list **env, t_astnode *root);
-void			launch_executable(char *cmd, char **envp, int i);
+void			launch_executable(char *cmd, char **envp, int i, int fds[2]);
 
 //=== Execution utils -----------------------------------------------------===//
 

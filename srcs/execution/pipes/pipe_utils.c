@@ -19,7 +19,10 @@ static void	free_and_exit(char **envp, char **cmds, char *cmd_path, int code)
 	free_double_array(cmds);
 	free_double_array(envp);
 	if (code != -1)
-		exit (code);
+	{
+		g_last_command_status = code;
+		return ;
+	}
 	exit (0);
 }
 
@@ -36,6 +39,21 @@ static int	get_indx(char **envp)
 	return (i);
 }
 
+static int	error_handling(char *cmd_path, char **cmds, char **envp)
+{
+	if (cmd_path == NULL && g_last_command_status == 126)
+	{
+		free_and_exit(envp, cmds, NULL, 126);
+		return (1);
+	}
+	if (cmd_path == NULL)
+	{
+		free_and_exit(envp, cmds, NULL, 127);
+		return (1);
+	}
+	return (0);
+}
+
 void	launch_cmd(char *cmd, char **envp, char *cmd_path, char **cmds)
 {
 	cmds = split_quotes_bash(cmd, " \t\n", NULL);
@@ -45,16 +63,16 @@ void	launch_cmd(char *cmd, char **envp, char *cmd_path, char **cmds)
 	{
 		print_error_not_found(cmds[0], 1);
 		free_and_exit(envp, cmds, NULL, 127);
+		return ;
 	}
 	cmd_path = get_path(cmds[0], envp[get_indx(envp)] + 5);
-	if (cmd_path == NULL && g_last_command_status == 126)
-		free_and_exit(envp, cmds, NULL, 126);
-	if (cmd_path == NULL)
-		free_and_exit(envp, cmds, NULL, 127);
+	if (error_handling(cmd_path, cmds, envp) == 1)
+		return ;
 	if (execve(cmd_path, cmds, envp) < 0)
 	{
 		print_error_not_found(cmds[0], 2);
 		free_and_exit(envp, cmds, cmd_path, 126);
+		return ;
 	}
 	free_and_exit(envp, cmds, cmd_path, -1);
 }
