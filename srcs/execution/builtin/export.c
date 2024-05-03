@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:37:45 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/28 18:06:58 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/05/03 20:59:35 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,28 +88,29 @@ static int	search_replace_existing(t_list **lst, char *arg)
 
 static int	execute_export_utils(char **exports, t_list **env)
 {
+	int	error;
 	int	i;
-	int	code;
 
+	error = 0;
 	i = 0;
-	code = 0;
 	while (exports[i])
 	{
-		code = search_replace_existing(env, exports[i]);
-		if (code == 1)
-			i++;
-		else if (code == 2)
-			return (1);
-		else
+		if (checking_errors(exports[i]) == 0)
 		{
-			if (add_to_env(exports[i], env, true))
+			if (search_replace_existing(env, exports[i]) == 2)
+				return (1);
+			else if (add_to_env(exports[i], env, true))
 			{
 				free_double_array(exports);
-				return (126);
+				return (1);
 			}
-			i++;
 		}
+		else
+			error++;
+		i++;
 	}
+	if (error > 0)
+		return (1);
 	return (0);
 }
 
@@ -125,15 +126,10 @@ int	execute_export(char *arg, t_list **env)
 	}
 	if (!exports || size_double_array(exports) == 0)
 		return (show_exported_var_list(*env, exports));
-	if (checking_errors(exports))
-	{
-		free_double_array(exports);
-		return (1);
-	}
 	if (execute_export_utils(exports, env))
 	{
 		free_double_array(exports);
-		return (126);
+		return (1);
 	}
 	free_double_array(exports);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 23:01:03 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/28 15:03:14 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/05/03 21:01:42 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,29 +81,21 @@ int	search_replace_existing_cmp(t_list *lst, char *arg)
 	return (1);
 }
 
-int	checking_errors(char **exports)
+int	checking_errors(char *export)
 {
 	int	i;
-	int	j;
 
 	i = 0;
-	j = 0;
-	while (exports[i])
+	if (export[0] == '=' || (export[0] != '_' && !ft_isalpha(export[0])))
+		return (export_print_error(export));
+	while (export[i] && export[i] != '=')
 	{
-		if (exports[i][0] == '='
-			|| (exports[i][0] != '_' && !ft_isalpha(exports[i][0])))
-			return (export_print_error(exports[i]));
-		while (exports[i][j] && exports[i][j] != '=')
-		{
-			if (exports[i][j] == '+' && exports[i][j + 1] == '=')
-				return (0);
-			if (exports[i][j] == '+' && exports[i][j + 1] != '=')
-				return (export_print_error(exports[i]));
-			if (exports[i][j] != '_' && !ft_isalnum(exports[i][j]))
-				return (export_print_error(exports[i]));
-			j++;
-		}
-		j = 0;
+		if (export[i] == '+' && export[i + 1] == '=')
+			return (0);
+		if (export[i] == '+' && export[i + 1] != '=')
+			return (export_print_error(export));
+		if (export[i] != '_' && !ft_isalnum(export[i]))
+			return (export_print_error(export));
 		i++;
 	}
 	return (0);

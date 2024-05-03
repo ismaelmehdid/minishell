@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_syntax_check.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 22:21:28 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/30 12:41:16 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/05/03 21:59:08 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,14 @@ static char	*check_redirs(char *inp, int i)
 		{
 			if (inp[i] == '>' && inp[i + 1] == '>')
 				i += 2;
-			else if (inp[i] == '<' && inp[i + 1 == '<'])
+			else if (inp[i] == '<' && inp[i + 1] == '<')
 				i += 2;
 			else
 				i++;
-			while (is_whitespace(inp[i]))
+			while (inp[i] && is_whitespace(inp[i]))
 				i++;
-			if (inp[i] == '\0' || inp[i] == '<' || \
-				inp[i] == '>' || inp[i] == '|')
+			if (!inp[i] || inp[i] == '<' || inp[i] == '>' || inp[i] == '|'
+				|| i > ft_strlen(inp))
 			{
 				g_last_command_status = 2;
 				return (NULL);

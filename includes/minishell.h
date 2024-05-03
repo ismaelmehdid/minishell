@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:28 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/30 12:36:43 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/05/03 20:59:42 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,7 +193,7 @@ int				get_value_index(char *var);
 int				append_export(t_list *current, char *arg);
 int				replace_export(t_list *current, char *arg);
 int				show_exported_var_list(t_list *env, char **exports);
-int				checking_errors(char **exports);
+int				checking_errors(char *exports);
 int				execute_env(char **envp, char *args);
 void			execute_exit(
 					char *input,

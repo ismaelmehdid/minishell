@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 00:04:18 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/27 15:42:02 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/05/03 19:06:05 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ char	*print_parse_error(char *input, int i)
 		ft_putstr_fd("parse error near `||'\n", 2);
 	else
 		ft_putstr_fd("parse error near `|'\n", 2);
-	free(input);
 	return (NULL);
 }
 

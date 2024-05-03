@@ -6,7 +6,7 @@
 /*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:05 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/29 22:19:25 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/05/03 21:57:44 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 int						g_last_command_status = 0;
 
-static void	minishell(t_list **env, char *input)
+static void	minishell(t_list **env, char **input)
 {
 	t_astnode	*root;
 
 	root = NULL;
-	add_history(input);
-	root = parsing(&input, *env);
+	add_history(*input);
+	root = parsing(input, *env);
 	if (root)
 	{
 		init_executor(root, env);
@@ -55,7 +55,7 @@ static int	prompt_loop(t_list **env,
 		}
 		close(orig_stdin);
 		if (only_spaces(input) == 1)
-			minishell(env, input);
+			minishell(env, &input);
 		if (input)
 			free(input);
 	}

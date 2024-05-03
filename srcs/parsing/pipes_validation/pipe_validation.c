@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_validation.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 20:08:47 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/27 16:57:29 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/05/03 21:47:58 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,26 @@
 
 static char	*pipes_checker(char *inp, int i)
 {
-	if (inp[i + 1] && inp[i + 1] == '|' \
-		&& inp[i + 2] && inp[i + 2] == '|')
+	if (inp[i + 1] && inp[i + 1] == '|' && inp[i + 2] && inp[i + 2] == '|')
 	{
 		ft_putstr_fd("parse error near `||'\n", 2);
 		free(inp);
+		inp = NULL;
 		return (NULL);
 	}
 	else if (inp[i + 1] && inp[i + 1] == '|')
 	{
 		ft_putstr_fd("parse error near `|'\n", 2);
 		free(inp);
+		inp = NULL;
 		return (NULL);
 	}
 	if (inp[i + 1] != '\0')
 	{
 		if (check_for_spaces(inp + i + 1) == 1)
 		{
-			free(inp);
+			if (inp)
+				free(inp);
 			ft_putstr_fd("parse error near `|'\n", 2);
 			return (NULL);
 		}
@@ -81,6 +83,7 @@ static char	*set_new_command(char *input, int i)
 	if (!new_inp)
 	{
 		free(input);
+		input = NULL;
 		free(cmd);
 		return (NULL);
 	}
