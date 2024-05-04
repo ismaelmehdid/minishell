@@ -6,20 +6,21 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/27 15:26:42 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/05/04 01:32:33 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 static void	init_redirs(t_astnode *root, char **redirections, int fds[2],
-		int status)
+		t_list **env)
 {
 	int	empty_status;
+	int	status;
 
 	del_redirs_from_root(&root);
 	empty_status = no_cmds(root);
-	status = make_redirection(redirections, fds, -1);
+	status = make_redirection(redirections, fds, -1, env);
 	free_double_array(redirections);
 	if (status == -500 || empty_status == 0)
 	{
@@ -59,12 +60,13 @@ static void	simple_cmd(t_astnode *root, t_list **env,
 {
 	redirs = create_list(root);
 	if (redirs)
-		init_redirs(root, redirs, fds, 1);
+		init_redirs(root, redirs, fds, env);
 	if (stop_exec_cmd(fds) == 0)
 	{
 		restore_std(fds);
 		return ;
 	}
+	g_last_command_status = 0;
 	execute_command(root, env, fds);
 	restore_std(fds);
 }
@@ -80,10 +82,10 @@ void	init_executor(t_astnode *root, t_list **env)
 		g_last_command_status = 1;
 		return ;
 	}
-	g_last_command_status = 0;
 	redirections = NULL;
 	if (root->type == PIPE_NODE)
 	{
+		g_last_command_status = 0;
 		restore_std(fds);
 		if (init_pipe(root, env, 0) == 1)
 		{

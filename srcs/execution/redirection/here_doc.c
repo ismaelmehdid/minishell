@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 21:04:09 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/27 15:27:25 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/05/03 22:33:16 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,11 @@ static int	get_return_scenario(char *delimiter, int orig_stdin, int fd)
 	return (-500);
 }
 
-static int	here_doc_loop(char *delimiter, int fd, char *input, int orig_stdin)
+static int	here_doc_loop(char *delimiter, int fd,
+				t_list **env, int orig_stdin)
 {
+	char	*input;
+	
 	while (1)
 	{
 		signal(SIGINT, new_ctrl_c);
@@ -46,13 +49,14 @@ static int	here_doc_loop(char *delimiter, int fd, char *input, int orig_stdin)
 			free(input);
 			break ;
 		}
-		if (write_to_tmp_file(fd, input) == -1)
+		if (write_to_tmp_file(fd, input, env, delimiter) == -1)
 			return (-1);
 	}
 	return (fd);
 }
 
-static int	create_tmp_file(char *delimiter, int fd, int orig_stdin)
+static int	create_tmp_file(char *delimiter, int fd,
+				int orig_stdin, t_list **env)
 {
 	signal(SIGQUIT, SIG_IGN);
 	fd = open("/tmp/heredoc", O_RDWR | O_CREAT | O_TRUNC,
@@ -65,18 +69,20 @@ static int	create_tmp_file(char *delimiter, int fd, int orig_stdin)
 	close(STDIN_FILENO);
 	if (dup2(orig_stdin, STDIN_FILENO) < 0)
 		return (-1);
-	fd = here_doc_loop(delimiter, fd, NULL, orig_stdin);
+	fd = here_doc_loop(delimiter, fd, env, orig_stdin);
 	signal(SIGQUIT, ctrl_back_slash);
 	if (fd == -500)
 		unlink_file("without");
 	return (fd);
 }
 
-int	here_doc(char *delimiter, int fd, int dup_return, int orig_stdin)
+int	here_doc(char *delimiter, int fd, t_list **env, int orig_stdin)
 {
+	int	dup_return;
+	
 	if (!delimiter)
 		return (-1);
-	fd = create_tmp_file(delimiter, 0, orig_stdin);
+	fd = create_tmp_file(delimiter, 0, orig_stdin, env);
 	if (fd == -500)
 		return (-500);
 	if (fd < 0)
@@ -84,8 +90,7 @@ int	here_doc(char *delimiter, int fd, int dup_return, int orig_stdin)
 		unlink_file("Error with a file or allocation\n");
 		return (-1);
 	}
-	if (close(fd) < 0)
-		ft_putstr_fd("File error\n", 2);
+	close(fd);
 	fd = open("/tmp/heredoc", O_RDWR, S_IRUSR | S_IWUSR);
 	if (fd < 0)
 	{
@@ -95,13 +100,12 @@ int	here_doc(char *delimiter, int fd, int dup_return, int orig_stdin)
 	dup_return = dup2(fd, STDIN_FILENO);
 	if (dup_return < 0)
 		ft_putstr_fd("File error\n", 2);
-	if (close(fd) < 0)
-		ft_putstr_fd("File error\n", 2);
+	close(fd);
 	unlink_file("without");
 	return (dup_return);
 }
 
-int	pre_here_doc(char *redir, int fds[2])
+int	pre_here_doc(char *redir, int fds[2], t_list **env)
 {
 	int	stdout_fd_saved;
 	int	return_value;
@@ -118,7 +122,7 @@ int	pre_here_doc(char *redir, int fds[2])
 		close(stdout_fd_saved);
 		return (-1);
 	}
-	return_value = here_doc(get_file_redir(redir), 0, 0, fds[0]);
+	return_value = here_doc(get_file_redir(redir), 0, env, fds[0]);
 	if (dup2(stdout_fd_saved, STDOUT_FILENO) < 0)
 	{
 		ft_putstr_fd("dup2 error\n", 2);

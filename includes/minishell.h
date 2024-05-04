@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 19:34:28 by imehdid           #+#    #+#             */
-/*   Updated: 2024/05/03 20:59:42 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/05/03 22:32:12 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,19 +214,21 @@ int				trim_quotes(char **args);
 
 //=== Redirections --------------------------------------------------------===//
 
-int				make_redirection(char **redirs, int fds[2], int i);
+int				make_redirection(char **redirs, int fds[2],
+					int i, t_list **env);
 int				dup_error(int fds[2]);
 void			restore_std(int fds[2]);
 int				get_flags(t_redirection type);
 t_redirection	redir_type(char *redirection);
-int				pre_here_doc(char *redir, int fds[2]);
+int				pre_here_doc(char *redir, int fds[2], t_list **env);
 char			*get_file_redir(char *rediction);
 int				here_doc(char *delimiter,
 					int fd,
-					int dup_return,
+					t_list **env,
 					int orig_stdin);
 char			*ft_strjoin_free(char *s1, char const *s2, int s2_len);
-int				write_to_tmp_file(int fd, char *input);
+int				write_to_tmp_file(int fd, char *input,
+					t_list **env, char *delimiter);
 void			unlink_file(char *msg);
 void			no_such_file_error(char *file);
 int				here_doc_exist(char **redirs, int i);

@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 21:27:27 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/26 14:16:07 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/05/03 22:15:41 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ static int	dup_std(t_redirection type, char *file)
 	return (dup_return);
 }
 
-int	make_redirection(char **redirs, int fds[2], int i)
+int	make_redirection(char **redirs, int fds[2], int i, t_list **env)
 {
 	char	*file;
 	int		status;
@@ -103,7 +103,7 @@ int	make_redirection(char **redirs, int fds[2], int i)
 		if (file == NULL)
 			return (1);
 		if (redir_type(redirs[i]) == HERE_DOC)
-			status = pre_here_doc(redirs[i], fds);
+			status = pre_here_doc(redirs[i], fds, env);
 		else
 			status = dup_std(redir_type(redirs[i]), file);
 		free (file);

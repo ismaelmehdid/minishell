@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 21:04:15 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/21 00:44:22 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/05/04 01:45:28 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,8 @@ char	*ft_strjoin_free(char *s1, char const *s2, int s2_len)
 	int			j;
 	char		*res;
 
+	if (!s1 || !s2)
+		return (NULL);
 	i = -1;
 	j = ft_strlen(s1);
 	res = malloc(j + s2_len + 1);

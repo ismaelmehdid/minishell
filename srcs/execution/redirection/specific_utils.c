@@ -6,7 +6,7 @@
 /*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 16:22:45 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/26 14:19:06 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/05/03 22:35:35 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	useless_here_doc(char **redirs, int i, int orig_stdin)
 	{
 		if (ft_strncmp(redirs[i], "<<", 2) == 0)
 		{
-			here_doc(get_file_redir(redirs[i]), 0, 0, orig_stdin);
+			here_doc(get_file_redir(redirs[i]), 0, NULL, orig_stdin);
 			close(STDIN_FILENO);
 			if (dup2(orig_stdin, STDIN_FILENO))
 			{

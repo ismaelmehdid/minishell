@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child_process.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 17:22:13 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/30 12:40:22 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/05/03 22:31:39 by asyvash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static void	handle_redir(t_pipeline *utl, t_list **env)
 		exit (1);
 	}
 	empty_status = check_empty_status(utl->cmds[utl->k]);
-	status = make_redirection(redirs, utl->fds, -1);
+	status = make_redirection(redirs, utl->fds, -1, env);
 	free_double_array(redirs);
 	if (status == -500 || empty_status == 0)
 	{
