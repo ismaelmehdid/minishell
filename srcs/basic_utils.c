@@ -32,7 +32,7 @@ int	only_spaces(char *line)
 	int	i;
 
 	i = 0;
-	if (only_slashes(line) == 0)
+	if (only_slashes(line) == 0 && ft_strlen(line) > 0)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(line, 2);
