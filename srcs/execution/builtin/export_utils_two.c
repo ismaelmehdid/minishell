@@ -6,7 +6,7 @@
 /*   By: imehdid <imehdid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 14:03:32 by imehdid           #+#    #+#             */
-/*   Updated: 2024/05/05 13:20:28 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/05/05 14:02:39 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,20 @@
 
 int	append_export(t_list *current, char *arg)
 {
-	current->content = ft_strjoin_free(
-			current->content,
-			arg + get_value_index(arg),
-			ft_strlen(arg + get_value_index(arg)));
+	if (current->value_assigned == true)
+	{
+		current->content = ft_strjoin_free(
+				current->content, arg + get_value_index(arg),
+				ft_strlen(arg + get_value_index(arg)));
+	}
+	else
+	{
+		current->content = ft_strjoin_free(
+				current->content, "=", sizeof(char));
+		current->content = ft_strjoin_free(
+				current->content, arg + get_value_index(arg),
+				ft_strlen(arg + get_value_index(arg)));
+	}
 	if (current->content == NULL)
 	{
 		ft_putstr_fd("Malloc error\n", STDERR_FILENO);
