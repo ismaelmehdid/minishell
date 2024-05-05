@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imehdid <ismaelmehdid@student.42.fr>       +#+  +:+       +#+        */
+/*   By: imehdid <imehdid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:37:45 by asyvash           #+#    #+#             */
-/*   Updated: 2024/05/03 20:59:35 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/05/05 13:16:37 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ static int	add_to_env(char *arg, t_list **env, bool assigned_value)
 {
 	t_list	*new;
 
+	printf("oui");
 	new = (t_list *)malloc(sizeof(t_list));
 	if (!new)
 	{
@@ -86,19 +87,17 @@ static int	search_replace_existing(t_list **lst, char *arg)
 	return (0);
 }
 
-static int	execute_export_utils(char **exports, t_list **env)
+static int	execute_export_utils(char **exports, t_list **env, int i, int error)
 {
-	int	error;
-	int	i;
-
-	error = 0;
-	i = 0;
 	while (exports[i])
 	{
 		if (checking_errors(exports[i]) == 0)
 		{
-			if (search_replace_existing(env, exports[i]) == 2)
-				return (1);
+			if (search_replace_existing(env, exports[i]))
+			{
+				i++;
+				continue ;
+			}
 			else if (add_to_env(exports[i], env, true))
 			{
 				free_double_array(exports);
@@ -126,7 +125,7 @@ int	execute_export(char *arg, t_list **env)
 	}
 	if (!exports || size_double_array(exports) == 0)
 		return (show_exported_var_list(*env, exports));
-	if (execute_export_utils(exports, env))
+	if (execute_export_utils(exports, env, 0, 0))
 	{
 		free_double_array(exports);
 		return (1);
