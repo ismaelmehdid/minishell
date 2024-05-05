@@ -24,9 +24,11 @@ static void	parent_procces(t_pipeline *utl)
 		i++;
 	}
 	waitpid(utl->pid, &status, 0);
-	if (WIFEXITED(status) != 0 && g_last_command_status != 130)
+	if (g_last_command_status >= 126)
+		return ;
+	if (WIFEXITED(status) != 0)
 		g_last_command_status = WEXITSTATUS(status);
-	if (WIFSIGNALED(status) && g_last_command_status != 131)
+	if (WIFSIGNALED(status))
 		g_last_command_status = WTERMSIG(status) + 128;
 }
 
