@@ -54,8 +54,8 @@ static int	check_all_digits(char *args)
 
 static int	ft_atoi_check_limit(const char *str)
 {
-	int		i;
-	long	is_neg;
+	int			i;
+	long		is_neg;
 	long long	res;
 
 	if (!str)
@@ -74,10 +74,9 @@ static int	ft_atoi_check_limit(const char *str)
 	while (str[i] >= '0' && str[i] <= '9')
 		res = (res * 10) + (str[i++] - '0');
 	res *= is_neg;
-	printf("%lld", res);
 	if (is_neg == -1 && res >= 0)
 		return (1);
-	if (is_neg == 1 && res <= 0)
+	if (is_neg == 1 && res < 0)
 		return (1);
 	return (0);
 }
