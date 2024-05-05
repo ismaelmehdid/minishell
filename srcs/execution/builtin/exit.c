@@ -6,7 +6,7 @@
 /*   By: imehdid <imehdid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:37:41 by asyvash           #+#    #+#             */
-/*   Updated: 2024/05/05 15:14:35 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/05/05 15:20:03 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,10 @@ static int	ft_atoi_check_limit(const char *str)
 	while (str[i] >= '0' && str[i] <= '9')
 		res = (res * 10) + (str[i++] - '0');
 	res *= is_neg;
-	if (is_neg == -1 && res == LONG_MAX)
+	printf("%lld", res);
+	if (is_neg == -1 && res >= 0)
 		return (1);
-	if (res > LONG_MAX)
+	if (is_neg == 1 && res <= 0)
 		return (1);
 	return (0);
 }
