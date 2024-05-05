@@ -19,8 +19,13 @@ static int	only_slashes(char *line)
 	i = 0;
 	while (line[i])
 	{
-		if (line[i] == '/')
+		while (is_whitespace(line[i]))
 			i++;
+		if (line[i] && line[i] == '/')
+		{
+			g_last_command_status = 126;
+			i++;
+		}
 		else
 			return (1);
 	}
@@ -37,6 +42,7 @@ int	only_spaces(char *line)
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(line, 2);
 		ft_putstr_fd(": Is a directory\n", 2);
+		g_last_command_status = 126;
 	}
 	while (line[i])
 	{
