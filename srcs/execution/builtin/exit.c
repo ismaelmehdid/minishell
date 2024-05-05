@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <imehdid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:37:41 by asyvash           #+#    #+#             */
-/*   Updated: 2024/04/28 18:40:04 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/05/05 15:14:35 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static int	ft_atoi_check_limit(const char *str)
 {
 	int		i;
 	long	is_neg;
-	long	res;
+	long long	res;
 
 	if (!str)
 		return (0);
@@ -73,7 +73,10 @@ static int	ft_atoi_check_limit(const char *str)
 	res = 0;
 	while (str[i] >= '0' && str[i] <= '9')
 		res = (res * 10) + (str[i++] - '0');
-	if (res * is_neg < -2147483648 || res * is_neg > 2147483647)
+	res *= is_neg;
+	if (is_neg == -1 && res == LONG_MAX)
+		return (1);
+	if (res > LONG_MAX)
 		return (1);
 	return (0);
 }
