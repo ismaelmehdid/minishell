@@ -32,16 +32,23 @@ static void	minishell(t_list **env, char **input)
 		g_last_command_status = 1;
 }
 
+static int	set_signals_and_check_dup(int fd)
+{
+	if (fd < 0)
+		return (1);
+	signal(SIGINT, ctrl_c);
+	signal(SIGQUIT, SIG_IGN);
+	return (0);
+}
+
 static int	prompt_loop(t_list **env,
 			char *input, int orig_stdin)
 {
 	while (1)
 	{
 		orig_stdin = dup(STDIN_FILENO);
-		if (orig_stdin < 0)
+		if (set_signals_and_check_dup(orig_stdin) == 1)
 			return (1);
-		signal(SIGINT, ctrl_c);
-		signal(SIGQUIT, SIG_IGN);
 		input = readline("BestShell😎$> ");
 		if (!input && restore_stdin(3, orig_stdin) == 0)
 		{
@@ -56,6 +63,8 @@ static int	prompt_loop(t_list **env,
 		close(orig_stdin);
 		if (only_spaces(input) == 1)
 			minishell(env, &input);
+		else if (ft_strlen(input) > 0)
+			add_history(input);
 		if (input)
 			free(input);
 	}

@@ -12,14 +12,35 @@
 
 #include "../includes/minishell.h"
 
-int	only_spaces(char *line)
+static int	only_slashes(char *line)
 {
 	int	i;
 
 	i = 0;
 	while (line[i])
 	{
-		if (is_whitespace(line[i]))
+		if (line[i] == '/')
+			i++;
+		else
+			return (1);
+	}
+	return (0);
+}
+
+int	only_spaces(char *line)
+{
+	int	i;
+
+	i = 0;
+	if (only_slashes(line) == 0)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(line, 2);
+		ft_putstr_fd(": Is a directory\n", 2);
+	}
+	while (line[i])
+	{
+		if (is_whitespace(line[i]) || line[i] == '/')
 			i++;
 		else
 			return (1);
