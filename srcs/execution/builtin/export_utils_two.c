@@ -6,7 +6,7 @@
 /*   By: imehdid <imehdid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 14:03:32 by imehdid           #+#    #+#             */
-/*   Updated: 2024/05/05 13:06:11 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/05/05 13:20:28 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ int	replace_export(t_list *current, char *arg)
 		ft_putstr_fd("Malloc error\n", STDERR_FILENO);
 		return (2);
 	}
-	printf("curent->content %s\n", current->content);
 	current->value_assigned = true;
 	return (1);
 }

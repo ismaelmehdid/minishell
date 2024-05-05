@@ -6,7 +6,7 @@
 /*   By: imehdid <imehdid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/25 15:37:45 by asyvash           #+#    #+#             */
-/*   Updated: 2024/05/05 13:16:37 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/05/05 13:20:18 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ static int	add_to_env(char *arg, t_list **env, bool assigned_value)
 {
 	t_list	*new;
 
-	printf("oui");
 	new = (t_list *)malloc(sizeof(t_list));
 	if (!new)
 	{
