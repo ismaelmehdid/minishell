@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <imehdid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 21:04:09 by asyvash           #+#    #+#             */
-/*   Updated: 2024/05/03 22:33:16 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/05/05 12:24:11 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	here_doc_loop(char *delimiter, int fd,
 				t_list **env, int orig_stdin)
 {
 	char	*input;
-	
+
 	while (1)
 	{
 		signal(SIGINT, new_ctrl_c);
@@ -79,7 +79,7 @@ static int	create_tmp_file(char *delimiter, int fd,
 int	here_doc(char *delimiter, int fd, t_list **env, int orig_stdin)
 {
 	int	dup_return;
-	
+
 	if (!delimiter)
 		return (-1);
 	fd = create_tmp_file(delimiter, 0, orig_stdin, env);

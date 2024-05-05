@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_execution.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <imehdid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:12:13 by imehdid           #+#    #+#             */
-/*   Updated: 2024/05/04 01:32:33 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/05/05 12:21:48 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ void	init_executor(t_astnode *root, t_list **env)
 		return ;
 	}
 	redirections = NULL;
+	g_last_command_status = 0;
 	if (root->type == PIPE_NODE)
 	{
 		g_last_command_status = 0;

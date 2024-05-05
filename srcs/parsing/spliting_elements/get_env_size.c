@@ -6,7 +6,7 @@
 /*   By: imehdid <imehdid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 17:56:06 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/11 14:58:52 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/05/05 12:00:24 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,14 @@ int	get_variable_name(char *input, int i, char *dest)
 		dest[j] = '\0';
 		return (j);
 	}
+	if (input[i] == '$')
+	{
+		dest[j] = '\0';
+		return (0);
+	}
 	while (input[i] && !is_whitespace(input[i]) && input[i]
 		!= '"' && input[i] != '\'' && input[i] != '?' && input[i] != '$')
-	{
-		dest[j] = input[i];
-		i++;
-		j++;
-	}
+		dest[j++] = input[i++];
 	dest[j] = '\0';
 	return (j);
 }

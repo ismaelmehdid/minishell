@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asyvash <asyvash@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imehdid <imehdid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 12:21:12 by asyvash           #+#    #+#             */
-/*   Updated: 2024/05/05 01:14:46 by asyvash          ###   ########.fr       */
+/*   Updated: 2024/05/05 12:24:24 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	check_allocation(char *new, char **new_input)
 	return (0);
 }
 
-static char    *expand_env_var(char *input, t_list **env, char *new, int i)
+static char	*expand_env_var(char *input, t_list **env, char *new, int i)
 {
 	char	**new_input;
 

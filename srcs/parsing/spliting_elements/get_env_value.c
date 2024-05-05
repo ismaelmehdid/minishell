@@ -6,7 +6,7 @@
 /*   By: imehdid <imehdid@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 17:56:03 by imehdid           #+#    #+#             */
-/*   Updated: 2024/04/11 15:20:08 by imehdid          ###   ########.fr       */
+/*   Updated: 2024/05/05 12:01:48 by imehdid          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ static int	handle_special_unix_variable(
 	char	*code;
 
 	code = NULL;
+	if (env_var_name == NULL || ft_strlen(env_var_name) == 0)
+		return (1);
 	if (ft_strncmp(env_var_name, "?", ft_strlen(env_var_name)) == 0)
 	{
 		code = ft_itoa(g_last_command_status);
