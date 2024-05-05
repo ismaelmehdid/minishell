@@ -56,6 +56,8 @@ static int	prompt_loop(t_list **env,
 		close(orig_stdin);
 		if (only_spaces(input) == 1)
 			minishell(env, &input);
+		else if (ft_strlen(input) > 0)
+			add_history(input);
 		if (input)
 			free(input);
 	}
