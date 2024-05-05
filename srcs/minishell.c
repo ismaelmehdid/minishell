@@ -43,6 +43,12 @@ static int	set_signals_and_check_dup(int fd)
 	return (0);
 }
 
+static void	add_history_and_free(char *input)
+{
+	add_history(input);
+	free(input);
+}
+
 static int	prompt_loop(t_list **env,
 			char *input, int orig_stdin)
 {
@@ -66,7 +72,7 @@ static int	prompt_loop(t_list **env,
 		if (only_spaces(input) == 1)
 			minishell(env, &input);
 		else if (ft_strlen(input) > 0)
-			add_history(input);
+			add_history_and_free(input);
 	}
 	return (g_last_command_status);
 }
