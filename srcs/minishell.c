@@ -21,6 +21,8 @@ static void	minishell(t_list **env, char **input)
 	root = NULL;
 	add_history(*input);
 	root = parsing(input, *env);
+	if (*input)
+		free(*input);
 	if (root)
 	{
 		init_executor(root, env);
@@ -65,8 +67,6 @@ static int	prompt_loop(t_list **env,
 			minishell(env, &input);
 		else if (ft_strlen(input) > 0)
 			add_history(input);
-		if (input)
-			free(input);
 	}
 	return (g_last_command_status);
 }
