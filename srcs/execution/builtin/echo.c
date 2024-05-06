@@ -88,7 +88,7 @@ int	execute_echo(char *arg)
 	args_index = 0;
 	option = true;
 	args = split_quotes_bash(arg, " \t\n", NULL);
-	trim_quotes(args);
+	trim_quotes(args, false);
 	if (args == NULL)
 	{
 		ft_putchar_fd('\n', STDOUT_FILENO);

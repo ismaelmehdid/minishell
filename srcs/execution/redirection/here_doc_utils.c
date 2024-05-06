@@ -49,25 +49,27 @@ static char	*expand_env_var(char *input, t_list **env, char *new, int i)
 	return (new);
 }
 
-static int	check_delimiter(char *delimiter, t_list **env)
+int	check_delimiter(char *delimiter, t_list **env)
 {
 	int	i;
 
 	if (!env || env == NULL)
 		return (1);
 	i = 0;
-	if (delimiter[i] == '"')
-		skip_quotes(delimiter, &i);
-	if (delimiter[i] == '\0')
-		return (1);
+	while (delimiter[i])
+	{
+		if (delimiter[i] == '\'' || delimiter[i] == '"')
+			return (1);
+		i++;
+	}
 	return (0);
 }
 
-int	write_to_tmp_file(int fd, char *input, t_list **env, char *delimiter)
+int	write_to_tmp_file(int fd, char *input, t_list **env, int check_val)
 {
 	int	bytes_read;
 
-	if (check_delimiter(delimiter, env) == 0)
+	if (check_val == 0)
 	{
 		input = expand_env_var(input, env, NULL, 0);
 		if (!input)

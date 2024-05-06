@@ -64,7 +64,7 @@ int	execute_unset(t_list **head, char *key)
 	if (key[0] == '\0')
 		return (0);
 	args = split_quotes_bash(key, " \t\n", NULL);
-	if (trim_quotes(args) != 0)
+	if (trim_quotes(args, false) != 0)
 	{
 		free_double_array(args);
 		return (126);

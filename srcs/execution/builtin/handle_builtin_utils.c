@@ -122,7 +122,7 @@ static char	*get_new_arg(char **args, int index, int new_size)
 	return (new_arg);
 }
 
-int	trim_quotes(char **args)
+int	trim_quotes(char **args, bool in_here_doc)
 {
 	int		j;
 	int		new_size;
@@ -136,6 +136,8 @@ int	trim_quotes(char **args)
 		new_size = get_new_size(args[j]);
 		if (new_size != ft_strlen(args[j]))
 			args[j] = get_new_arg(args, j, new_size);
+		if (in_here_doc == true)
+			return (0);
 		j++;
 	}
 	return (0);

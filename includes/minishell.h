@@ -210,7 +210,8 @@ int				get_old_pwd(t_list **env, char **old_pwd);
 t_list			*get_last_node(t_list *lst);
 int				export_print_error(char *arg);
 int				search_replace_existing_cmp(t_list *lst, char *arg);
-int				trim_quotes(char **args);
+int				trim_quotes(char **args, bool in_here_doc);
+int				ft_atoi_check_limit(const char *str);
 
 //=== Redirections --------------------------------------------------------===//
 
@@ -228,7 +229,7 @@ int				here_doc(char *delimiter,
 					int orig_stdin);
 char			*ft_strjoin_free(char *s1, char const *s2, int s2_len);
 int				write_to_tmp_file(int fd, char *input,
-					t_list **env, char *delimiter);
+					t_list **env, int check_val);
 void			unlink_file(char *msg);
 void			no_such_file_error(char *file);
 int				here_doc_exist(char **redirs, int i);
@@ -236,6 +237,7 @@ void			useless_here_doc(char **redirs, int i, int orig_stdin);
 int				no_cmds(t_astnode *root);
 int				stop_exec_cmd(int fds[2]);
 int				backup_std(int fds[2]);
+int				check_delimiter(char *delimiter, t_list **env);
 
 //=== Redirection List of Char Creation -----------------------------------===//
 

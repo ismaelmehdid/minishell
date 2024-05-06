@@ -42,7 +42,7 @@ int	prepare_cd(char *path, char *thepath)
 	args = split_quotes_bash(path, " \t\n", NULL);
 	if (!args)
 		return (126);
-	if (trim_quotes(args) != 0)
+	if (trim_quotes(args, false) != 0)
 	{
 		free_double_array(args);
 		return (126);

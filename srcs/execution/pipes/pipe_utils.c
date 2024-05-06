@@ -57,7 +57,7 @@ static int	error_handling(char *cmd_path, char **cmds, char **envp)
 void	launch_cmd(char *cmd, char **envp, char *cmd_path, char **cmds)
 {
 	cmds = split_quotes_bash(cmd, " \t\n", NULL);
-	trim_quotes(cmds);
+	trim_quotes(cmds, false);
 	if ((get_indx(envp) == -1 || envp[get_indx(envp)] == NULL) && \
 		cmds && access(cmds[0], F_OK) != 0)
 	{

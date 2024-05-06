@@ -53,7 +53,7 @@ SRCS =	srcs/env_utils.c \
 OBJS_DIR = objs/
 OBJS = $(patsubst srcs/%.c,$(OBJS_DIR)%.o,$(SRCS))
 
-CC = cc -g
+CC = cc
 CFLAGS = -Wall -Wextra -Werror -Iincludes
 
 RM = rm -rf

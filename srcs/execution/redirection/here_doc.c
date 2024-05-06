@@ -33,7 +33,10 @@ static int	here_doc_loop(char *delimiter, int fd,
 				t_list **env, int orig_stdin)
 {
 	char	*input;
+	int		check_val;
 
+	check_val = check_delimiter(delimiter, env);
+	trim_quotes(&delimiter, true);
 	while (1)
 	{
 		signal(SIGINT, new_ctrl_c);
@@ -49,7 +52,7 @@ static int	here_doc_loop(char *delimiter, int fd,
 			free(input);
 			break ;
 		}
-		if (write_to_tmp_file(fd, input, env, delimiter) == -1)
+		if (write_to_tmp_file(fd, input, env, check_val) == -1)
 			return (-1);
 	}
 	return (fd);

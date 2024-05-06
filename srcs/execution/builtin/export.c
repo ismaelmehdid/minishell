@@ -117,7 +117,7 @@ int	execute_export(char *arg, t_list **env)
 	char	**exports;
 
 	exports = split_quotes_bash(arg, " \t\n", NULL);
-	if (trim_quotes(exports) != 0)
+	if (trim_quotes(exports, false) != 0)
 	{
 		free_double_array(exports);
 		return (126);

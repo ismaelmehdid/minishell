@@ -52,7 +52,7 @@ static int	check_all_digits(char *args)
 	return (0);
 }
 
-static int	ft_atoi_check_limit(const char *str)
+int	ft_atoi_check_limit(const char *str)
 {
 	int			i;
 	long		is_neg;
@@ -62,6 +62,8 @@ static int	ft_atoi_check_limit(const char *str)
 		return (0);
 	i = 0;
 	is_neg = 1;
+	if (ft_strlen(str) > 20)
+		return (1);
 	while (is_whitespace(str[i]))
 		i++;
 	if (str[i] == '-')
@@ -74,9 +76,7 @@ static int	ft_atoi_check_limit(const char *str)
 	while (str[i] >= '0' && str[i] <= '9')
 		res = (res * 10) + (str[i++] - '0');
 	res *= is_neg;
-	if (is_neg == -1 && res >= 0)
-		return (1);
-	if (is_neg == 1 && res < 0)
+	if ((is_neg == -1 && res >= 0) || (is_neg == 1 && res < 0))
 		return (1);
 	return (0);
 }
@@ -111,7 +111,7 @@ void	execute_exit(char *input, t_list **env, t_astnode *root, char **envp)
 	args = split_quotes_bash(input, " \t\n", NULL);
 	if (!args)
 		g_last_command_status = 126;
-	trim_quotes(args);
+	trim_quotes(args, false);
 	if (!args)
 		g_last_command_status = 126;
 	code = errors_handler(args);

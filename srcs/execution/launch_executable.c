@@ -88,7 +88,7 @@ void	launch_executable(char *cmd, char **envp, int i, int fds[2])
 		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
 			break ;
 	cmds = split_quotes_bash(cmd, " \t\n", NULL);
-	trim_quotes(cmds);
+	trim_quotes(cmds, false);
 	if (!envp[i] && cmds && access(cmds[0], F_OK) != 0)
 	{
 		print_error_not_found(cmd, 1);
